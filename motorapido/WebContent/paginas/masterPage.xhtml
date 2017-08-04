@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ido="http://www.ido.com.br/jsf/components">
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>#{tituloPagina}</title>
+		<meta http-equiv="Cache-Control"
+			content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+	</f:facet>
+
+	<f:facet name="last">
+		<!--[if lt IE 9]>
+		<h:outputScript library="js" name="html5.js" />
+		<![endif]-->
+		<h:outputScript library="js" name="translations.js" />
+		<h:outputScript library="js" name="wiOpen.js" />
+		<h:outputScript library="js" name="util.js" />
+		<h:outputScript library="javax.faces" name="jsf.js" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/resources/css/estilo.css" />
+		<link rel="shortcut icon" type="image/x-icon"
+			href="#{request.contextPath}/resources/favicon.ico" />
+	</f:facet>
+</h:head>
+<h:body>
+
+	<ui:debug hotkey="k" />
+	<p:ajaxStatus>
+		<f:facet name="start">
+			<h:panelGroup>
+				<div class="ui-widget-overlay"
+					style="z-index: 4500; position: fixed;" />
+				<p:panel id="panelAjaxStart" styleClass="panelAjax"
+					style="background-color: white; position: fixed;">
+
+					<h:panelGrid id="pgAjaxLoader" columns="1"
+						style="position: static; background-color: FFFF66;border: none;">
+						<strong> <span
+							style="font-size: 10pt; font-family: Arial; color: black;">Processando
+								...</span>
+						</strong>
+						<h:graphicImage value="/resources/ajax-loader.gif" />
+
+					</h:panelGrid>
+				</p:panel>
+			</h:panelGroup>
+		</f:facet>
+
+		<f:facet name="complete">
+			<h:outputLabel value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north" header="motoRapido"
+			styleClass="cabecalhoMenu"
+			style="text-align: center !important; font-size: 19px !important;z-index: 1;">
+			<h:form id="formMenuNorth" enctype="multipart/form-data">
+				<p:menubar>
+
+					<p:menuitem value="#{bundle.home}" ajax="true"
+						styleClass="cabecalhoMenu" rendered="#{erroSessao ne 'S'}"
+						action="/paginas/home.proj?faces-redirect=true"
+						immediate="true" />
+					<p:menuitem value="Teste" ajax="true"
+						styleClass="cabecalhoMenu" rendered="#{erroSessao ne 'S'}"
+						action="/paginas/teste/teste.proj?faces-redirect=true"
+						immediate="true" />
+					<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" />
+
+
+					<f:facet name="options">
+						<p:commandButton value="#{erroSessao ne 'S'? 'Logout' : 'Login'}"
+							icon="ui-icon-extlink" action="#{bean.logout}"
+							styleClass="cabecalhoMenuBotao" />
+					</f:facet>
+				</p:menubar>
+			</h:form>
+
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" header="Sistema de controle de chamadas"
+			style="text-align: center;">
+			<h:outputText value="® 2017 - Todos os direitos reservados" />
+		</p:layoutUnit>
+		
+		<p:layoutUnit id="centerLayout" header="#{headerConteudo}"
+			
+			position="center">
+
+			<h:form id="formCenter" prependId="false">
+				<div align="left">
+					<p:panel id="conteudo">
+						<div class="clear" id="div_pre_conteudo">
+							<p:messages closable="true" id="msgs" />
+						</div>
+						<ui:insert name="conteudo" />
+						<div class="clear" id="div_pos_conteudo" />
+						
+					
+					</p:panel>
+				</div>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</h:html>
