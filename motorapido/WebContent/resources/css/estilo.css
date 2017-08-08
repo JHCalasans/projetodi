@@ -22,6 +22,21 @@ form span.p_like input, form span.p_like select, form span.p_like img,
 	margin-top: .5em;
 }
 
+.upload .ui-widget-header{
+	border: none !important;
+	background: transparent !important;
+}
+
+.upload .ui-widget-content{
+	border: none !important;
+}
+
+.upload .ui-messages-error{
+	border : none !important;
+	background-color: transparent !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
 
 
 

@@ -12,6 +12,10 @@ public abstract class FabricaDAO {
 	public abstract IFuncionarioPerfilDAO getPostgresFuncionarioPerfilDAO();
 	
 	public abstract IMotoristaDAO getPostgresMotoristaDAO();
+	
+	public abstract IParametroDAO getPostgresParametroDAO();
+	
+	public abstract IValorParametroDAO getPostgresValorParametroDAO();
 
 
 

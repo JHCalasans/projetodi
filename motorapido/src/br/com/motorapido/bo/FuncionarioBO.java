@@ -48,7 +48,7 @@ public class FuncionarioBO extends MotoRapidoBO {
 			funcPerfil.setAtivo(true);
 			funcPerfil.setDataCriacao(new Date ());
 			funcPerfil.setPerfil(perfilDAO.findById(codPerfil, em));
-			funcPerfil = funcionarioPerfilDAO.save(funcPerfil, em);
+			funcPerfil = funcionarioPerfilDAO.save(funcPerfil, em);		
 			if(funcPerfil.getPerfil().getCodigo() == 1) {// Ajustar Parâmetro depois para o valor do perfil de motorista
 				IMotoristaDAO motoristaDAO = fabricaDAO.getPostgresMotoristaDAO();
 				Motorista motorista = new Motorista();

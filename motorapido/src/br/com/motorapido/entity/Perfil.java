@@ -33,6 +33,9 @@ public class Perfil extends Entidade{
 	
 	@Column(name = "flg_ativo", nullable = false)
 	private boolean ativo;
+	
+	@Column(name = "flg_sistema", nullable = false)
+	private boolean acessaSistema;
 
 	@Override
 	public Serializable getIdentificador() {
@@ -61,6 +64,14 @@ public class Perfil extends Entidade{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public boolean isAcessaSistema() {
+		return acessaSistema;
+	}
+
+	public void setAcessaSistema(boolean acessaSistema) {
+		this.acessaSistema = acessaSistema;
 	}
 
 }

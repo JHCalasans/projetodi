@@ -61,59 +61,40 @@
 			<h:outputLabel value="" />
 		</f:facet>
 	</p:ajaxStatus>
+	<h:form id="formMenuNorth" enctype="multipart/form-data" styleClass="cabecalhoMenu">
+		<p:menubar>
 
-	<p:layout fullPage="true">
-
-		<p:layoutUnit position="north" header="motoRapido"
-			styleClass="cabecalhoMenu"
-			style="text-align: center !important; font-size: 19px !important;z-index: 1;">
-			<h:form id="formMenuNorth" enctype="multipart/form-data">
-				<p:menubar>
-
-					<p:menuitem value="#{bundle.home}" ajax="true"
-						styleClass="cabecalhoMenu" rendered="#{erroSessao ne 'S'}"
-						action="/paginas/home.proj?faces-redirect=true"
-						immediate="true" />
-					<p:menuitem value="Teste" ajax="true"
-						styleClass="cabecalhoMenu" rendered="#{erroSessao ne 'S'}"
-						action="/paginas/teste/teste.proj?faces-redirect=true"
-						immediate="true" />
-					<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" />
+			<p:menuitem value="#{bundle.home}" ajax="true"
+				styleClass="cabecalhoMenu" rendered="#{erroSessao ne 'S'}"
+				action="/paginas/home.proj?faces-redirect=true" immediate="true" />
+			<p:menuitem value="Teste" ajax="true" styleClass="cabecalhoMenu"
+				rendered="#{erroSessao ne 'S'}"
+				action="/paginas/teste/teste.proj?faces-redirect=true"
+				immediate="true" />
+			<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" />
 
 
-					<f:facet name="options">
-						<p:commandButton value="#{erroSessao ne 'S'? 'Logout' : 'Login'}"
-							icon="ui-icon-extlink" action="#{bean.logout}"
-							styleClass="cabecalhoMenuBotao" />
-					</f:facet>
-				</p:menubar>
-			</h:form>
+			<f:facet name="options">
+				<p:commandButton value="#{erroSessao ne 'S'? 'Logout' : 'Login'}"
+					icon="ui-icon-extlink" action="#{bean.logout}"
+					styleClass="cabecalhoMenuBotao" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	
+	<div class="clear"></div>
 
-		</p:layoutUnit>
+	<div >
+		<p:panel id="conteudo">
+			<div class="clear" id="div_pre_conteudo">
+				<p:messages closable="true" id="msgs" />
+				<p:growl id="growl" autoUpdate="true" closable="true" ></p:growl>
+			</div>
+			<ui:insert name="conteudo" />
+			<div class="clear" id="div_pos_conteudo" />
 
-		<p:layoutUnit position="south" header="Sistema de controle de chamadas"
-			style="text-align: center;">
-			<h:outputText value="® 2017 - Todos os direitos reservados" />
-		</p:layoutUnit>
-		
-		<p:layoutUnit id="centerLayout" header="#{headerConteudo}"
-			
-			position="center">
 
-			<h:form id="formCenter" prependId="false">
-				<div align="left">
-					<p:panel id="conteudo">
-						<div class="clear" id="div_pre_conteudo">
-							<p:messages closable="true" id="msgs" />
-						</div>
-						<ui:insert name="conteudo" />
-						<div class="clear" id="div_pos_conteudo" />
-						
-					
-					</p:panel>
-				</div>
-			</h:form>
-		</p:layoutUnit>
-	</p:layout>
+		</p:panel>
+	</div>
 </h:body>
 </h:html>

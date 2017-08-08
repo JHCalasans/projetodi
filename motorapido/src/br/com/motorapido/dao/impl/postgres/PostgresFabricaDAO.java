@@ -2,7 +2,10 @@ package br.com.motorapido.dao.impl.postgres;
 
 import org.apache.log4j.Logger;
 
+
 import br.com.motorapido.dao.FabricaDAO;
+import br.com.motorapido.dao.IParametroDAO;
+import br.com.motorapido.dao.IValorParametroDAO;
 
 final class PostgresFabricaDAO extends FabricaDAO {
 
@@ -20,6 +23,8 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	private static PostgresPerfilDAOImpl postgresPerfilDAOImpl;
 	private static PostgresFuncionarioPerfilDAOImpl postgresFuncionarioPerfilDAOImpl;
 	private static PostgresMotoristaDAOImpl postgresMotoristaDAOImpl;
+	private static PostgresParametroDAOImpl postgresParametroDAOImpl;
+	private static PostgresValorParametroDAOImpl postgresValorParametroDAOImpl;
 
 
 	private PostgresFabricaDAO() {
@@ -78,6 +83,21 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	}
 
 
+	@Override
+	public IParametroDAO getPostgresParametroDAO() {
+		if (postgresParametroDAOImpl == null) {
+			postgresParametroDAOImpl = new PostgresParametroDAOImpl();
+		}
+		return postgresParametroDAOImpl;
+	}
+
+	@Override
+	public IValorParametroDAO getPostgresValorParametroDAO() {
+		if (postgresValorParametroDAOImpl == null) {
+			postgresValorParametroDAOImpl = new PostgresValorParametroDAOImpl();
+		}
+		return postgresValorParametroDAOImpl;
+	}
 
 
 	

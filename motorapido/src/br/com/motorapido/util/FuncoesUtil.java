@@ -7,13 +7,24 @@ import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Months;
 import org.joda.time.Weeks;
+
+import br.com.minhaLib.excecao.excecaobanco.ExcecaoBanco;
+import br.com.minhaLib.excecao.excecaobanco.ExcecaoBancoConexao;
+import br.com.motorapido.dao.FabricaDAO;
+import br.com.motorapido.entity.Parametro;
+import br.com.motorapido.entity.ValorParametro;
+
 
 
 
@@ -44,6 +55,64 @@ public final class FuncoesUtil {
 		Date d1 = removeTime(data1);
 		Date d2 = removeTime(data2);
 		return d1.equals(d2);
+	}
+	
+	public static List<String> getParams(String chave) throws ExcecaoBancoConexao, ExcecaoBanco {
+		Parametro param = new Parametro();
+		param.setChave(chave);
+		ValorParametro valor = new ValorParametro();
+		valor.setParametro(param);
+		List<ValorParametro> listaParametros = FabricaDAO.getFabricaDAO().getPostgresValorParametroDAO()
+				.findByExample(valor);
+		if (listaParametros.size() > 0) {
+			List<String> retorno = new ArrayList<String>();
+			for (ValorParametro valorParametro : listaParametros) {
+				retorno.add(valorParametro.getValor());
+			}
+			return retorno;
+		}
+		return null;
+	}
+
+	public static List<String> getParams(String chave, EntityManager em)
+			throws ExcecaoBancoConexao, ExcecaoBanco {
+		Parametro param = new Parametro();
+		param.setChave(chave);
+		ValorParametro valor = new ValorParametro();
+		valor.setParametro(param);
+		List<ValorParametro> listaParametros = FabricaDAO.getFabricaDAO().getPostgresValorParametroDAO()
+				.findByExample(valor, em);
+		if (listaParametros.size() > 0) {
+			List<String> retorno = new ArrayList<String>();
+			for (ValorParametro valorParametro : listaParametros) {
+				retorno.add(valorParametro.getValor());
+			}
+			return retorno;
+		}
+		return null;
+	}
+
+	public static String getParam(String chave, EntityManager em)
+			throws ExcecaoBancoConexao, ExcecaoBanco {
+		try {
+			final List<String> params = FuncoesUtil.getParams(chave, em);
+			if (params.size() > 0)
+				return params.get(0);
+			return "";
+		} catch (Exception ex) {
+			return "";
+		}
+	}
+
+	public static String getParam(String chave) throws ExcecaoBancoConexao, ExcecaoBanco {
+		try {
+			final List<String> params = FuncoesUtil.getParams(chave);
+			if (params.size() > 0)
+				return params.get(0);
+			return "";
+		} catch (Exception ex) {
+			return "";
+		}
 	}
 
 	public static boolean isSameYear(Date... dates) {

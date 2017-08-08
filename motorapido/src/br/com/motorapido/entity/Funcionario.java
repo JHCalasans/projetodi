@@ -37,7 +37,7 @@ public class Funcionario extends Entidade{
 	private String nome;
 	
 	@Column(name = "num_identidade", nullable = false)
-	private Integer identidade;
+	private String identidade;
 
 	@Column(name = "cpf", nullable = true, length = 50)
 	private String cpf;
@@ -126,12 +126,12 @@ public class Funcionario extends Entidade{
 	}
 
 
-	public Integer getIdentidade() {
+	public String getIdentidade() {
 		return identidade;
 	}
 
 
-	public void setIdentidade(Integer identidade) {
+	public void setIdentidade(String identidade) {
 		this.identidade = identidade;
 	}
 
