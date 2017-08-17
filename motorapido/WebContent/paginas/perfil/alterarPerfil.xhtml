@@ -11,8 +11,8 @@
 	<meta http-equiv="Expires" content="0" />
 </h:head>
 <ui:composition template="/paginas/masterPage.xhtml">
-	<ui:param name="tituloPagina" value="#{bundle.perfil_cadastroTitulo}" />
-	<ui:param name="headerConteudo" value="#{bundle.perfil_cadastroTitulo}" />
+	<ui:param name="tituloPagina" value="#{bundle.perfil_alterarTitulo}" />
+	<ui:param name="headerConteudo" value="#{bundle.perfil_alterarTitulo}" />
 	<ui:param name="bean" value="#{perfilBean}" />
 		<f:metadata>
 		<f:event type="preRenderView"
@@ -20,9 +20,9 @@
 	</f:metadata>
 
 	<ui:define name="conteudo">
-		<h:form prependId="false" id="formCadastro">
+		<h:form prependId="false" id="formAlterar">
 
-			<p:panel id="panelCadastro">
+			<p:panel id="panelAlterar">
 
 				<h:panelGroup id="pngDescricao" styleClass="p_like">
 					<p:outputLabel value="#{bundle.perfil_descricao}:" for="descricao"
@@ -38,9 +38,22 @@
 				<h:panelGroup id="pngAcesso" styleClass="p_like">
 					<p:outputLabel value="#{bundle.perfil_acessaSistema}?:" for="acesso"
 						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:selectOneMenu id="acesso" value="#{perfilBean.perfil.acessaSistema}">
+					<p:selectOneMenu id="acesso" value="#{perfilBean.perfil.acessaSistema}" style="width:60px;">
 						<f:selectItem itemLabel="Sim" itemValue="True" />
 						<f:selectItem itemLabel="Não" itemValue="False" />
+					</p:selectOneMenu>
+
+				</h:panelGroup>
+				
+				<br />
+				<div class="clear"></div>
+
+				<h:panelGroup id="pngAtivo" styleClass="p_like">
+					<p:outputLabel value="#{bundle.perfil_situacao}:" for="situacao"
+						styleClass="OutputLabelCampo" style="width:120px;" />
+					<p:selectOneMenu id="situacao" value="#{perfilBean.perfil.ativo}" style="width:60px;">
+						<f:selectItem itemLabel="Ativo" itemValue="True" />
+						<f:selectItem itemLabel="Inativo" itemValue="False" />
 					</p:selectOneMenu>
 
 				</h:panelGroup>
@@ -51,8 +64,8 @@
 				<h:panelGroup styleClass="p_like buttonPosition">
 
 					<p:commandButton value="Salvar" id="btnSalvar"
-						actionListener="#{perfilBean.salvarPerfil}"  style="margin-right:10px;"
-						update="formCadastro, msgs, conteudo">
+						actionListener="#{perfilBean.alterarPerfil}" style="margin-right:10px;"
+						update="formAlterar, msgs, conteudo">
 					</p:commandButton>
 					<p:button value="#{bundle.voltarTela}"
 						outcome="consultarPerfil.tjse"

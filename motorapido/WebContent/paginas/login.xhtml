@@ -66,6 +66,7 @@
 		<div align="center">
 
 			<p:panel style=" text-align: center; border: none;">
+				<h1>Moto Rápido </h1>
 		
 			</p:panel>
 			<hr></hr>
@@ -79,7 +80,7 @@
 					<p:outputLabel value="Login " for="loginName" rendered="false"
 						styleClass="OutputLabelCampo" style="width:30px" />
 					<p:inputText id="loginName" value="#{loginBean.login}"
-						required="true" placeholder="Login"
+						required="true" placeholder="Login" style="width:150px;"
 						validatorMessage="Login não pode estar em branco!">
 						<f:validateLength minimum="1" />
 					</p:inputText>
@@ -90,7 +91,7 @@
 					<p:outputLabel value="Senha " for="loginSenha" rendered="false"
 						styleClass="OutputLabelCampo" style="width:30px" />
 					<p:password feedback="false" id="loginSenha" required="true"
-						value="#{loginBean.senha}" placeholder="Senha"
+						value="#{loginBean.senha}" placeholder="Senha" style="width:150px;margin-left:4px;"
 						validatorMessage="Senha não pode estar em branco!" minLength="1" />
 				</h:panelGroup>
 				<br></br>

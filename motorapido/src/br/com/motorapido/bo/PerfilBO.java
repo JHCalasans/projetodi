@@ -45,5 +45,59 @@ public class PerfilBO extends MotoRapidoBO {
 			emUtil.closeEntityManager(em);
 		}
 	}
+	
+	
+	public List<Perfil> obterPerfis(String desc, String ativo, String acesso) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
+			List<Perfil> result = perfilDAO.obterPerfis(desc, ativo, acesso, em);
+			emUtil.commitTransaction(transaction);
+			return result;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter perfis.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public Perfil salvarPerfil(Perfil perfil) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
+			perfil.setAtivo(true);
+			perfil = perfilDAO.save(perfil, em);
+			emUtil.commitTransaction(transaction);
+			return perfil;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar gravar perfil.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public Perfil alterarPerfil(Perfil perfil) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
+			perfil = perfilDAO.save(perfil, em);
+			emUtil.commitTransaction(transaction);
+			return perfil;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar alterar perfil.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+
 
 }

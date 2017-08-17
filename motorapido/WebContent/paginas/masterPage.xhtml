@@ -67,11 +67,13 @@
 			<p:menuitem value="#{bundle.home}" ajax="true"
 				styleClass="cabecalhoMenu" rendered="#{erroSessao ne 'S'}"
 				action="/paginas/home.proj?faces-redirect=true" immediate="true" />
-			<p:menuitem value="Teste" ajax="true" styleClass="cabecalhoMenu"
+			<p:menuitem value="Perfil" ajax="true" styleClass="cabecalhoMenu"
 				rendered="#{erroSessao ne 'S'}"
-				action="/paginas/teste/teste.proj?faces-redirect=true"
+				action="/paginas/perfil/consultarPerfil.proj?faces-redirect=true"
 				immediate="true" />
-			<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" />
+			<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" 
+				action="/paginas/funcionario/cadastrarFuncionario.proj?faces-redirect=true"
+				immediate="true" />
 
 
 			<f:facet name="options">
