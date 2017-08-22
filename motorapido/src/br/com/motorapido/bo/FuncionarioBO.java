@@ -33,7 +33,7 @@ public class FuncionarioBO extends MotoRapidoBO {
 		return instance;
 	}
 	
-	public Funcionario salvarFuncionario(Funcionario funcionario, int codPerfil, String cnh, Date vencimentoCNH, byte[] docCriminais) throws ExcecaoNegocio {
+	public Funcionario salvarFuncionario(Funcionario funcionario, int codPerfil) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		try {
@@ -42,6 +42,7 @@ public class FuncionarioBO extends MotoRapidoBO {
 			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
 			IFuncionarioPerfilDAO funcionarioPerfilDAO = fabricaDAO.getPostgresFuncionarioPerfilDAO();
 			funcionario.setDataCriacao(new Date());
+			funcionario.setSenha(FuncoesUtil.criptografarSenha(funcionario.getSenha()));
 			funcionario = funcionarioDAO.save(funcionario, em);
 			FuncionarioPerfil funcPerfil = new FuncionarioPerfil();
 			funcPerfil.setFuncionario(funcionario);
@@ -49,15 +50,6 @@ public class FuncionarioBO extends MotoRapidoBO {
 			funcPerfil.setDataCriacao(new Date ());
 			funcPerfil.setPerfil(perfilDAO.findById(codPerfil, em));
 			funcPerfil = funcionarioPerfilDAO.save(funcPerfil, em);		
-			if(funcPerfil.getPerfil().getCodigo() == 1) {// Ajustar Parâmetro depois para o valor do perfil de motorista
-				IMotoristaDAO motoristaDAO = fabricaDAO.getPostgresMotoristaDAO();
-				Motorista motorista = new Motorista();
-				motorista.setCnh(cnh);
-				motorista.setDataVencimentoCNH(vencimentoCNH);
-				motorista.setDocCriminais(docCriminais);
-				motorista.setFuncionario(funcionario);
-				motoristaDAO.save(motorista, em);
-			}
 			
 			emUtil.commitTransaction(transaction);
 			return funcionario;

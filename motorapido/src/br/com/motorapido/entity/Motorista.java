@@ -32,9 +32,71 @@ public class Motorista extends Entidade{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "motorista_cod_motorista_seq")
 	private Integer codigo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cod_funcionario", nullable = false, referencedColumnName = "cod_funcionario")
-	private Funcionario funcionario;
+	@Column(name = "nome", nullable = false, length = 100)
+	private String nome;
+	
+	@Column(name = "num_identidade", nullable = false)
+	private String identidade;
+
+	@Column(name = "cpf", nullable = true, length = 50)
+	private String cpf;
+
+	@Column(name = "senha", nullable = false)
+	private String senha;
+	
+	@Column(name = "login", nullable = false)
+	private String login;
+	
+	@Column(name = "flg_ativo", nullable = false)
+	private boolean ativo;
+	
+	@Column(name = "flg_acesso_sistema", nullable = false)
+	private boolean acessaSistema;
+	
+	@Column(name = "dt_criacao", nullable = false)
+	private Date dataCriacao;
+	
+	@Column(name = "dt_desativacao", nullable = true)
+	private Date dataDesativacao;
+	
+	@Column(name = "num_celular", nullable = true)
+	private String celular;
+	
+	@Column(name = "logradouro", nullable = false)
+	private String logradouro;
+	
+	@Column(name = "bairro", nullable = false)
+	private String bairro;
+	
+	@Column(name = "cep", nullable = false)
+	private String cep;
+	
+	@Column(name = "cidade_residencia", nullable = false)
+	private String cidadeResidencia;
+	
+	@Column(name = "estado_residencia", nullable = false)
+	private String estadoResidencia;
+	
+	@Column(name = "num_agencia", nullable = true)
+	private String agencia;
+	
+	@Column(name = "num_conta", nullable = true)
+	private String conta;
+	
+	@Column(name = "banco", nullable = true)
+	private String banco;
+	
+	@Column(name = "flg_comprovante_residencia", nullable = false)
+	private boolean comprovanteResidencial;
+	
+	@Column(name = "email", nullable = true)
+	private String email;
+	
+	@Column(name = "foto", nullable = true)
+	private byte[] foto;
+	
+	@Column(name = "dt_nascimento", nullable = false)
+	private Date dataNascimento;
 	
 	@Column(name = "num_cnh", nullable = false)
 	private String cnh;
@@ -62,16 +124,6 @@ public class Motorista extends Entidade{
 
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
-	}
-
-
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
 	}
 
 
@@ -112,6 +164,226 @@ public class Motorista extends Entidade{
 
 	public void setDisponivel(boolean disponivel) {
 		this.disponivel = disponivel;
+	}
+
+
+	public String getNome() {
+		return nome;
+	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public String getIdentidade() {
+		return identidade;
+	}
+
+
+	public void setIdentidade(String identidade) {
+		this.identidade = identidade;
+	}
+
+
+	public String getCpf() {
+		return cpf;
+	}
+
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+
+	public String getSenha() {
+		return senha;
+	}
+
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+
+	public String getLogin() {
+		return login;
+	}
+
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+
+	public boolean isAcessaSistema() {
+		return acessaSistema;
+	}
+
+
+	public void setAcessaSistema(boolean acessaSistema) {
+		this.acessaSistema = acessaSistema;
+	}
+
+
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+
+
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+
+	public Date getDataDesativacao() {
+		return dataDesativacao;
+	}
+
+
+	public void setDataDesativacao(Date dataDesativacao) {
+		this.dataDesativacao = dataDesativacao;
+	}
+
+
+	public String getCelular() {
+		return celular;
+	}
+
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+
+	public String getBairro() {
+		return bairro;
+	}
+
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+
+	public String getCep() {
+		return cep;
+	}
+
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+
+	public String getCidadeResidencia() {
+		return cidadeResidencia;
+	}
+
+
+	public void setCidadeResidencia(String cidadeResidencia) {
+		this.cidadeResidencia = cidadeResidencia;
+	}
+
+
+	public String getEstadoResidencia() {
+		return estadoResidencia;
+	}
+
+
+	public void setEstadoResidencia(String estadoResidencia) {
+		this.estadoResidencia = estadoResidencia;
+	}
+
+
+	public String getAgencia() {
+		return agencia;
+	}
+
+
+	public void setAgencia(String agencia) {
+		this.agencia = agencia;
+	}
+
+
+	public String getConta() {
+		return conta;
+	}
+
+
+	public void setConta(String conta) {
+		this.conta = conta;
+	}
+
+
+	public String getBanco() {
+		return banco;
+	}
+
+
+	public void setBanco(String banco) {
+		this.banco = banco;
+	}
+
+
+	public boolean isComprovanteResidencial() {
+		return comprovanteResidencial;
+	}
+
+
+	public void setComprovanteResidencial(boolean comprovanteResidencial) {
+		this.comprovanteResidencial = comprovanteResidencial;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 }

@@ -1,10 +1,8 @@
 package br.com.motorapido.mbean;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,41 +14,35 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import com.google.gson.Gson;
 
-import br.com.minhaLib.excecao.excecaobanco.ExcecaoBanco;
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.FuncionarioBO;
-import br.com.motorapido.bo.PerfilBO;
+import br.com.motorapido.bo.MotoristaBO;
 import br.com.motorapido.entity.Funcionario;
-import br.com.motorapido.entity.Perfil;
-import br.com.motorapido.enums.ParametroEnum;
+import br.com.motorapido.entity.Motorista;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
 import br.com.motorapido.util.FuncoesUtil;
 
-@ManagedBean(name = "funcionarioBean")
+@ManagedBean(name = "motoristaBean")
 @ViewScoped
-public class FuncionarioBean extends SimpleController {
+public class MotoristaBean extends SimpleController{
 
-	private static final long serialVersionUID = 4283639145824708144L;
 
-	private Funcionario funcionario;
+	private static final long serialVersionUID = -247976915991325625L;
+	
+	
+	private Motorista motorista;
 
 	private UploadedFile foto;
 
 	private StreamedContent streamFoto;
-
-	private int codPerfil;
-
-	private List<Perfil> listaPerfis;
 
 	private String cnh;
 
@@ -63,55 +55,48 @@ public class FuncionarioBean extends SimpleController {
 	@PostConstruct
 	public void carregar() {
 		try {
-			funcionario = new Funcionario();
-			listaPerfis = PerfilBO.getInstance().obterPerfisAtivos();
-			codPerfil = 2;
+			motorista = new Motorista();
 
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
-
-	private void limparCampos() {
-		funcionario = new Funcionario();
-		cnh = null;
-		vencimentoCNH = null;
-		docCriminais = null;
-		foto = null;
-		codPerfil = 2;
-	}
-
-	public void fileUploadAction(FileUploadEvent event) {
-		setFoto(event.getFile());
-	}
-
-	public void DocCriminaisUploadAction(FileUploadEvent event) {
-		setDocCriminais(event.getFile());
-	}
-
-	public void carregarFotoExibicao() {
-		byte[] fotoExibicao = null;
-		if (foto != null) {
-			fotoExibicao = foto.getContents();
-			streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(fotoExibicao), "image/*");
+	
+	public void salvarMotorista() {
+		if(docCriminais == null){
+			addMsg(FacesMessage.SEVERITY_ERROR, "Documentos Criminais não Anexados.");
+			return;
 		}
-	}
-
-
-
-	public void salvarFuncionario() {
+		
 		try {
-			funcionario.setFoto(foto.getContents());
-			funcionario.setSenha(FuncoesUtil.gerarSenha());
-			FuncionarioBO.getInstance().salvarFuncionario(funcionario, codPerfil);
+			
+			motorista.setFoto(foto.getContents());
+			motorista.setSenha(FuncoesUtil.gerarSenha());
+			MotoristaBO.getInstance().salvarMotorista(motorista);
 			limparCampos();
-			addMsg(FacesMessage.SEVERITY_INFO, "Funcionário cadastrado com sucesso.");
+			addMsg(FacesMessage.SEVERITY_INFO, "Motorista cadastrado com sucesso.");
 
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
-
+	
+	private void limparCampos() {
+		motorista = new Motorista();
+		cnh = null;
+		vencimentoCNH = null;
+		docCriminais = null;
+		foto = null;
+	}
+	
+	public void fileUploadAction(FileUploadEvent event) {
+		setFoto(event.getFile());
+	}
+	
+	public void DocCriminaisUploadAction(FileUploadEvent event) {
+		setDocCriminais(event.getFile());
+	}
+	
 	public void validarCep() {
 		if (this.getCep() != null && this.getCep().replace("-", "").replace("_", "").length() == 8) {
 			try {
@@ -138,92 +123,92 @@ public class FuncionarioBean extends SimpleController {
 
 				Gson gson = new Gson();
 				EnderecoCep end = gson.fromJson(json, EnderecoCep.class);
-				this.getFuncionario().setCep(this.getCep());
-				this.getFuncionario().setCidadeResidencia(end.getLocalidade());
-				this.getFuncionario().setLogradouro(end.getLogradouro());
-				this.getFuncionario().setBairro(end.getBairro());
+				this.getMotorista().setCep(this.getCep());
+				this.getMotorista().setCidadeResidencia(end.getLocalidade());
+				this.getMotorista().setLogradouro(end.getLogradouro());
+				this.getMotorista().setBairro(end.getBairro());
 
 				switch (end.getUf()) {
 				case "RO":
-					this.getFuncionario().setEstadoResidencia("Rondônia");
+					this.getMotorista().setEstadoResidencia("Rondônia");
 					break;
 				case "AC":
-					this.getFuncionario().setEstadoResidencia("Acre");
+					this.getMotorista().setEstadoResidencia("Acre");
 					break;
 				case "AM":
-					this.getFuncionario().setEstadoResidencia("Amazonas");
+					this.getMotorista().setEstadoResidencia("Amazonas");
 					break;
 				case "RR":
-					this.getFuncionario().setEstadoResidencia("Roraima");
+					this.getMotorista().setEstadoResidencia("Roraima");
 					break;
 				case "PA":
-					this.getFuncionario().setEstadoResidencia("Pará");
+					this.getMotorista().setEstadoResidencia("Pará");
 					break;
 				case "AP":
-					this.getFuncionario().setEstadoResidencia("Amapá");
+					this.getMotorista().setEstadoResidencia("Amapá");
 					break;
 				case "TO":
-					this.getFuncionario().setEstadoResidencia("Tocantins");
+					this.getMotorista().setEstadoResidencia("Tocantins");
 					break;
 				case "MA":
-					this.getFuncionario().setEstadoResidencia("Maranhão");
+					this.getMotorista().setEstadoResidencia("Maranhão");
 					break;
 				case "PI":
-					this.getFuncionario().setEstadoResidencia("Piauí");
+					this.getMotorista().setEstadoResidencia("Piauí");
 					break;
 				case "CE":
-					this.getFuncionario().setEstadoResidencia("Ceará");
+					this.getMotorista().setEstadoResidencia("Ceará");
 					break;
 				case "RN":
-					this.getFuncionario().setEstadoResidencia("Rio Grande do Norte");
+					this.getMotorista().setEstadoResidencia("Rio Grande do Norte");
 					break;
 				case "PB":
-					this.getFuncionario().setEstadoResidencia("Paraíba");
+					this.getMotorista().setEstadoResidencia("Paraíba");
 					break;
 				case "PE":
-					this.getFuncionario().setEstadoResidencia("Pernambuco");
+					this.getMotorista().setEstadoResidencia("Pernambuco");
 					break;
 				case "AL":
-					this.getFuncionario().setEstadoResidencia("Alagoas");
+					this.getMotorista().setEstadoResidencia("Alagoas");
 					break;
 				case "SE":
-					this.getFuncionario().setEstadoResidencia("Sergipe");
+					this.getMotorista().setEstadoResidencia("Sergipe");
 					break;
 				case "BA":
-					this.getFuncionario().setEstadoResidencia("Bahia");
+					this.getMotorista().setEstadoResidencia("Bahia");
 					break;
 				case "MG":
-					this.getFuncionario().setEstadoResidencia("Minas Gerais");
+					this.getMotorista().setEstadoResidencia("Minas Gerais");
 					break;
 				case "ES":
-					this.getFuncionario().setEstadoResidencia("Espírito Santo");
+					this.getMotorista().setEstadoResidencia("Espírito Santo");
 					break;
 				case "RJ":
-					this.getFuncionario().setEstadoResidencia("Rio De Janeiro");
+					this.getMotorista().setEstadoResidencia("Rio De Janeiro");
 					break;
 				case "SP":
-					this.getFuncionario().setEstadoResidencia("São Paulo");
+					this.getMotorista().setEstadoResidencia("São Paulo");
 					break;
 				case "PR":
-					this.getFuncionario().setEstadoResidencia("Paraná");
+					this.getMotorista().setEstadoResidencia("Paraná");
 					break;
 				case "SC":
-					this.getFuncionario().setEstadoResidencia("Santa Catarina");
+					this.getMotorista().setEstadoResidencia("Santa Catarina");
 					break;
 				case "RS":
-					this.getFuncionario().setEstadoResidencia("Rio Grande Do Sul");
+					this.getMotorista().setEstadoResidencia("Rio Grande Do Sul");
 					break;
 				case "MS":
-					this.getFuncionario().setEstadoResidencia("Mato Grosso Do Sul");
+					this.getMotorista().setEstadoResidencia("Mato Grosso Do Sul");
 					break;
 				case "MT":
-					this.getFuncionario().setEstadoResidencia("Mato Grosso");
+					this.getMotorista().setEstadoResidencia("Mato Grosso");
 					break;
 				case "GO":
-					this.getFuncionario().setEstadoResidencia("Goiás");
+					this.getMotorista().setEstadoResidencia("Goiás");
 					break;
 				case "DF":
-					this.getFuncionario().setEstadoResidencia("Distrito Federal");
+					this.getMotorista().setEstadoResidencia("Distrito Federal");
 					break;
 				}
 
@@ -237,12 +222,12 @@ public class FuncionarioBean extends SimpleController {
 
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public Motorista getMotorista() {
+		return motorista;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setMotorista(Motorista motorista) {
+		this.motorista = motorista;
 	}
 
 	public UploadedFile getFoto() {
@@ -253,20 +238,12 @@ public class FuncionarioBean extends SimpleController {
 		this.foto = foto;
 	}
 
-	public int getCodPerfil() {
-		return codPerfil;
+	public StreamedContent getStreamFoto() {
+		return streamFoto;
 	}
 
-	public void setCodPerfil(int codPerfil) {
-		this.codPerfil = codPerfil;
-	}
-
-	public List<Perfil> getListaPerfis() {
-		return listaPerfis;
-	}
-
-	public void setListaPerfis(List<Perfil> listaPerfis) {
-		this.listaPerfis = listaPerfis;
+	public void setStreamFoto(StreamedContent streamFoto) {
+		this.streamFoto = streamFoto;
 	}
 
 	public String getCnh() {
@@ -285,14 +262,6 @@ public class FuncionarioBean extends SimpleController {
 		this.vencimentoCNH = vencimentoCNH;
 	}
 
-	public UploadedFile getDocCriminais() {
-		return docCriminais;
-	}
-
-	public void setDocCriminais(UploadedFile docCriminais) {
-		this.docCriminais = docCriminais;
-	}
-
 	public String getCep() {
 		return cep;
 	}
@@ -301,12 +270,12 @@ public class FuncionarioBean extends SimpleController {
 		this.cep = cep;
 	}
 
-	public StreamedContent getStreamFoto() {
-		carregarFotoExibicao();
-		return streamFoto;
+	public UploadedFile getDocCriminais() {
+		return docCriminais;
 	}
 
-	public void setStreamFoto(StreamedContent streamFoto) {
-		this.streamFoto = streamFoto;
+	public void setDocCriminais(UploadedFile docCriminais) {
+		this.docCriminais = docCriminais;
 	}
+
 }
