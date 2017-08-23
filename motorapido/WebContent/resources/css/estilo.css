@@ -318,10 +318,11 @@ ul.ui-menu-child {
 	width: 100%;
 	font-size: 28px;
 	color: white;
-	background: -webkit-linear-gradient(left, #4f7199 1%, #aacae2 47%, #607a99 100%);
+	
+/* 	background: -webkit-linear-gradient(left, #4f7199 1%, #aacae2 47%, #607a99 100%);
 	background: -o-linear-gradient(left, #4f7199 1%, #aacae2 47%, #607a99 100%);
-	background: -moz-linear-gradient(left, #4f7199 1%, #aacae2 47%, #607a99 100%);
-	background: linear-gradient(to left, #4f7199 1%, #aacae2 47%, #607a99 100%);
+	background: -moz-linear-gradient(left, #4f7199 1%, #aacae2 47%, #607a99 100%); */
+	background: linear-gradient(to right, #8abbd7 0%,#066dab 0%,#c5deea 54%,#c5deea 54%,#c5deea 54%,#c5deea 56%,#c5deea 56%,#066dab 100%);
 }
 
 .tituloProjeto {

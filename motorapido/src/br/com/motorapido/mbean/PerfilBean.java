@@ -64,7 +64,7 @@ public class PerfilBean extends SimpleController {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
-	
+
 	public void alterarPerfil() {
 		try {
 			PerfilBO.getInstance().alterarPerfil(perfil);

@@ -5,11 +5,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,7 +22,9 @@ import br.com.minhaLib.dao.Entidade;
 @Entity
 @Table(name = Funcionario.nomeTabela, schema = Funcionario.esquema, catalog = "diego")
 @NamedQueries(value = { 
-		@NamedQuery(name = "Funcionario.obterPorLoginSenha", query = "select f from Funcionario f where lower(f.login) like :login and senha like :senha")
+		@NamedQuery(name = "Funcionario.obterPorLoginSenha", query = "select f from Funcionario f join fetch f.perfil where lower(f.login) like :login and senha like :senha"),
+		@NamedQuery(name = "Funcionario.obterFuncionarios", query = "select f from Funcionario f join fetch f.perfil where (:nome is null or lower(f.nome) like '%' || :nome || '%') or (:cpf is null or f.cpf like '%' || :cpf || '%')"),		
+		@NamedQuery(name = "Funcionario.obterTodos", query = "select f from Funcionario f join fetch f.perfil")
 		})
 public class Funcionario extends Entidade{
 
@@ -33,7 +39,7 @@ public class Funcionario extends Entidade{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "funcionario_cod_funcionario_seq")
 	private Integer codigo;
 	
-	@Column(name = "nome", nullable = false, length = 100)
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	
 	@Column(name = "num_identidade", nullable = false)
@@ -98,6 +104,10 @@ public class Funcionario extends Entidade{
 	
 	@Column(name = "dt_nascimento", nullable = false)
 	private Date dataNascimento;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cod_perfil", nullable = false, referencedColumnName = "cod_perfil")
+	private Perfil perfil;
 
 
 	@Override
@@ -339,6 +349,16 @@ public class Funcionario extends Entidade{
 
 	public void setAcessaSistema(boolean acessaSistema) {
 		this.acessaSistema = acessaSistema;
+	}
+
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 
 }

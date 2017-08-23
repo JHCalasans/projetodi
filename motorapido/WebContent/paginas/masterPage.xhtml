@@ -72,8 +72,11 @@
 				action="/paginas/perfil/consultarPerfil.proj?faces-redirect=true"
 				immediate="true" />
 			<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" 
-				action="/paginas/funcionario/cadastrarFuncionario.proj?faces-redirect=true"
+				action="/paginas/funcionario/consultarFuncionario.proj?faces-redirect=true&amp;consultaParam=true"
 				immediate="true" />
+			<!-- <p:menuitem value="Motorista" styleClass="cabecalhoMenu" 
+				action="/paginas/funcionario/cadastrarMotorista.proj?faces-redirect=true"
+				immediate="true" /> -->
 
 
 			<f:facet name="options">
@@ -92,6 +95,12 @@
 				<p:messages closable="true" id="msgs" />
 				<p:growl id="growl" autoUpdate="true" closable="true" ></p:growl>
 			</div>
+			<c:if test="${tituloPagina != null}">
+				<br></br>
+				<h:outputLabel value="#{tituloPagina}" styleClass="titulo" />
+				<hr></hr>
+				<br></br>
+			</c:if>
 			<ui:insert name="conteudo" />
 			<div class="clear" id="div_pos_conteudo" />
 

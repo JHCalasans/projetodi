@@ -14,5 +14,9 @@ public interface IFuncionarioDAO extends GenericDAO<Funcionario, Integer> {
 	static CriterioOrdenacao BY_NOME_ASC = CriterioOrdenacao.asc("nome");
 	
 	public List<Funcionario> obterporLoginSenha(String login, String senha,EntityManager em) throws ExcecaoBanco;
+	
+	public List<Funcionario> obterporFuncionarios(String nome, String cpf,EntityManager em) throws ExcecaoBanco;
+	
+	public List<Funcionario> obterTodos(EntityManager em) throws ExcecaoBanco;
 
 }

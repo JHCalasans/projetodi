@@ -29,6 +29,8 @@ import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.FuncionarioBO;
 import br.com.motorapido.bo.PerfilBO;
+import br.com.motorapido.dao.IFuncionarioDAO;
+import br.com.motorapido.dao.IPerfilDAO;
 import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.entity.Perfil;
 import br.com.motorapido.enums.ParametroEnum;
@@ -60,13 +62,38 @@ public class FuncionarioBean extends SimpleController {
 
 	private UploadedFile docCriminais;
 
+	private List<Funcionario> listaFuncionarios;
+
+	private String nomePesquisa;
+
+	private String cpfPesquisa;
+
 	@PostConstruct
 	public void carregar() {
 		try {
-			funcionario = new Funcionario();
-			listaPerfis = PerfilBO.getInstance().obterPerfisAtivos();
-			codPerfil = 2;
+			String codFuncStr = (String) getRequestParam("codFuncionario");
+			String consultar = (String) getRequestParam("consultaParam");
+			if (codFuncStr != null) {
+				Integer codFuncionario = Integer.valueOf(codFuncStr);
+				carregarFuncionario(codFuncionario);
+			} else if (consultar != null && (consultar.equals("true") || consultar.equals("true?"))) {
+				pesquisarFuncionario();
 
+			} else {
+				funcionario = new Funcionario();
+				listaPerfis = PerfilBO.getInstance().obterPerfisAtivos();
+				codPerfil = 2;
+			}
+
+		} catch (Exception e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+
+	private void carregarFuncionario(Integer codFuncionario) {
+		try {
+			IFuncionarioDAO funcionarioDAO = getFabrica().getPostgresFuncionarioDAO();
+			funcionario = funcionarioDAO.findById(codFuncionario);
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
@@ -97,7 +124,13 @@ public class FuncionarioBean extends SimpleController {
 		}
 	}
 
-
+	public void pesquisarFuncionario() {
+		try {
+			listaFuncionarios = FuncionarioBO.getInstance().obterFuncionarios(nomePesquisa, cpfPesquisa);
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
 
 	public void salvarFuncionario() {
 		try {
@@ -308,5 +341,29 @@ public class FuncionarioBean extends SimpleController {
 
 	public void setStreamFoto(StreamedContent streamFoto) {
 		this.streamFoto = streamFoto;
+	}
+
+	public List<Funcionario> getListaFuncionarios() {
+		return listaFuncionarios;
+	}
+
+	public void setListaFuncionarios(List<Funcionario> listaFuncionarios) {
+		this.listaFuncionarios = listaFuncionarios;
+	}
+
+	public String getNomePesquisa() {
+		return nomePesquisa;
+	}
+
+	public void setNomePesquisa(String nomePesquisa) {
+		this.nomePesquisa = nomePesquisa;
+	}
+
+	public String getCpfPesquisa() {
+		return cpfPesquisa;
+	}
+
+	public void setCpfPesquisa(String cpfPesquisa) {
+		this.cpfPesquisa = cpfPesquisa;
 	}
 }

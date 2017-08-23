@@ -75,12 +75,26 @@ public class FuncionarioBO extends MotoRapidoBO {
 
 			emUtil.commitTransaction(transaction);
 			return result;
-		} catch (ExcecaoBanco e) {
-			emUtil.rollbackTransaction(transaction);
-			throw new ExcecaoNegocio("Falha ao tentar obter funcionário pelo Login.", e);
 		} catch (Exception e) {
 			emUtil.rollbackTransaction(transaction);
-			throw new ExcecaoNegocio("Falha ao tentar criptografar senha.", e);
+			throw new ExcecaoNegocio("Falha ao tentar obter funcionário pelo Login.", e);
+		}		finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public List<Funcionario> obterFuncionarios(String nome, String cpf) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
+			List<Funcionario> lista = funcionarioDAO.obterporFuncionarios(nome, cpf, em);
+			emUtil.commitTransaction(transaction);
+			return lista;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter funcionários.", e);
 		}		finally {
 			emUtil.closeEntityManager(em);
 		}

@@ -24,4 +24,18 @@ implements IFuncionarioDAO{
 		return findByNamedQueryAndNamedParams("Funcionario.obterPorLoginSenha", params, em);
 	}
 
+	@Override
+	public List<Funcionario> obterporFuncionarios(String nome, String cpf, EntityManager em) throws ExcecaoBanco {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("nome", nome != null ? nome.toLowerCase() : "");
+		params.put("cpf", cpf != null ? nome.toLowerCase() : "");
+		return findByNamedQueryAndNamedParams("Funcionario.obterFuncionarios", params, em);
+	}
+
+	@Override
+	public List<Funcionario> obterTodos(EntityManager em) throws ExcecaoBanco {
+		Map<String, Object> params = new HashMap<String, Object>();
+		return findByNamedQueryAndNamedParams("Funcionario.obterTodos", params, em);
+	}
+
 }
