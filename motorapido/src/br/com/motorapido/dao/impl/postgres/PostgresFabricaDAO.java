@@ -25,6 +25,7 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	private static PostgresMotoristaDAOImpl postgresMotoristaDAOImpl;
 	private static PostgresParametroDAOImpl postgresParametroDAOImpl;
 	private static PostgresValorParametroDAOImpl postgresValorParametroDAOImpl;
+	private static PostgresLogErroDAOImpl postgresLogErroDAOImpl;
 
 
 	private PostgresFabricaDAO() {
@@ -97,6 +98,14 @@ final class PostgresFabricaDAO extends FabricaDAO {
 			postgresValorParametroDAOImpl = new PostgresValorParametroDAOImpl();
 		}
 		return postgresValorParametroDAOImpl;
+	}
+	
+	@Override
+	public PostgresLogErroDAOImpl getPostgresLogErroDAO() {
+		if (postgresLogErroDAOImpl == null) {
+			postgresLogErroDAOImpl = new PostgresLogErroDAOImpl();
+		}
+		return postgresLogErroDAOImpl;
 	}
 
 

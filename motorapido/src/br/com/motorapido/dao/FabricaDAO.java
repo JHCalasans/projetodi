@@ -1,5 +1,7 @@
 package br.com.motorapido.dao;
 
+
+
 public abstract class FabricaDAO {
 
 	private static FabricaDAO instance;
@@ -16,6 +18,8 @@ public abstract class FabricaDAO {
 	public abstract IParametroDAO getPostgresParametroDAO();
 	
 	public abstract IValorParametroDAO getPostgresValorParametroDAO();
+	
+	public abstract ILogErroDAO getPostgresLogErroDAO();
 
 
 

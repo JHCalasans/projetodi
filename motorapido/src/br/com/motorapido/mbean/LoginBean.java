@@ -58,8 +58,11 @@ public class LoginBean extends SimpleController {
 		try {
 			Funcionario funcionario = FuncionarioBO.getInstance().obterFuncionarioPorLoginSenha(login, senha);
 			if (funcionario != null) {
-				getSessionMap().put("motoRapido.funcionario", funcionario);
-				FacesUtil.redirecionar(null, Paginas.PAG_HOME, true, null);
+				if (funcionario.getPerfil().isAcessaSistema()) {
+					getSessionMap().put("motoRapido.funcionario", funcionario);
+					FacesUtil.redirecionar(null, Paginas.PAG_HOME, true, null);
+				}else
+					addMsg(FacesMessage.SEVERITY_ERROR, "Usuário sem permissão para acessar.");
 			} else
 				addMsg(FacesMessage.SEVERITY_ERROR, "Login/Senha incorretos.");
 		} catch (Exception e) {

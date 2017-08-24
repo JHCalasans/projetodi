@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
+import br.com.motorapido.dao.FabricaDAO;
 
 
 
@@ -49,10 +50,11 @@ public class ExcecoesUtil {
 		final Writer result = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(result);
 		ex.printStackTrace(printWriter);
+		ex.printStackTrace();
 		String res = result.toString();
 		if (res.length() > MAX_SIZE) {
 			res = res.substring(0, MAX_SIZE);
 		}
-		//FabricaDAO.getFabricaDAO().getLogErroDAO().logarErro(res);
+		FabricaDAO.getFabricaDAO().getPostgresLogErroDAO().logarErro(res);
 	}
 }

@@ -7,16 +7,16 @@
 		maxIdle="3"
 		maxWait="10000" 
 		name="jdbc/postgresapp" 
-		password="jota01" 
+		password="d16082017" 
 		removeAbandoned="true" 
 		removeAbandonedTimeout="60" 
 		type="javax.sql.DataSource"
-		url="jdbc:postgresql://localhost:5432/diego" 
-		username="postgres" />
+		url="jdbc:postgresql://104.236.95.238:5432/diego" 
+		username="diego" />
 	<ResourceLink global="jdbc/postgresapp" 
 		name="jdbc/postgresapp" 
 		factory="org.apache.naming.factory.DataSourceLinkFactory" 
 		type="javax.sql.DataSource"
-		username="postgres" 
-		password="jota01"  />
+		username="diego" 
+		password="d16082017"  />
 </Context>
