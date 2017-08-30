@@ -618,17 +618,21 @@ span.valor {
 	
 }
 
-.myHeader {
-	background-color: gray !important;
+.myHeader.ui-widget-content {
 	font-weight: bold !important;
+	width: 242px;
+	background-image:  url('/motorapido/resources/logo_motorapido.png');
+	height: 84px;
 }
+
+
 
 .ui-helper-hidden-accessible {
 	left: -999999px !important;
 }
 
 .lupa {
-	background-image: url('/meSirva/resources/lupa.png');
+	background-image: url('/motorapido/resources/lupa.png');
 	background-size: 16px 16px;
 }
 

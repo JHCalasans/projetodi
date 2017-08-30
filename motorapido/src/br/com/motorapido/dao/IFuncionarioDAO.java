@@ -18,5 +18,7 @@ public interface IFuncionarioDAO extends GenericDAO<Funcionario, Integer> {
 	public List<Funcionario> obterporFuncionarios(String nome, String cpf,EntityManager em) throws ExcecaoBanco;
 	
 	public List<Funcionario> obterTodos(EntityManager em) throws ExcecaoBanco;
+	
+	public Funcionario obterPorCodigo(Integer codFuncionario, EntityManager em) throws ExcecaoBanco;
 
 }

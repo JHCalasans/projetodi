@@ -36,7 +36,9 @@ import br.com.motorapido.entity.Perfil;
 import br.com.motorapido.enums.ParametroEnum;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
+import br.com.motorapido.util.FacesUtil;
 import br.com.motorapido.util.FuncoesUtil;
+import br.com.motorapido.util.Paginas;
 
 @ManagedBean(name = "funcionarioBean")
 @ViewScoped
@@ -76,6 +78,9 @@ public class FuncionarioBean extends SimpleController {
 			if (codFuncStr != null) {
 				Integer codFuncionario = Integer.valueOf(codFuncStr);
 				carregarFuncionario(codFuncionario);
+				listaPerfis = PerfilBO.getInstance().obterPerfisAtivos();
+				codPerfil = funcionario.getPerfil().getCodigo();
+				cep = funcionario.getCep();
 			} else if (consultar != null && (consultar.equals("true") || consultar.equals("true?"))) {
 				pesquisarFuncionario();
 
@@ -92,8 +97,9 @@ public class FuncionarioBean extends SimpleController {
 
 	private void carregarFuncionario(Integer codFuncionario) {
 		try {
-			IFuncionarioDAO funcionarioDAO = getFabrica().getPostgresFuncionarioDAO();
-			funcionario = funcionarioDAO.findById(codFuncionario);
+			
+			funcionario = FuncionarioBO.getInstance().obterFuncionarioPorCodigo(codFuncionario);
+			streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(funcionario.getFoto()), "image/*");
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
@@ -143,6 +149,26 @@ public class FuncionarioBean extends SimpleController {
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
+	}
+	
+	public void alterarFuncionario() {
+		try {
+			if(foto != null && foto.getContents() != null)
+				funcionario.setFoto(foto.getContents());
+			
+			FuncionarioBO.getInstance().alterarFuncionario(funcionario, codPerfil);
+					
+			enviarJavascript("PF('dlgSucesso').show();");
+			//addMsg(FacesMessage.SEVERITY_INFO, "Funcionário alterado com sucesso.");
+			//FacesUtil.redirecionar(null, "consultarFuncionario.tjse?faces-redirect=true", true, null);
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+	
+	public String navegarAlteracao(int codFuncionario) {
+		String url = "alterarFuncionario.proj?faces-redirect=true&codFuncionario=" + codFuncionario;
+		return url;
 	}
 
 	public void validarCep() {
@@ -365,5 +391,11 @@ public class FuncionarioBean extends SimpleController {
 
 	public void setCpfPesquisa(String cpfPesquisa) {
 		this.cpfPesquisa = cpfPesquisa;
+	}
+
+	@Override
+	public String salvoSucesso() {
+		
+		return 	"consultarFuncionario.proj?faces-redirect=true&consultaParam=true";
 	}
 }

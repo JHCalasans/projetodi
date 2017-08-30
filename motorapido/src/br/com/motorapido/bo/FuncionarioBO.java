@@ -58,6 +58,27 @@ public class FuncionarioBO extends MotoRapidoBO {
 		}
 	}
 	
+	
+	public Funcionario alterarFuncionario(Funcionario funcionario, int codPerfil) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
+			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
+			funcionario.setPerfil(perfilDAO.findById(codPerfil, em));
+			funcionario = funcionarioDAO.save(funcionario, em);
+
+			emUtil.commitTransaction(transaction);
+			return funcionario;
+		}catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar alterar funcionário.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
 	public Funcionario obterFuncionarioPorLoginSenha(String login, String senha) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
@@ -93,6 +114,24 @@ public class FuncionarioBO extends MotoRapidoBO {
 			emUtil.rollbackTransaction(transaction);
 			throw new ExcecaoNegocio("Falha ao tentar obter funcionários.", e);
 		}		finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	
+	public Funcionario obterFuncionarioPorCodigo(Integer codigo) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
+			Funcionario funcionario = funcionarioDAO.obterPorCodigo(codigo, em);
+			emUtil.commitTransaction(transaction);
+			return funcionario;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter funcionário.", e);
+		}finally {
 			emUtil.closeEntityManager(em);
 		}
 	}

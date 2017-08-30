@@ -86,4 +86,10 @@ public class LoginBean extends SimpleController {
 		this.senha = senha;
 	}
 
+	@Override
+	public String salvoSucesso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

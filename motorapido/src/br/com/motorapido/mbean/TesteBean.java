@@ -10,4 +10,10 @@ public class TesteBean extends SimpleController{
 
 	private static final long serialVersionUID = 7872970364228863725L;
 
+	@Override
+	public String salvoSucesso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -3,6 +3,7 @@ package br.com.motorapido.mbean;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -51,13 +52,28 @@ public class MotoristaBean extends SimpleController{
 	private String cep;
 
 	private UploadedFile docCriminais;
+	
+	private String nomePesquisa;
+
+	private String cpfPesquisa;
+	
+	private List<Motorista> listaMotoristas;
 
 	@PostConstruct
 	public void carregar() {
 		try {
 			motorista = new Motorista();
+			pesquisarMotorista();
 
 		} catch (Exception e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+	
+	public void pesquisarMotorista() {
+		try {
+			listaMotoristas = MotoristaBO.getInstance().obterMotoristas(nomePesquisa, cpfPesquisa);
+		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
@@ -276,6 +292,36 @@ public class MotoristaBean extends SimpleController{
 
 	public void setDocCriminais(UploadedFile docCriminais) {
 		this.docCriminais = docCriminais;
+	}
+
+	@Override
+	public String salvoSucesso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getNomePesquisa() {
+		return nomePesquisa;
+	}
+
+	public void setNomePesquisa(String nomePesquisa) {
+		this.nomePesquisa = nomePesquisa;
+	}
+
+	public String getCpfPesquisa() {
+		return cpfPesquisa;
+	}
+
+	public void setCpfPesquisa(String cpfPesquisa) {
+		this.cpfPesquisa = cpfPesquisa;
+	}
+
+	public List<Motorista> getListaMotoristas() {
+		return listaMotoristas;
+	}
+
+	public void setListaMotoristas(List<Motorista> listaMotoristas) {
+		this.listaMotoristas = listaMotoristas;
 	}
 
 }

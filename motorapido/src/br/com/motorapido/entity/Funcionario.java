@@ -24,7 +24,8 @@ import br.com.minhaLib.dao.Entidade;
 @NamedQueries(value = { 
 		@NamedQuery(name = "Funcionario.obterPorLoginSenha", query = "select f from Funcionario f join fetch f.perfil where lower(f.login) like :login and senha like :senha"),
 		@NamedQuery(name = "Funcionario.obterFuncionarios", query = "select f from Funcionario f join fetch f.perfil where (:nome is null or lower(f.nome) like '%' || :nome || '%') or (:cpf is null or f.cpf like '%' || :cpf || '%')"),		
-		@NamedQuery(name = "Funcionario.obterTodos", query = "select f from Funcionario f join fetch f.perfil")
+		@NamedQuery(name = "Funcionario.obterTodos", query = "select f from Funcionario f join fetch f.perfil"),
+		@NamedQuery(name = "Funcionario.obterPorCod", query = "select f from Funcionario f join fetch f.perfil where f.codigo = :codFuncionario")
 		})
 public class Funcionario extends Entidade{
 

@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,6 +20,11 @@ import br.com.minhaLib.dao.Entidade;
 
 @Entity
 @Table(name = Motorista.nomeTabela, schema = Motorista.esquema, catalog = "diego")
+@NamedQueries(value = { 
+		@NamedQuery(name = "Motorista.obterMotoristas", query = "select m from Motorista m  where (:nome is null or lower(m.nome) like '%' || :nome || '%') or (:cpf is null or m.cpf like '%' || :cpf || '%')"),		
+		@NamedQuery(name = "Motorista.obterTodos", query = "select m from Motorista m "),
+		@NamedQuery(name = "Motorista.obterPorCod", query = "select m from Motorista m where m.codigo = :codigo")
+		})
 public class Motorista extends Entidade{
 
 

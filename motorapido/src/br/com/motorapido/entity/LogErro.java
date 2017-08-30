@@ -34,7 +34,7 @@ public class LogErro extends Entidade {
 	private Integer codigo;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dtHoraErro", nullable = false)
+	@Column(name = "dt_hora_erro", nullable = false)
 	private Date dataHoraErro;
 
 	@Column(name = "descricao", nullable = false)

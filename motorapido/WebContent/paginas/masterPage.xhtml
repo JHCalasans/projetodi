@@ -61,7 +61,19 @@
 			<h:outputLabel value="" />
 		</f:facet>
 	</p:ajaxStatus>
-	<h:form id="formMenuNorth" enctype="multipart/form-data" styleClass="cabecalhoMenu">
+	<h:form id="formMenuNorth" enctype="multipart/form-data"
+		styleClass="cabecalhoMenu">
+
+		<p:panel style="width:100%;">
+			<div align="center">
+				<p:panel styleClass="myHeader"
+					style="border: transparent !important;">
+
+				</p:panel>
+			</div>
+
+		</p:panel>
+
 		<p:menubar>
 
 			<p:menuitem value="#{bundle.home}" ajax="true"
@@ -71,27 +83,33 @@
 				rendered="#{erroSessao ne 'S'}"
 				action="/paginas/perfil/consultarPerfil.proj?faces-redirect=true"
 				immediate="true" />
-			<p:menuitem value="Funcionário" styleClass="cabecalhoMenu" 
+			<p:menuitem value="Funcionário" styleClass="cabecalhoMenu"
 				action="/paginas/funcionario/consultarFuncionario.proj?faces-redirect=true&amp;consultaParam=true"
 				immediate="true" />
-		
+
+			<p:menuitem value="Motorista" styleClass="cabecalhoMenu"
+				action="/paginas/motorista/consultarMotorista.proj?faces-redirect=true"
+				immediate="true" />
 
 
 			<f:facet name="options">
+				<p:outputLabel value="Olá, #{bean.funcionarioLogado.nome.split(' ')[0]}"
+					style="position: fixed; padding-top: 5px; margin-left: -75px;font-size:15px"></p:outputLabel>
 				<p:commandButton value="#{erroSessao ne 'S'? 'Logout' : 'Login'}"
 					icon="ui-icon-extlink" action="#{bean.logout}"
 					styleClass="cabecalhoMenuBotao" />
 			</f:facet>
 		</p:menubar>
-	</h:form>
 	
+	</h:form>
+
 	<div class="clear"></div>
 
-	<div >
-		<p:panel id="conteudo">
+	<div>
+		<p:panel id="conteudo" style="width:100%;">
 			<div class="clear" id="div_pre_conteudo">
 				<p:messages closable="true" id="msgs" />
-				<p:growl id="growl" autoUpdate="true" closable="true" ></p:growl>
+				<p:growl id="growl" autoUpdate="true" closable="true"></p:growl>
 			</div>
 			<c:if test="${tituloPagina != null}">
 				<br></br>
@@ -104,6 +122,22 @@
 
 
 		</p:panel>
+		<p:dialog header="Sucesso!" widgetVar="dlgSucesso" height="100"
+			draggable="false" resizable="false" width="300">
+			<h:form>
+				<div align="center">
+					<p:panel>
+						<p:outputLabel value="Registro Cadastrado Com Sucesso!"
+							styleClass="OutputLabelCampo"></p:outputLabel>
+						<div class="clear"></div>
+						<br />
+						<p:commandButton action="#{bean.salvoSucesso}" value="Ok"
+							onclick="PF('dlgSucesso').hide();"></p:commandButton>
+					</p:panel>
+				</div>
+			</h:form>
+
+		</p:dialog>
 	</div>
 </h:body>
 </h:html>

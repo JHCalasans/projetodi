@@ -127,4 +127,10 @@ public class PerfilBean extends SimpleController {
 		this.perfilExclusao = perfilExclusao;
 	}
 
+	@Override
+	public String salvoSucesso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

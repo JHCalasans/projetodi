@@ -11,9 +11,9 @@
 	<meta http-equiv="Expires" content="0" />
 </h:head>
 <ui:composition template="/paginas/masterPage.xhtml">
-	<ui:param name="tituloPagina" value="#{bundle.funcionario_consultarTitulo}" />
-	<ui:param name="headerConteudo" value="#{bundle.funcionario_consultarTitulo}" />
-	<ui:param name="bean" value="#{funcionarioBean}" />
+	<ui:param name="tituloPagina" value="#{bundle.motorista_consultarTitulo}" />
+	<ui:param name="headerConteudo" value="#{bundle.motorista_consultarTitulo}" />
+	<ui:param name="bean" value="#{motoristaBean}" />
 	<!-- <f:metadata>
 		<f:event type="preRenderView"
 			listener="#{funcionarioBean.verificaSessaoValida}" />
@@ -25,21 +25,21 @@
 			<p:panel id="panelPesquisa">
 
 				<h:panelGroup id="pngNome" styleClass="p_like">
-					<p:outputLabel value="#{bundle.funcionario_nome}:" for="nome"
+					<p:outputLabel value="#{bundle.motorista_nome}:" for="nome"
 						styleClass="OutputLabelCampo" style="width:120px;" />
 					<p:inputText id="nome"  size="80"
-						value="#{funcionarioBean.nomePesquisa}" />
+						value="#{motoristaBean.nomePesquisa}" />
 
 				</h:panelGroup>
 				<br />
 				<div class="clear"></div>
 				
 					<h:panelGroup id="pngCpf" styleClass="p_like">
-					<p:outputLabel value="#{bundle.funcionario_cpf}:" for="cpf"
+					<p:outputLabel value="#{bundle.motorista_cpf}:" for="cpf"
 						styleClass="OutputLabelCampo" style="width:120px;" />
 					<p:inputMask id="cpf"  size="20"
 						mask="999.999.999-99"
-						value="#{funcionarioBean.cpfPesquisa}" />
+						value="#{motoristaBean.cpfPesquisa}" />
 
 				</h:panelGroup>
 
@@ -49,7 +49,7 @@
 				<h:panelGroup styleClass="p_like buttonPosition">
 
 					<p:commandButton value="#{bundle.pesquisarRegistro}"
-						id="btnPesquisar" actionListener="#{funcionarioBean.pesquisarFuncionario}"
+						id="btnPesquisar" actionListener="#{motoristaBean.pesquisarMotorista}"
 						style="margin-right: 10px;" update="formConsulta, msgs, conteudo">
 					</p:commandButton>
 					<p:button value="#{bundle.novoRegistro}" id="btnNovo"

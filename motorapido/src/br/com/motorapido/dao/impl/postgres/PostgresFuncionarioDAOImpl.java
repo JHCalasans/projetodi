@@ -38,4 +38,15 @@ implements IFuncionarioDAO{
 		return findByNamedQueryAndNamedParams("Funcionario.obterTodos", params, em);
 	}
 
+	@Override
+	public Funcionario obterPorCodigo(Integer codFuncionario, EntityManager em) throws ExcecaoBanco {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("codFuncionario", codFuncionario);
+		List<Funcionario> lista = findByNamedQueryAndNamedParams("Funcionario.obterPorCod", params, em);
+		if(lista != null && lista.size() > 0)
+			return lista.get(0);
+		else
+			return null;
+	}
+
 }

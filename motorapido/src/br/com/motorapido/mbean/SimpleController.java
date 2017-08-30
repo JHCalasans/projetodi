@@ -168,6 +168,8 @@ public abstract class SimpleController implements Serializable {
 		}
 		return "";
 	}
+	
+	public abstract String salvoSucesso() ;
 
 
 	public Funcionario getFuncionarioLogado() {
