@@ -57,8 +57,6 @@ public class Motorista extends Entidade{
 	@Column(name = "flg_ativo", nullable = false)
 	private boolean ativo;
 	
-	@Column(name = "flg_acesso_sistema", nullable = false)
-	private boolean acessaSistema;
 	
 	@Column(name = "dt_criacao", nullable = false)
 	private Date dataCriacao;
@@ -231,16 +229,6 @@ public class Motorista extends Entidade{
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
-	}
-
-
-	public boolean isAcessaSistema() {
-		return acessaSistema;
-	}
-
-
-	public void setAcessaSistema(boolean acessaSistema) {
-		this.acessaSistema = acessaSistema;
 	}
 
 

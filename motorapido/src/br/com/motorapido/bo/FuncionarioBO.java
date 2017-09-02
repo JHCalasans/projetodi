@@ -36,6 +36,12 @@ public class FuncionarioBO extends MotoRapidoBO {
 			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
 			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
 			//IFuncionarioPerfilDAO funcionarioPerfilDAO = fabricaDAO.getPostgresFuncionarioPerfilDAO();
+			Funcionario funcionarioTemp = new Funcionario();
+			funcionarioTemp.setLogin(funcionario.getLogin());
+			List<Funcionario> listaFunc = funcionarioDAO.findByExample(funcionarioTemp, em);
+			if(listaFunc != null && listaFunc.size() > 0)
+				throw new ExcecaoNegocio("Já existe um registro com esse login cadastrado.!");
+				
 			funcionario.setDataCriacao(new Date());
 			funcionario.setSenha(FuncoesUtil.criptografarSenha(funcionario.getSenha()));
 			funcionario.setPerfil(perfilDAO.findById(codPerfil, em));
@@ -50,6 +56,9 @@ public class FuncionarioBO extends MotoRapidoBO {
 			
 			emUtil.commitTransaction(transaction);
 			return funcionario;
+		}catch (ExcecaoNegocio e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio(e.getMessage(), e);
 		}catch (Exception e) {
 			emUtil.rollbackTransaction(transaction);
 			throw new ExcecaoNegocio("Falha ao tentar gravar funcionário.", e);

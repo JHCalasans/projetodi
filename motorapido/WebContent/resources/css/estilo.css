@@ -625,7 +625,34 @@ span.valor {
 	height: 84px;
 }
 
+.subMenu {
+	font-weight: bold !important;
+	width: 242px;
+	 height: 4px; 
+}
 
+.subMenuItem{
+	
+}
+
+.subMenu.ui-icon ui-icon-triangle-1-s{
+	visibility: hidden;
+}
+
+.ui-menubar>.ui-menu-list>.ui-menuitem>.ui-menuitem-link span.ui-icon-triangle-1-e, .ui-menubar>.ui-menu-list>.ui-menuitem>.ui-menuitem-link span.ui-icon-triangle-1-s{
+	visibility: hidden;
+}
+
+.subMenu:HOVER {
+	font-weight: bold !important;
+	width: 242px;
+	/*  height: 34px;  */
+}
+
+.ui-menu .ui-menu-parent .ui-menu-child{
+	margin-top: 150px !important;
+	background: linear-gradient(to right, #8abbd7 0%,#066dab 0%,#c5deea 54%,#c5deea 54%,#c5deea 54%,#c5deea 56%,#c5deea 56%,#066dab 100%);
+} 
 
 .ui-helper-hidden-accessible {
 	left: -999999px !important;

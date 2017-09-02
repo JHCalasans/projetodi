@@ -144,7 +144,8 @@ public class FuncionarioBean extends SimpleController {
 			funcionario.setSenha(FuncoesUtil.gerarSenha());
 			FuncionarioBO.getInstance().salvarFuncionario(funcionario, codPerfil);
 			limparCampos();
-			addMsg(FacesMessage.SEVERITY_INFO, "Funcionário cadastrado com sucesso.");
+			enviarJavascript("PF('dlgSucesso').show();");
+			//addMsg(FacesMessage.SEVERITY_INFO, "Funcionário cadastrado com sucesso.");
 
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);

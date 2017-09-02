@@ -91,16 +91,23 @@
 				action="/paginas/motorista/consultarMotorista.proj?faces-redirect=true"
 				immediate="true" />
 
+			<p:submenu label="Configurações" styleClass="subMenu" >
+				<p:menuitem value="Senha" 	immediate="true" />
+			</p:submenu>
+
+
 
 			<f:facet name="options">
-				<p:outputLabel value="Olá, #{bean.funcionarioLogado.nome.split(' ')[0]}"
+				<p:outputLabel
+					value="Olá, #{bean.funcionarioLogado.nome.split(' ')[0]}"
 					style="position: fixed; padding-top: 5px; margin-left: -75px;font-size:15px"></p:outputLabel>
+
 				<p:commandButton value="#{erroSessao ne 'S'? 'Logout' : 'Login'}"
 					icon="ui-icon-extlink" action="#{bean.logout}"
 					styleClass="cabecalhoMenuBotao" />
 			</f:facet>
 		</p:menubar>
-	
+
 	</h:form>
 
 	<div class="clear"></div>
@@ -127,7 +134,7 @@
 			<h:form>
 				<div align="center">
 					<p:panel>
-						<p:outputLabel value="Registro Cadastrado Com Sucesso!"
+						<p:outputLabel value="Registro Salvo Com Sucesso!"
 							styleClass="OutputLabelCampo"></p:outputLabel>
 						<div class="clear"></div>
 						<br />

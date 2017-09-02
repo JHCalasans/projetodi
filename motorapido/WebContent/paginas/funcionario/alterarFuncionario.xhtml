@@ -310,6 +310,10 @@
 						actionListener="#{funcionarioBean.alterarFuncionario}"
 						update="formCadastro, msgs, conteudo">
 					</p:commandButton>
+					
+					<p:button value="#{bundle.voltarTela}" id="btnVoltar"
+						outcome="consultarFuncionario.proj?faces-redirect=true&amp;consultaParam=true" style="margin-left:10px">
+					</p:button>
 				</h:panelGroup>
 
 				<br />

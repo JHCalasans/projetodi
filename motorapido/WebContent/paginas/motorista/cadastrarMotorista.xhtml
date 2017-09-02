@@ -339,6 +339,10 @@
 						actionListener="#{motoristaBean.salvarMotorista}"
 						update="formCadastro, msgs, conteudo">
 					</p:commandButton>
+					
+					<p:button value="#{bundle.voltarTela}" id="btnVoltar"
+						outcome="consultarMotorista.proj" style="margin-left:10px">
+					</p:button>
 				</h:panelGroup>
 
 				<br />

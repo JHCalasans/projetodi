@@ -53,7 +53,7 @@
 						style="margin-right: 10px;" update="formConsulta, msgs, conteudo">
 					</p:commandButton>
 					<p:button value="#{bundle.novoRegistro}" id="btnNovo"
-						outcome="cadastrarFuncionario.proj">
+						outcome="cadastrarMotorista.proj">
 					</p:button>
 				</h:panelGroup>
 
@@ -65,62 +65,51 @@
 			<div class="clear"></div>
 			<h:panelGroup>
 				<p:dataTable tableStyle="table-layout:auto;width: 100%;"
-					id="tbFuncionarios" var="funcionario" value="#{funcionarioBean.listaFuncionarios}"
+					id="tbMotoristas" var="motorista" value="#{motoristaBean.listaMotoristas}"
 					rows="10" style="text-align: center; max-width:100%" first="0"
 					paginatorAlwaysVisible="false" paginator="true"
 					emptyMessage="#{bundle.nenhumRegistroEncontrado}">
 					<f:facet name="header" styleClass="cabecalhoDataTable">
-			     		   Funcionários
+			     		   Motoristas
 			   			 </f:facet>
 					<p:column style="width:130px">
 						<f:facet name="header">
-							<h:outputText value="#{bundle.funcionario_nome}"
+							<h:outputText value="#{bundle.motorista_nome}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
-						<h:outputText id="tbNome" value="#{funcionario.nome}">
+						<h:outputText id="tbNome" value="#{motorista.nome}">
 
 						</h:outputText>
 					</p:column>
 
 					<p:column style="width:130px">
 						<f:facet name="header">
-							<h:outputText value="#{bundle.funcionario_cpf}"
+							<h:outputText value="#{bundle.motorista_cpf}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
-						<h:outputText id="tbCPF"	value="#{funcionario.cpf}">
+						<h:outputText id="tbCPF"	value="#{motorista.cpf}">
 
 						</h:outputText>
 					</p:column>
 
 					<p:column style="width:130px">
 						<f:facet name="header">
-							<h:outputText value="#{bundle.funcionario_situacao}"
+							<h:outputText value="#{bundle.motorista_situacao}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:outputText id="tbSituacao"
-							value="#{funcionario.ativo == true ? 'Ativo' : 'Inativo'}">
+							value="#{motorista.ativo == true ? 'Ativo' : 'Inativo'}">
 
 						</h:outputText>
 					</p:column>
 					
 					<p:column style="width:130px">
 						<f:facet name="header">
-							<h:outputText value="#{bundle.funcionario_perfil}"
-								styleClass="cabecalhoDataTable" />
-						</f:facet>
-						<h:outputText id="tbPerfil"
-							value="#{funcionario.perfil.descricao}">
-
-						</h:outputText>
-					</p:column>
-
-					<p:column style="width:130px">
-						<f:facet name="header">
 							<h:outputText value="#{bundle.operacoes}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:commandLink title="Editar" immediate="true"
-						action="#{funcionarioBean.navegarAlteracao(funcionario.codigo)}">
+						>
 						<h:graphicImage url="/resources/edit.png"
 							style="border-style: none" />
 					</h:commandLink>
