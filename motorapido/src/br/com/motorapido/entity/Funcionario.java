@@ -55,11 +55,9 @@ public class Funcionario extends Entidade{
 	@Column(name = "login", nullable = false)
 	private String login;
 	
-	@Column(name = "flg_ativo", nullable = false)
-	private boolean ativo;
+	@Column(name = "flg_ativo", nullable = true)
+	private String ativo;
 	
-	@Column(name = "flg_acesso_sistema", nullable = false)
-	private boolean acessaSistema;
 	
 	@Column(name = "dt_criacao", nullable = false)
 	private Date dataCriacao;
@@ -94,8 +92,8 @@ public class Funcionario extends Entidade{
 	@Column(name = "banco", nullable = true)
 	private String banco;
 	
-	@Column(name = "flg_comprovante_residencia", nullable = false)
-	private boolean comprovanteResidencial;
+	@Column(name = "flg_comprovante_residencia", nullable = true)
+	private String comprovanteResidencial;
 	
 	@Column(name = "email", nullable = true)
 	private String email;
@@ -177,12 +175,12 @@ public class Funcionario extends Entidade{
 	}
 
 
-	public boolean isAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
 
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 
@@ -248,12 +246,12 @@ public class Funcionario extends Entidade{
 	}
 
 
-	public boolean isComprovanteResidencial() {
+	public String getComprovanteResidencial() {
 		return comprovanteResidencial;
 	}
 
 
-	public void setComprovanteResidencial(boolean comprovanteResidencial) {
+	public void setComprovanteResidencial(String comprovanteResidencial) {
 		this.comprovanteResidencial = comprovanteResidencial;
 	}
 
@@ -340,16 +338,6 @@ public class Funcionario extends Entidade{
 
 	public void setEstadoResidencia(String estadoResidencia) {
 		this.estadoResidencia = estadoResidencia;
-	}
-
-
-	public boolean isAcessaSistema() {
-		return acessaSistema;
-	}
-
-
-	public void setAcessaSistema(boolean acessaSistema) {
-		this.acessaSistema = acessaSistema;
 	}
 
 

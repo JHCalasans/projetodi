@@ -70,6 +70,8 @@ public class FuncionarioBean extends SimpleController {
 
 	private String cpfPesquisa;
 
+	private String msgSalvar;
+
 	@PostConstruct
 	public void carregar() {
 		try {
@@ -97,7 +99,7 @@ public class FuncionarioBean extends SimpleController {
 
 	private void carregarFuncionario(Integer codFuncionario) {
 		try {
-			
+
 			funcionario = FuncionarioBO.getInstance().obterFuncionarioPorCodigo(codFuncionario);
 			streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(funcionario.getFoto()), "image/*");
 		} catch (Exception e) {
@@ -112,6 +114,7 @@ public class FuncionarioBean extends SimpleController {
 		docCriminais = null;
 		foto = null;
 		codPerfil = 2;
+		msgSalvar = null;
 	}
 
 	public void fileUploadAction(FileUploadEvent event) {
@@ -139,38 +142,69 @@ public class FuncionarioBean extends SimpleController {
 	}
 
 	public void salvarFuncionario() {
+		if (!validarCpf())
+			return;		
 		try {
-			funcionario.setFoto(foto.getContents());
-			funcionario.setSenha(FuncoesUtil.gerarSenha());
+			if (foto != null && foto.getContents() != null)
+				funcionario.setFoto(foto.getContents());
+			msgSalvar = FuncoesUtil.gerarSenha();
+			funcionario.setSenha(msgSalvar);
 			FuncionarioBO.getInstance().salvarFuncionario(funcionario, codPerfil);
-			limparCampos();
+
 			enviarJavascript("PF('dlgSucesso').show();");
-			//addMsg(FacesMessage.SEVERITY_INFO, "Funcionário cadastrado com sucesso.");
+			// addMsg(FacesMessage.SEVERITY_INFO, "Funcionário cadastrado com
+			// sucesso.");
 
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
-	
+
 	public void alterarFuncionario() {
 		try {
-			if(foto != null && foto.getContents() != null)
+			if (foto != null && foto.getContents() != null)
 				funcionario.setFoto(foto.getContents());
-			
+
 			FuncionarioBO.getInstance().alterarFuncionario(funcionario, codPerfil);
-					
+
 			enviarJavascript("PF('dlgSucesso').show();");
-			//addMsg(FacesMessage.SEVERITY_INFO, "Funcionário alterado com sucesso.");
-			//FacesUtil.redirecionar(null, "consultarFuncionario.tjse?faces-redirect=true", true, null);
+			// addMsg(FacesMessage.SEVERITY_INFO, "Funcionário alterado com
+			// sucesso.");
+			// FacesUtil.redirecionar(null,
+			// "consultarFuncionario.tjse?faces-redirect=true", true, null);
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
-	
+
 	public String navegarAlteracao(int codFuncionario) {
 		String url = "alterarFuncionario.proj?faces-redirect=true&codFuncionario=" + codFuncionario;
 		return url;
 	}
+
+	public boolean validarCpf() {
+		if (this.funcionario.getCpf() != null && this.funcionario.getCpf().length() != 14) {
+			MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CPF inválido!.", "");
+			return false;
+		} else {
+			try {
+				Funcionario funcio = new Funcionario();
+				funcio.setCpf(funcionario.getCpf());
+				List<Funcionario> lista = FuncionarioBO.getInstance().obterFuncionariosExample(funcio);
+				if (lista != null && lista.size() > 0) {
+					MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CPF já cadastrado na base de dados!.", "");
+					return false;
+				}
+				return true;
+			} catch (ExcecaoNegocio e) {
+				ExcecoesUtil.TratarExcecao(e);
+				return false;
+			}
+		}
+
+	}
+
+	
 
 	public void validarCep() {
 		if (this.getCep() != null && this.getCep().replace("-", "").replace("_", "").length() == 8) {
@@ -396,7 +430,15 @@ public class FuncionarioBean extends SimpleController {
 
 	@Override
 	public String salvoSucesso() {
-		
-		return 	"consultarFuncionario.proj?faces-redirect=true&consultaParam=true";
+		limparCampos();
+		return "consultarFuncionario.proj?faces-redirect=true&consultaParam=true";
+	}
+
+	public String getMsgSalvar() {
+		return msgSalvar;
+	}
+
+	public void setMsgSalvar(String msgSalvar) {
+		this.msgSalvar = msgSalvar;
 	}
 }

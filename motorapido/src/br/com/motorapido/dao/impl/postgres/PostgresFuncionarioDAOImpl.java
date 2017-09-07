@@ -28,7 +28,7 @@ implements IFuncionarioDAO{
 	public List<Funcionario> obterporFuncionarios(String nome, String cpf, EntityManager em) throws ExcecaoBanco {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("nome", nome != null ? nome.toLowerCase() : "");
-		params.put("cpf", cpf != null ? nome.toLowerCase() : "");
+		params.put("cpf", cpf != null ? cpf.toLowerCase() : "");
 		return findByNamedQueryAndNamedParams("Funcionario.obterFuncionarios", params, em);
 	}
 

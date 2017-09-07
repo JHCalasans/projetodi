@@ -91,8 +91,8 @@
 				action="/paginas/motorista/consultarMotorista.proj?faces-redirect=true"
 				immediate="true" />
 
-			<p:submenu label="Configurações" styleClass="subMenu" >
-				<p:menuitem value="Senha" 	immediate="true" />
+			<p:submenu label="Configurações" styleClass="subMenu">
+				<p:menuitem value="Senha" immediate="true" />
 			</p:submenu>
 
 
@@ -130,11 +130,17 @@
 
 		</p:panel>
 		<p:dialog header="Sucesso!" widgetVar="dlgSucesso" height="100"
-			draggable="false" resizable="false" width="300">
+			draggable="false" resizable="false" width="300" id="dlgSucesso1">
 			<h:form>
 				<div align="center">
 					<p:panel>
 						<p:outputLabel value="Registro Salvo Com Sucesso!"
+							styleClass="OutputLabelCampo"></p:outputLabel>
+						<div class="clear"></div>
+						<br />
+						<p:outputLabel value="Senha gerada:" rendered="#{msgSalvar != null}"
+							styleClass="OutputLabelValor"></p:outputLabel>
+						<p:outputLabel value="#{msgSalvar}" rendered="#{msgSalvar != null}"
 							styleClass="OutputLabelCampo"></p:outputLabel>
 						<div class="clear"></div>
 						<br />

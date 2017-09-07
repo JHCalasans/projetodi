@@ -33,8 +33,8 @@ public abstract class SimpleController implements Serializable {
 	private static final long serialVersionUID = -5300498022090265180L;
 
 	private int ROWS_DATATABLE = 20;
-
-
+	
+	
 	private static Funcionario funcionarioLogado;
 
 	public SimpleController() {
@@ -185,5 +185,7 @@ public abstract class SimpleController implements Serializable {
 	public static void setFuncionarioLogado(Funcionario funcionarioLogado) {
 		SimpleController.funcionarioLogado = funcionarioLogado;
 	}
+
+	
 
 }

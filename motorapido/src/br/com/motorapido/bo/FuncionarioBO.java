@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.hibernate.criterion.MatchMode;
+
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.motorapido.dao.IFuncionarioDAO;
 import br.com.motorapido.dao.IPerfilDAO;
@@ -45,7 +47,7 @@ public class FuncionarioBO extends MotoRapidoBO {
 			funcionario.setDataCriacao(new Date());
 			funcionario.setSenha(FuncoesUtil.criptografarSenha(funcionario.getSenha()));
 			funcionario.setPerfil(perfilDAO.findById(codPerfil, em));
-			funcionario.setAtivo(true);
+			funcionario.setAtivo("S");
 			funcionario = funcionarioDAO.save(funcionario, em);
 			/*FuncionarioPerfil funcPerfil = new FuncionarioPerfil();
 			funcPerfil.setFuncionario(funcionario);
@@ -117,6 +119,23 @@ public class FuncionarioBO extends MotoRapidoBO {
 			transaction.begin();
 			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
 			List<Funcionario> lista = funcionarioDAO.obterporFuncionarios(nome, cpf, em);
+			emUtil.commitTransaction(transaction);
+			return lista;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter funcionários.", e);
+		}		finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public List<Funcionario> obterFuncionariosExample(Funcionario funcionario) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
+			List<Funcionario> lista = funcionarioDAO.findByExample(funcionario, em);
 			emUtil.commitTransaction(transaction);
 			return lista;
 		} catch (Exception e) {

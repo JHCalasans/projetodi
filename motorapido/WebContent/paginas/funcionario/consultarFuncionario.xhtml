@@ -14,10 +14,10 @@
 	<ui:param name="tituloPagina" value="#{bundle.funcionario_consultarTitulo}" />
 	<ui:param name="headerConteudo" value="#{bundle.funcionario_consultarTitulo}" />
 	<ui:param name="bean" value="#{funcionarioBean}" />
-	<!-- <f:metadata>
+	 <f:metadata>
 		<f:event type="preRenderView"
 			listener="#{funcionarioBean.verificaSessaoValida}" />
-	</f:metadata> -->
+	</f:metadata> 
 
 	<ui:define name="conteudo">
 		<h:form prependId="false" id="formConsulta">
@@ -81,6 +81,16 @@
 
 						</h:outputText>
 					</p:column>
+					
+					<p:column style="width:130px">
+						<f:facet name="header">
+							<h:outputText value="#{bundle.funcionario_login}"
+								styleClass="cabecalhoDataTable" />
+						</f:facet>
+						<h:outputText id="tbLogin" value="#{funcionario.login}">
+
+						</h:outputText>
+					</p:column>
 
 					<p:column style="width:130px">
 						<f:facet name="header">
@@ -98,7 +108,7 @@
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:outputText id="tbSituacao"
-							value="#{funcionario.ativo == true ? 'Ativo' : 'Inativo'}">
+							value="#{funcionario.ativo == 'S' ? 'Ativo' : 'Inativo'}">
 
 						</h:outputText>
 					</p:column>
@@ -114,7 +124,7 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column style="width:130px">
+					<p:column style="width:60px">
 						<f:facet name="header">
 							<h:outputText value="#{bundle.operacoes}"
 								styleClass="cabecalhoDataTable" />

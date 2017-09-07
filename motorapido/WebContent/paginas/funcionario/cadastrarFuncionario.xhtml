@@ -13,8 +13,10 @@
 <ui:composition template="/paginas/masterPage.xhtml">
 	<ui:param name="tituloPagina"
 		value="#{bundle.funcionario_cadastroTitulo}" />
+	<ui:param name="msgSalvar" value="#{funcionarioBean.msgSalvar}" />
 	<ui:param name="headerConteudo"
 		value="#{bundle.funcionario_cadastroTitulo}" />
+
 	<ui:param name="bean" value="#{funcionarioBean}" />
 	<f:metadata>
 		<f:event type="preRenderView"
@@ -48,7 +50,8 @@
 					<p:inputMask id="cpf" required="true" size="20"
 						mask="999.999.999-99"
 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cpf}"
-						value="#{funcionarioBean.funcionario.cpf}" />
+						value="#{funcionarioBean.funcionario.cpf}">
+					</p:inputMask>
 
 				</h:panelGroup>
 				<br />
@@ -82,11 +85,10 @@
 					<p:outputLabel value="#{bundle.funcionario_foto}:"
 						styleClass="OutputLabelCampo" style="width:120px;" />
 					<p:fileUpload id="fuIcone" label="#{bundle.selecione}"
-						value="#{funcionarioBean.foto}"
-						cancelLabel="#{bundle.cancelar}" styleClass="upload"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" multiple="false"
-						sizeLimit="1000000" mode="advanced" skinSimple="true" auto="true"
-						update=":msgs,pgIcone"
+						value="#{funcionarioBean.foto}" cancelLabel="#{bundle.cancelar}"
+						styleClass="upload" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						multiple="false" sizeLimit="1000000" mode="advanced"
+						skinSimple="true" auto="true" update=":msgs,pgIcone"
 						fileUploadListener="#{funcionarioBean.fileUploadAction}"
 						fileLimitMessage="Tamanho do arquivo excedido"
 						invalidFileMessage="Tipo de arquivo não suportado">
@@ -183,8 +185,8 @@
 						value="#{funcionarioBean.funcionario.comprovanteResidencial}"
 						style="width:125px;">
 
-						<f:selectItem itemLabel="Não Entregue" itemValue="False" />
-						<f:selectItem itemLabel="Entregue" itemValue="True" />
+						<f:selectItem itemLabel="Não Entregue" itemValue="N" />
+						<f:selectItem itemLabel="Entregue" itemValue="S" />
 
 					</p:selectOneMenu>
 
@@ -281,7 +283,7 @@
 						<f:selectItems value="#{funcionarioBean.listaPerfis}"
 							itemLabel="#{perfil.descricao}" itemValue="#{perfil.codigo}"
 							var="perfil" />
-						<p:ajax event="change" ></p:ajax>
+						<p:ajax event="change"></p:ajax>
 
 					</p:selectOneMenu>
 
@@ -302,16 +304,17 @@
 				<br />
 				<div class="clear"></div>
 
-				
+
 
 				<h:panelGroup styleClass="p_like buttonPosition">
 
 					<p:commandButton value="Salvar" id="btnSalvar"
 						actionListener="#{funcionarioBean.salvarFuncionario}"
-						update="formCadastro, msgs, conteudo">
+						update="formCadastro, msgs, conteudo, dlgSucesso1">
 					</p:commandButton>
 					<p:button value="#{bundle.voltarTela}" id="btnVoltar"
-						outcome="consultarFuncionario.proj?faces-redirect=true&amp;consultaParam=true" style="margin-left:10px">
+						outcome="consultarFuncionario.proj?faces-redirect=true&amp;consultaParam=true"
+						style="margin-left:10px">
 					</p:button>
 				</h:panelGroup>
 
