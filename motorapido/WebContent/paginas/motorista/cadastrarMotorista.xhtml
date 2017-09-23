@@ -15,11 +15,12 @@
 		value="#{bundle.motorista_cadastroTitulo}" />
 	<ui:param name="headerConteudo"
 		value="#{bundle.motorista_cadastroTitulo}" />
+	<ui:param name="msgSalvar" value="#{motoristaBean.msgSalvar}" />
 	<ui:param name="bean" value="#{motoristaBean}" />
-	 <f:metadata>
+	<f:metadata>
 		<f:event type="preRenderView"
 			listener="#{motoristaBean.verificaSessaoValida}" />
-	</f:metadata> 
+	</f:metadata>
 
 	<ui:define name="conteudo">
 		<h:form prependId="false" id="formCadastro">
@@ -181,8 +182,8 @@
 						value="#{motoristaBean.motorista.comprovanteResidencial}"
 						style="width:125px;">
 
-						<f:selectItem itemLabel="Não Entregue" itemValue="False" />
-						<f:selectItem itemLabel="Entregue" itemValue="True" />
+						<f:selectItem itemLabel="Não Entregue" itemValue="N" />
+						<f:selectItem itemLabel="Entregue" itemValue="S" />
 
 					</p:selectOneMenu>
 
@@ -272,17 +273,17 @@
 
 				<br />
 				<div class="clear"></div>
-				<h:panelGroup id="pngLogin" styleClass="p_like">
-					<p:outputLabel value="#{bundle.motorista_login}:" for="login"
-						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:inputText id="login" required="true" size="20"
-						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.motorista_login}"
-						value="#{motoristaBean.motorista.login}" />
+				<!-- 				<h:panelGroup id="pngLogin" styleClass="p_like"> -->
+				<!-- 					<p:outputLabel value="#{bundle.motorista_login}:" for="login" -->
+				<!-- 						styleClass="OutputLabelCampo" style="width:120px;" /> -->
+				<!-- 					<p:inputText id="login" required="true" size="20" -->
+				<!-- 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.motorista_login}" -->
+				<!-- 						value="#{motoristaBean.motorista.login}" /> -->
 
-				</h:panelGroup>
+				<!-- 				</h:panelGroup> -->
 
-				<br />
-				<div class="clear"></div>
+				<!-- 				<br /> -->
+				<!-- 				<div class="clear"></div> -->
 
 
 				<h:panelGroup id="pngCnh" styleClass="p_like">
@@ -290,9 +291,10 @@
 					<div class="clear"></div>
 					<p:outputLabel value="#{bundle.motorista_cnh}:" for="cnh"
 						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:inputText id="cnh" required="true" size="20"
+					<p:inputNumber id="cnh" required="true" size="20" 
+						thousandSeparator="" decimalPlaces="0" decimalSeparator=""
 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.motorista_cnh}"
-						value="#{motoristaBean.motorista.cnh}" />
+						maxlength="10" value="#{motoristaBean.motorista.cnh}" />
 
 				</h:panelGroup>
 
@@ -303,7 +305,7 @@
 					<p:outputLabel value="#{bundle.motorista_vencimentoCNH}:"
 						for="vencimentoCnh" styleClass="OutputLabelCampo"
 						style="width:120px;" />
-					<p:calendar id="vencimentoCnh" required="true" size="10"
+					<p:calendar id="vencimentoCnh" required="true" size="20"
 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.motorista_vencimentoCNH}"
 						value="#{motoristaBean.motorista.dataVencimentoCNH}" />
 
@@ -337,11 +339,12 @@
 
 					<p:commandButton value="Salvar" id="btnSalvar"
 						actionListener="#{motoristaBean.salvarMotorista}"
-						update="formCadastro, msgs, conteudo">
+						update="formCadastro, msgs, conteudo, dlgSucesso1">
 					</p:commandButton>
-					
+
 					<p:button value="#{bundle.voltarTela}" id="btnVoltar"
-						outcome="consultarMotorista.proj" style="margin-left:10px">
+						outcome="consultarMotorista.proj?faces-redirect=true&amp;consultaParam=true"
+						style="margin-left:10px">
 					</p:button>
 				</h:panelGroup>
 

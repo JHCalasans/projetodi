@@ -88,11 +88,11 @@
 				immediate="true" />
 
 			<p:menuitem value="Motorista" styleClass="cabecalhoMenu"
-				action="/paginas/motorista/consultarMotorista.proj?faces-redirect=true"
+				action="/paginas/motorista/consultarMotorista.proj?faces-redirect=true&amp;consultaParam=true"
 				immediate="true" />
 
 			<p:submenu label="Configurações" styleClass="subMenu">
-				<p:menuitem value="Senha" immediate="true" />
+				<p:menuitem value="Senha" immediate="true" onclick="PF('dlgSenha').show();" />
 			</p:submenu>
 
 
@@ -138,10 +138,10 @@
 							styleClass="OutputLabelCampo"></p:outputLabel>
 						<div class="clear"></div>
 						<br />
-						<p:outputLabel value="Senha gerada:" rendered="#{msgSalvar != null}"
-							styleClass="OutputLabelValor"></p:outputLabel>
-						<p:outputLabel value="#{msgSalvar}" rendered="#{msgSalvar != null}"
-							styleClass="OutputLabelCampo"></p:outputLabel>
+						<p:outputLabel value="Senha gerada:"
+							rendered="#{msgSalvar != null}" styleClass="OutputLabelValor"></p:outputLabel>
+						<p:outputLabel value="#{msgSalvar}"
+							rendered="#{msgSalvar != null}" styleClass="OutputLabelCampo"></p:outputLabel>
 						<div class="clear"></div>
 						<br />
 						<p:commandButton action="#{bean.salvoSucesso}" value="Ok"
@@ -151,6 +151,62 @@
 			</h:form>
 
 		</p:dialog>
+
+		<p:dialog widgetVar="dlgSenha" showEffect="fade" resizable="false"
+		styleClass="dialogBox" closable="false" header="Alterar Senha">
+		<h:form prependId="false">
+			<h:panelGrid columns="2">
+				<h:form>
+					<h:panelGroup styleClass="p_like">
+						<p:outputLabel value="SENHA ATUAL :" for="inptSenha" style="width:125px;"/>
+
+						<p:password value="#{senhaBean.senhaAtual}" required="true"
+							id="inptSenha" size="20"
+							requiredMessage="Campo Obrigatório: Senha Atual!"
+							style="font-size:15px; color:gray;margin-right:20px" />
+
+					</h:panelGroup>
+					<br></br>
+					<div class="clear"></div>
+					<h:panelGroup styleClass="p_like">
+						<p:outputLabel value="NOVA SENHA :" for="inptNvSenha"
+							style="width:125px;"/>
+
+						<p:password value="#{senhaBean.senhaNova}" required="true"
+							id="inptNvSenha" size="20"
+							requiredMessage="Campo Obrigatório: Nova Senha!"
+							style="font-size:15px; color:gray;margin-right:20px" />
+
+					</h:panelGroup>
+
+					<br></br>
+					<div class="clear"></div>
+					<h:panelGroup styleClass="p_like">
+						<p:outputLabel value="CONFIRMA A SENHA :" for="inptConf" style="width:125px;"/>
+
+						<p:password value="#{senhaBean.senhaNovaConfirmacao}" required="true"
+							id="inptConf" size="20"
+							requiredMessage="Campo Obrigatório: Confirmação de Senha!"
+							style="font-size:15px; color:gray;margin-right:20px" />
+
+					</h:panelGroup>
+
+				</h:form>
+				<f:facet name="footer">
+					<div align="center" style="margin-top: 5px;">
+						<p:commandButton value="Confirmar"
+							
+							actionListener="#{senhaBean.RedefinirSenha}" />
+						<p:commandButton value="Cancelar" 
+							onclick="PF('dlgSenha').hide();" immediate="true"
+							style="margin-left:10px;" />
+					</div>
+				</f:facet>
+
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
 	</div>
 </h:body>
 </h:html>

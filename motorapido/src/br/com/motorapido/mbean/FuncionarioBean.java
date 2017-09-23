@@ -28,10 +28,12 @@ import br.com.minhaLib.excecao.excecaobanco.ExcecaoBanco;
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.FuncionarioBO;
+import br.com.motorapido.bo.MotoristaBO;
 import br.com.motorapido.bo.PerfilBO;
 import br.com.motorapido.dao.IFuncionarioDAO;
 import br.com.motorapido.dao.IPerfilDAO;
 import br.com.motorapido.entity.Funcionario;
+import br.com.motorapido.entity.Motorista;
 import br.com.motorapido.entity.Perfil;
 import br.com.motorapido.enums.ParametroEnum;
 import br.com.motorapido.util.EnderecoCep;
@@ -101,7 +103,8 @@ public class FuncionarioBean extends SimpleController {
 		try {
 
 			funcionario = FuncionarioBO.getInstance().obterFuncionarioPorCodigo(codFuncionario);
-			streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(funcionario.getFoto()), "image/*");
+			if(funcionario.getFoto() != null)
+				streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(funcionario.getFoto()), "image/*");
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
@@ -144,6 +147,10 @@ public class FuncionarioBean extends SimpleController {
 	public void salvarFuncionario() {
 		if (!validarCpf())
 			return;		
+		if (!validarRG())
+			return;	
+		if (!validarEmail())
+			return;	
 		try {
 			if (foto != null && foto.getContents() != null)
 				funcionario.setFoto(foto.getContents());
@@ -161,6 +168,12 @@ public class FuncionarioBean extends SimpleController {
 	}
 
 	public void alterarFuncionario() {
+		if (!validarCpf())
+			return;		
+		if (!validarRG())
+			return;	
+		if (!validarEmail())
+			return;	
 		try {
 			if (foto != null && foto.getContents() != null)
 				funcionario.setFoto(foto.getContents());
@@ -168,10 +181,6 @@ public class FuncionarioBean extends SimpleController {
 			FuncionarioBO.getInstance().alterarFuncionario(funcionario, codPerfil);
 
 			enviarJavascript("PF('dlgSucesso').show();");
-			// addMsg(FacesMessage.SEVERITY_INFO, "Funcionário alterado com
-			// sucesso.");
-			// FacesUtil.redirecionar(null,
-			// "consultarFuncionario.tjse?faces-redirect=true", true, null);
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
@@ -191,8 +200,8 @@ public class FuncionarioBean extends SimpleController {
 				Funcionario funcio = new Funcionario();
 				funcio.setCpf(funcionario.getCpf());
 				List<Funcionario> lista = FuncionarioBO.getInstance().obterFuncionariosExample(funcio);
-				if (lista != null && lista.size() > 0) {
-					MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CPF já cadastrado na base de dados!.", "");
+				if (lista != null && lista.size() > 0 && (funcionario.getCodigo() == null || funcionario.getCodigo() != lista.get(0).getCodigo())) {
+						MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CPF já cadastrado na base de dados!.", "");
 					return false;
 				}
 				return true;
@@ -201,6 +210,44 @@ public class FuncionarioBean extends SimpleController {
 				return false;
 			}
 		}
+
+	}
+	
+	public boolean validarEmail() {
+
+		try {
+			Funcionario funcio = new Funcionario();
+			funcio.setEmail(funcionario.getEmail());
+			List<Funcionario> lista = FuncionarioBO.getInstance().obterFuncionariosExample(funcio);
+			if (lista != null && lista.size() > 0
+					&& (funcionario.getCodigo() == null || funcionario.getCodigo() != lista.get(0).getCodigo())) {
+				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Email já cadastrado na base de dados!.", "");
+				return false;
+			}
+			return true;
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+			return false;
+		}
+
+	}
+	
+	public boolean validarRG() {
+		
+			try {
+				Funcionario funcio = new Funcionario();
+				funcio.setIdentidade(funcionario.getIdentidade());
+				List<Funcionario> lista = FuncionarioBO.getInstance().obterFuncionariosExample(funcio);
+				if (lista != null && lista.size() > 0  && (funcionario.getCodigo() == null || funcionario.getCodigo() != lista.get(0).getCodigo())) {
+					MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "RG já cadastrado na base de dados!.", "");
+					return false;
+				}
+				return true;
+			} catch (ExcecaoNegocio e) {
+				ExcecoesUtil.TratarExcecao(e);
+				return false;
+			}
+		
 
 	}
 
@@ -441,4 +488,6 @@ public class FuncionarioBean extends SimpleController {
 	public void setMsgSalvar(String msgSalvar) {
 		this.msgSalvar = msgSalvar;
 	}
+
+	
 }

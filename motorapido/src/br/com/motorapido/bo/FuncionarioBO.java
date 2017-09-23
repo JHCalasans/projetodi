@@ -90,6 +90,24 @@ public class FuncionarioBO extends MotoRapidoBO {
 		}
 	}
 	
+	public Funcionario alterarSenha(Funcionario funcionario) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IFuncionarioDAO funcionarioDAO = fabricaDAO.getPostgresFuncionarioDAO();
+			funcionario = funcionarioDAO.save(funcionario, em);
+
+			emUtil.commitTransaction(transaction);
+			return funcionario;
+		}catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar alterar senha.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
 	public Funcionario obterFuncionarioPorLoginSenha(String login, String senha) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();

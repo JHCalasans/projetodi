@@ -20,7 +20,7 @@ implements IMotoristaDAO{
 	public List<Motorista> obterMotoristas(String nome, String cpf, EntityManager em) throws ExcecaoBanco {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("nome", nome != null ? nome.toLowerCase() : "");
-		params.put("cpf", cpf != null ? nome.toLowerCase() : "");
+		params.put("cpf", cpf != null ? cpf.toLowerCase() : "");
 		return findByNamedQueryAndNamedParams("Motorista.obterMotoristas", params, em);
 	}
 

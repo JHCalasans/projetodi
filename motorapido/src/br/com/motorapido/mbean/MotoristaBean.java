@@ -1,6 +1,7 @@
 package br.com.motorapido.mbean;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
@@ -23,22 +25,19 @@ import com.google.gson.Gson;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
-import br.com.motorapido.bo.FuncionarioBO;
 import br.com.motorapido.bo.MotoristaBO;
-import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.entity.Motorista;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
 import br.com.motorapido.util.FuncoesUtil;
+import br.com.motorapido.util.UtilDownload;
 
 @ManagedBean(name = "motoristaBean")
 @ViewScoped
-public class MotoristaBean extends SimpleController{
-
+public class MotoristaBean extends SimpleController {
 
 	private static final long serialVersionUID = -247976915991325625L;
-	
-	
+
 	private Motorista motorista;
 
 	private UploadedFile foto;
@@ -52,24 +51,48 @@ public class MotoristaBean extends SimpleController{
 	private String cep;
 
 	private UploadedFile docCriminais;
-	
+
 	private String nomePesquisa;
 
 	private String cpfPesquisa;
-	
+
 	private List<Motorista> listaMotoristas;
+	
+	private String msgSalvar;
 
 	@PostConstruct
 	public void carregar() {
 		try {
-			motorista = new Motorista();
-			pesquisarMotorista();
+			String codMotoStr = (String) getRequestParam("codMotorista");
+			String consultar = (String) getRequestParam("consultaParam");
+			if (codMotoStr != null) {
+				Integer codMotorista = Integer.valueOf(codMotoStr);
+				carregarMotorista(codMotorista);				
+				cep = motorista.getCep();
+			} else if (consultar != null && (consultar.equals("true") || consultar.equals("true?"))) {
+				pesquisarMotorista();
+
+			} else {
+				motorista = new Motorista();
+				
+			}			
 
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
 	
+	private void carregarMotorista(Integer codMotorista) {
+		try {
+
+			motorista = MotoristaBO.getInstance().obterMotoristaPorCodigo(codMotorista);
+			if(motorista.getFoto() != null)
+				streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(motorista.getFoto()), "image/*");
+		} catch (Exception e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+
 	public void pesquisarMotorista() {
 		try {
 			listaMotoristas = MotoristaBO.getInstance().obterMotoristas(nomePesquisa, cpfPesquisa);
@@ -78,25 +101,164 @@ public class MotoristaBean extends SimpleController{
 		}
 	}
 	
+	public String navegarAlteracao(int codMotorista) {
+		String url = "alterarMotorista.proj?faces-redirect=true&codMotorista=" + codMotorista;
+		return url;
+	}
+
+	public boolean validarCpf() {
+		if (this.motorista.getCpf() != null && this.motorista.getCpf().length() != 14) {
+			MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CPF inválido!.", "");
+			return false;
+		} else {
+			try {
+				Motorista moto = new Motorista();
+				moto.setCpf(motorista.getCpf());
+				List<Motorista> lista = MotoristaBO.getInstance().obterMotoristasExample(moto);
+				if (lista != null && lista.size() > 0
+						&& (motorista.getCodigo() == null || motorista.getCodigo() != lista.get(0).getCodigo())) {
+					MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CPF já cadastrado na base de dados!.", "");
+					return false;
+				}
+				return true;
+			} catch (ExcecaoNegocio e) {
+				ExcecoesUtil.TratarExcecao(e);
+				return false;
+			}
+		}
+
+	}
+
+	public boolean validarRG() {
+
+		try {
+			Motorista moto = new Motorista();
+			moto.setIdentidade(motorista.getIdentidade());
+			List<Motorista> lista = MotoristaBO.getInstance().obterMotoristasExample(moto);
+			if (lista != null && lista.size() > 0
+					&& (motorista.getCodigo() == null || motorista.getCodigo() != lista.get(0).getCodigo())) {
+				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "RG já cadastrado na base de dados!.", "");
+				return false;
+			}
+			return true;
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+			return false;
+		}
+
+	}
+
+	public boolean validarEmail() {
+
+		try {
+			Motorista moto = new Motorista();
+			moto.setEmail(motorista.getEmail());
+			List<Motorista> lista = MotoristaBO.getInstance().obterMotoristasExample(moto);
+			if (lista != null && lista.size() > 0
+					&& (motorista.getCodigo() == null || motorista.getCodigo() != lista.get(0).getCodigo())) {
+				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Email já cadastrado na base de dados!.", "");
+				return false;
+			}
+			return true;
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+			return false;
+		}
+
+	}
+	
+	public void carregarFotoExibicao() {
+		byte[] fotoExibicao = null;
+		if (foto != null) {
+			fotoExibicao = foto.getContents();
+			streamFoto = new DefaultStreamedContent(new ByteArrayInputStream(fotoExibicao), "image/*");
+		}
+	}
+	
+	public boolean validarCNH() {
+
+		try {
+			Motorista moto = new Motorista();
+			moto.setCnh(motorista.getCnh());
+			List<Motorista> lista = MotoristaBO.getInstance().obterMotoristasExample(moto);
+			if (lista != null && lista.size() > 0
+					&& (motorista.getCodigo() == null || motorista.getCodigo() != lista.get(0).getCodigo())) {
+				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CNH já cadastrada na base de dados!.", "");
+				return false;
+			}
+			return true;
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+			return false;
+		}
+
+	}
+
 	public void salvarMotorista() {
-		if(docCriminais == null){
+		if (docCriminais == null) {
 			addMsg(FacesMessage.SEVERITY_ERROR, "Documentos Criminais não Anexados.");
 			return;
 		}
-		
+		if (!validarCpf())
+			return;		
+		if (!validarRG())
+			return;	
+		if (!validarEmail())
+			return;	
+		if (!validarCNH())
+			return;	
+
 		try {
-			
-			motorista.setFoto(foto.getContents());
-			motorista.setSenha(FuncoesUtil.gerarSenha());
+			if(foto != null)
+				motorista.setFoto(foto.getContents());
+			msgSalvar = FuncoesUtil.gerarSenha();
+			motorista.setDocCriminais(docCriminais.getContents());
+			motorista.setSenha(msgSalvar);
 			MotoristaBO.getInstance().salvarMotorista(motorista);
-			limparCampos();
-			addMsg(FacesMessage.SEVERITY_INFO, "Motorista cadastrado com sucesso.");
+			//limparCampos();
+			//addMsg(FacesMessage.SEVERITY_INFO, "Motorista cadastrado com sucesso.");
+			enviarJavascript("PF('dlgSucesso').show();");
 
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
 	
+	public void alterarMotorista() {
+	
+		if (!validarCpf())
+			return;		
+		if (!validarRG())
+			return;	
+		if (!validarEmail())
+			return;	
+		if (!validarCNH())
+			return;	
+		try {
+			if (foto != null && foto.getContents() != null)
+				motorista.setFoto(foto.getContents());
+			if(docCriminais != null)
+				motorista.setDocCriminais(docCriminais.getContents());
+			MotoristaBO.getInstance().alterarMotorista(motorista);
+			enviarJavascript("PF('dlgSucesso').show();");
+			
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+	
+	public void downloadDocCriminais(Motorista moto)
+	{
+		try {			
+			UtilDownload.download(moto.getDocCriminais(), "Documentos Criminais de "+ moto.getNome() +".pdf",
+					UtilDownload.MIMETYPE_OCTETSTREAM,
+					UtilDownload.CONTENT_DISPOSITION_ATTACHMENT);
+		} catch (Exception e)
+		{
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+
 	private void limparCampos() {
 		motorista = new Motorista();
 		cnh = null;
@@ -104,15 +266,15 @@ public class MotoristaBean extends SimpleController{
 		docCriminais = null;
 		foto = null;
 	}
-	
+
 	public void fileUploadAction(FileUploadEvent event) {
 		setFoto(event.getFile());
 	}
-	
+
 	public void DocCriminaisUploadAction(FileUploadEvent event) {
 		setDocCriminais(event.getFile());
 	}
-	
+
 	public void validarCep() {
 		if (this.getCep() != null && this.getCep().replace("-", "").replace("_", "").length() == 8) {
 			try {
@@ -255,6 +417,7 @@ public class MotoristaBean extends SimpleController{
 	}
 
 	public StreamedContent getStreamFoto() {
+		carregarFotoExibicao();
 		return streamFoto;
 	}
 
@@ -294,11 +457,7 @@ public class MotoristaBean extends SimpleController{
 		this.docCriminais = docCriminais;
 	}
 
-	@Override
-	public String salvoSucesso() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	public String getNomePesquisa() {
 		return nomePesquisa;
@@ -322,6 +481,21 @@ public class MotoristaBean extends SimpleController{
 
 	public void setListaMotoristas(List<Motorista> listaMotoristas) {
 		this.listaMotoristas = listaMotoristas;
+	}
+	
+	@Override
+	public String salvoSucesso() {
+		limparCampos();
+		return "consultarMotorista.proj?faces-redirect=true&consultaParam=true";
+		
+	}
+
+	public String getMsgSalvar() {
+		return msgSalvar;
+	}
+
+	public void setMsgSalvar(String msgSalvar) {
+		this.msgSalvar = msgSalvar;
 	}
 
 }

@@ -21,7 +21,7 @@ import br.com.minhaLib.dao.Entidade;
 @Entity
 @Table(name = Motorista.nomeTabela, schema = Motorista.esquema, catalog = "diego")
 @NamedQueries(value = { 
-		@NamedQuery(name = "Motorista.obterMotoristas", query = "select m from Motorista m  where (:nome is null or lower(m.nome) like '%' || :nome || '%') or (:cpf is null or m.cpf like '%' || :cpf || '%')"),		
+		@NamedQuery(name = "Motorista.obterMotoristas", query = "select m from Motorista m  where (:nome is null or lower(m.nome) like '%' || :nome || '%') and (:cpf is null or m.cpf like '%' || :cpf || '%')"),		
 		@NamedQuery(name = "Motorista.obterTodos", query = "select m from Motorista m "),
 		@NamedQuery(name = "Motorista.obterPorCod", query = "select m from Motorista m where m.codigo = :codigo")
 		})
@@ -55,8 +55,7 @@ public class Motorista extends Entidade{
 	private String login;
 	
 	@Column(name = "flg_ativo", nullable = false)
-	private boolean ativo;
-	
+	private String ativo;	
 	
 	@Column(name = "dt_criacao", nullable = false)
 	private Date dataCriacao;
@@ -92,7 +91,7 @@ public class Motorista extends Entidade{
 	private String banco;
 	
 	@Column(name = "flg_comprovante_residencia", nullable = false)
-	private boolean comprovanteResidencial;
+	private String comprovanteResidencial;
 	
 	@Column(name = "email", nullable = true)
 	private String email;
@@ -113,7 +112,7 @@ public class Motorista extends Entidade{
 	private byte[] docCriminais;
 	
 	@Column(name = "flg_disponivel", nullable = false)
-	private boolean disponivel;
+	private String disponivel;
 	
 
 	@Override
@@ -162,12 +161,12 @@ public class Motorista extends Entidade{
 	}
 
 
-	public boolean isDisponivel() {
+	public String getDisponivel() {
 		return disponivel;
 	}
 
 
-	public void setDisponivel(boolean disponivel) {
+	public void setDisponivel(String disponivel) {
 		this.disponivel = disponivel;
 	}
 
@@ -222,12 +221,12 @@ public class Motorista extends Entidade{
 	}
 
 
-	public boolean isAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
 
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 
@@ -342,12 +341,12 @@ public class Motorista extends Entidade{
 	}
 
 
-	public boolean isComprovanteResidencial() {
+	public String getComprovanteResidencial() {
 		return comprovanteResidencial;
 	}
 
 
-	public void setComprovanteResidencial(boolean comprovanteResidencial) {
+	public void setComprovanteResidencial(String comprovanteResidencial) {
 		this.comprovanteResidencial = comprovanteResidencial;
 	}
 

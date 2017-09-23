@@ -98,19 +98,24 @@
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:outputText id="tbSituacao"
-							value="#{motorista.ativo == true ? 'Ativo' : 'Inativo'}">
+							value="#{motorista.ativo == 'S' ? 'Ativo' : 'Inativo'}">
 
 						</h:outputText>
 					</p:column>
 					
-					<p:column style="width:130px">
+					<p:column style="width:80px">
 						<f:facet name="header">
 							<h:outputText value="#{bundle.operacoes}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:commandLink title="Editar" immediate="true"
-						>
+						action="#{motoristaBean.navegarAlteracao(motorista.codigo)}">
 						<h:graphicImage url="/resources/edit.png"
+							style="border-style: none" />
+					</h:commandLink>
+					<h:commandLink title="Doc. Criminais" immediate="true" style="margin-left:10px;"
+						action="#{motoristaBean.downloadDocCriminais(motorista)}">
+						<h:graphicImage url="/resources/pdf.png"
 							style="border-style: none" />
 					</h:commandLink>
 					</p:column>

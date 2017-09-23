@@ -34,8 +34,9 @@ public abstract class SimpleController implements Serializable {
 
 	private int ROWS_DATATABLE = 20;
 	
-	
 	private static Funcionario funcionarioLogado;
+	
+	
 
 	public SimpleController() {
 		super();
@@ -169,6 +170,8 @@ public abstract class SimpleController implements Serializable {
 		return "";
 	}
 	
+
+	
 	public abstract String salvoSucesso() ;
 
 
@@ -186,6 +189,6 @@ public abstract class SimpleController implements Serializable {
 		SimpleController.funcionarioLogado = funcionarioLogado;
 	}
 
-	
+
 
 }
