@@ -62,6 +62,9 @@ public class MotoristaBean extends SimpleController {
 
 	@PostConstruct
 	public void carregar() {
+		if (getFacesContext().isPostback()) {
+			return;
+		}		
 		try {
 			String codMotoStr = (String) getRequestParam("codMotorista");
 			String consultar = (String) getRequestParam("consultaParam");

@@ -58,7 +58,7 @@ public class LoginBean extends SimpleController {
 		try {
 			Funcionario funcionario = FuncionarioBO.getInstance().obterFuncionarioPorLoginSenha(login, senha);
 			if (funcionario != null) {
-				if (funcionario.getPerfil().isAcessaSistema()) {
+				if (funcionario.getPerfil().getAcessaSistema().equals("S")) {
 					getSessionMap().put("motoRapido.funcionario", funcionario);
 					FacesUtil.redirecionar(null, Paginas.PAG_HOME, true, null);
 				}else

@@ -104,7 +104,7 @@
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:outputText id="tbAcesso"
-							value="#{perfil.acessaSistema == true ? 'Sim' : 'Não'}">
+							value="#{perfil.acessaSistema == 'S' ? 'Sim' : 'Não'}">
 
 						</h:outputText>
 					</p:column>
@@ -115,21 +115,27 @@
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:outputText id="tbSituacao"
-							value="#{perfil.ativo == true ? 'Ativo' : 'Inativo'}">
+							value="#{perfil.ativo == 'S' ? 'Ativo' : 'Inativo'}">
 
 						</h:outputText>
 					</p:column>
 
-					<p:column style="width:130px">
+					<p:column style="width:80px">
 						<f:facet name="header">
 							<h:outputText value="#{bundle.operacoes}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
 						<h:commandLink title="Editar" immediate="true"
-						action="#{perfilBean.navegarAlteracao(perfil.codigo)}">
-						<h:graphicImage url="/resources/edit.png"
-							style="border-style: none" />
-					</h:commandLink>
+							action="#{perfilBean.navegarAlteracao(perfil.codigo)}">
+							<h:graphicImage url="/resources/edit.png"
+								style="border-style: none" />
+						</h:commandLink>
+						
+						<h:commandLink title="Menus" immediate="true"
+							action="#{perfilBean.navegarVinculoMenus(perfil.codigo)}">
+							<h:graphicImage url="/resources/vinculos.png"
+								style="border-style: none; margin-left:15px" />
+						</h:commandLink>
 					</p:column>
 				</p:dataTable>
 			</h:panelGroup>

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.menu.MenuModel;
 
 import br.com.minhaLib.util.FacesUtil;
 import br.com.motorapido.dao.FabricaDAO;
@@ -29,14 +30,12 @@ import br.com.motorapido.util.Paginas;
 @ViewScoped
 public abstract class SimpleController implements Serializable {
 
-
 	private static final long serialVersionUID = -5300498022090265180L;
 
 	private int ROWS_DATATABLE = 20;
-	
+
 	private static Funcionario funcionarioLogado;
-	
-	
+
 
 	public SimpleController() {
 		super();
@@ -152,8 +151,10 @@ public abstract class SimpleController implements Serializable {
 	public void verificaSessaoValida(ComponentSystemEvent event) {
 		if (!getSessionMap().containsKey("motoRapido.funcionario"))
 			FacesUtil.redirecionar(null, Paginas.PAG_SESSAO_ENCERRADA, true, null);
-		else
+		else{
+			
 			setFuncionarioLogado((Funcionario) getSessionMap().get("motoRapido.funcionario"));
+		}
 
 	}
 
@@ -169,11 +170,9 @@ public abstract class SimpleController implements Serializable {
 		}
 		return "";
 	}
-	
 
 	
-	public abstract String salvoSucesso() ;
-
+	public abstract String salvoSucesso();
 
 	public Funcionario getFuncionarioLogado() {
 		if (funcionarioLogado == null) {
@@ -189,6 +188,5 @@ public abstract class SimpleController implements Serializable {
 		SimpleController.funcionarioLogado = funcionarioLogado;
 	}
 
-
-
+	
 }

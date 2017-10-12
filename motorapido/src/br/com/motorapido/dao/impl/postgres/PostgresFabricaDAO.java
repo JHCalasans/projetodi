@@ -13,7 +13,7 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	static PostgresFabricaDAO instance;
 
 	static {
-		log.info("Instanciando e registrando como f�brica principal.");
+		log.info("Instanciando e registrando como fábrica principal.");
 		instance = new PostgresFabricaDAO();
 		instance.registerAsMain();
 	}
@@ -26,6 +26,8 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	private static PostgresParametroDAOImpl postgresParametroDAOImpl;
 	private static PostgresValorParametroDAOImpl postgresValorParametroDAOImpl;
 	private static PostgresLogErroDAOImpl postgresLogErroDAOImpl;
+	private static PostgresMenuDAOImpl postgresMenuDAOImpl;
+	private static PostgresPerfilMenuDAOImpl postgresPerfilMenuDAOImpl;
 
 
 	private PostgresFabricaDAO() {
@@ -106,6 +108,22 @@ final class PostgresFabricaDAO extends FabricaDAO {
 			postgresLogErroDAOImpl = new PostgresLogErroDAOImpl();
 		}
 		return postgresLogErroDAOImpl;
+	}
+	
+	@Override
+	public PostgresMenuDAOImpl getPostgresMenuDAO() {
+		if (postgresMenuDAOImpl == null) {
+			postgresMenuDAOImpl = new PostgresMenuDAOImpl();
+		}
+		return postgresMenuDAOImpl;
+	}
+	
+	@Override
+	public PostgresPerfilMenuDAOImpl getPostgresPerfilMenuDAO() {
+		if (postgresPerfilMenuDAOImpl == null) {
+			postgresPerfilMenuDAOImpl = new PostgresPerfilMenuDAOImpl();
+		}
+		return postgresPerfilMenuDAOImpl;
 	}
 
 

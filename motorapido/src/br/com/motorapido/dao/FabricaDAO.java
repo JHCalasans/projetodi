@@ -20,6 +20,10 @@ public abstract class FabricaDAO {
 	public abstract IValorParametroDAO getPostgresValorParametroDAO();
 	
 	public abstract ILogErroDAO getPostgresLogErroDAO();
+	
+	public abstract IMenuDAO getPostgresMenuDAO();
+	
+	public abstract IPerfilMenuDAO getPostgresPerfilMenuDAO();
 
 
 

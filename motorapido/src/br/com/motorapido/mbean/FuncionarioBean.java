@@ -76,6 +76,9 @@ public class FuncionarioBean extends SimpleController {
 
 	@PostConstruct
 	public void carregar() {
+		if (getFacesContext().isPostback()) {
+			return;
+		}		
 		try {
 			String codFuncStr = (String) getRequestParam("codFuncionario");
 			String consultar = (String) getRequestParam("consultaParam");

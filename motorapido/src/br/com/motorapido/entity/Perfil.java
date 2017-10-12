@@ -38,10 +38,10 @@ public class Perfil extends Entidade{
 	private String descricao;
 	
 	@Column(name = "flg_ativo", nullable = false)
-	private boolean ativo;
+	private String ativo;
 	
 	@Column(name = "flg_sistema", nullable = false)
-	private boolean acessaSistema;
+	private String acessaSistema;
 
 	@Override
 	public Serializable getIdentificador() {
@@ -56,11 +56,11 @@ public class Perfil extends Entidade{
 		this.codigo = codigo;
 	}
 
-	public boolean isAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 
@@ -72,11 +72,11 @@ public class Perfil extends Entidade{
 		this.descricao = descricao;
 	}
 
-	public boolean isAcessaSistema() {
+	public String getAcessaSistema() {
 		return acessaSistema;
 	}
 
-	public void setAcessaSistema(boolean acessaSistema) {
+	public void setAcessaSistema(String acessaSistema) {
 		this.acessaSistema = acessaSistema;
 	}
 

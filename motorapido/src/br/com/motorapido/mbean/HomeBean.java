@@ -32,7 +32,6 @@ public class HomeBean extends SimpleController {
 
 	@Override
 	public String salvoSucesso() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

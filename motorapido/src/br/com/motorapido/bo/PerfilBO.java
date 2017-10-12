@@ -31,11 +31,11 @@ public class PerfilBO extends MotoRapidoBO {
 			transaction.begin();
 			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
 			Perfil perfil = new Perfil();
-			perfil.setAcessaSistema(false);
-			perfil.setAtivo(true);
+			//perfil.setAcessaSistema(false);
+			perfil.setAtivo("S");
 			List<Perfil> result = perfilDAO.findByExample(perfil, em, perfilDAO.BY_DSC_ASC);
-			perfil.setAcessaSistema(true);
-			result.addAll(perfilDAO.findByExample(perfil, em, perfilDAO.BY_DSC_ASC));
+			//perfil.setAcessaSistema(true);
+			//result.addAll(perfilDAO.findByExample(perfil, em, perfilDAO.BY_DSC_ASC));
 			emUtil.commitTransaction(transaction);
 			return result;
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public class PerfilBO extends MotoRapidoBO {
 		try {
 			transaction.begin();
 			IPerfilDAO perfilDAO = fabricaDAO.getPostgresPerfilDAO();
-			perfil.setAtivo(true);
+			perfil.setAtivo("S");
 			perfil = perfilDAO.save(perfil, em);
 			emUtil.commitTransaction(transaction);
 			return perfil;

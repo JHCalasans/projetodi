@@ -39,8 +39,8 @@
 					<p:outputLabel value="#{bundle.perfil_acessaSistema}?:" for="acesso"
 						styleClass="OutputLabelCampo" style="width:120px;" />
 					<p:selectOneMenu id="acesso" value="#{perfilBean.perfil.acessaSistema}" style="width:60px;">
-						<f:selectItem itemLabel="Sim" itemValue="True" />
-						<f:selectItem itemLabel="Não" itemValue="False" />
+						<f:selectItem itemLabel="Sim" itemValue="S" />
+						<f:selectItem itemLabel="Não" itemValue="N" />
 					</p:selectOneMenu>
 
 				</h:panelGroup>
@@ -52,8 +52,8 @@
 					<p:outputLabel value="#{bundle.perfil_situacao}:" for="situacao"
 						styleClass="OutputLabelCampo" style="width:120px;" />
 					<p:selectOneMenu id="situacao" value="#{perfilBean.perfil.ativo}" style="width:60px;">
-						<f:selectItem itemLabel="Ativo" itemValue="True" />
-						<f:selectItem itemLabel="Inativo" itemValue="False" />
+						<f:selectItem itemLabel="Ativo" itemValue="S" />
+						<f:selectItem itemLabel="Inativo" itemValue="N" />
 					</p:selectOneMenu>
 
 				</h:panelGroup>
