@@ -32,6 +32,63 @@
 		<link rel="shortcut icon" type="image/x-icon"
 			href="#{request.contextPath}/resources/favicon.ico" />
 	</f:facet>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsaC7llpgSj8iFc2nnrxja89VlwGM0jR4"
+		defer="defer" type="text/javascript"></script>
+
+	<script type="text/javascript">
+    var currentMarker = null;
+    var primeiroMarcador = null;
+    var ultimoMarcador = null;
+    var contador = 0;
+    var list = [];
+    function handlePointClick(event) {
+
+    	 currentMarker = new google.maps.Marker({
+             position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+         });
+         
+        if(primeiroMarcador === null) {      
+         	primeiroMarcador = currentMarker;
+         	ultimoMarcador = currentMarker;
+            PF('map').addOverlay(currentMarker);
+            contador++;
+ 			list.push(currentMarker);
+        }else if (primeiroMarcador != currentMarker){           
+        	 PF('map').addOverlay(currentMarker);
+        	 contador++;
+        	 var caminho = [ultimoMarcador.position, currentMarker.position];
+        	 var linha = new google.maps.Polyline({
+        		 path:caminho,
+        		 geodesic: true,
+                 strokeColor: '#000000',
+                 strokeOpacity: 1.0,
+                 strokeWeight: 2});
+
+        	 PF('map').addOverlay(linha);
+        	 list.push(currentMarker);
+    		 ultimoMarcador = currentMarker;
+        }else if(contador > 2){
+        	alert("Hello! I am an alert box!!");
+        	var caminho = [];
+        	for(var i = 0; i &lt; list.length; i++){
+        		caminho.push(list[i].position)
+            }
+        	
+        	var area = new google.maps.Polygon({
+       		 path:caminho,
+       		 geodesic: true,
+                strokeColor: '#000000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35});
+        }
+        
+    }
+ 
+  
+</script>
 </h:head>
 <h:body>
 

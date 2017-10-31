@@ -24,6 +24,10 @@ public abstract class FabricaDAO {
 	public abstract IMenuDAO getPostgresMenuDAO();
 	
 	public abstract IPerfilMenuDAO getPostgresPerfilMenuDAO();
+	
+	public abstract IAreaDAO getPostgresAreaDAO();
+	
+	public abstract ICoordenadasAreaDAO getPostgresCoordenadasAreaDAO();
 
 
 

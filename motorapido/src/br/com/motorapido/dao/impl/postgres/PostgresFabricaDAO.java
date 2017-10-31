@@ -28,6 +28,8 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	private static PostgresLogErroDAOImpl postgresLogErroDAOImpl;
 	private static PostgresMenuDAOImpl postgresMenuDAOImpl;
 	private static PostgresPerfilMenuDAOImpl postgresPerfilMenuDAOImpl;
+	private static PostgresAreaDAOImpl postgresAreaDAOImpl;
+	private static PostgresCoordenadasAreaDAOImpl postgresCoordenadasAreaDAOImpl;
 
 
 	private PostgresFabricaDAO() {
@@ -124,6 +126,22 @@ final class PostgresFabricaDAO extends FabricaDAO {
 			postgresPerfilMenuDAOImpl = new PostgresPerfilMenuDAOImpl();
 		}
 		return postgresPerfilMenuDAOImpl;
+	}
+	
+	@Override
+	public PostgresAreaDAOImpl getPostgresAreaDAO() {
+		if (postgresAreaDAOImpl == null) {
+			postgresAreaDAOImpl = new PostgresAreaDAOImpl();
+		}
+		return postgresAreaDAOImpl;
+	}
+	
+	@Override
+	public PostgresCoordenadasAreaDAOImpl getPostgresCoordenadasAreaDAO() {
+		if (postgresCoordenadasAreaDAOImpl == null) {
+			postgresCoordenadasAreaDAOImpl = new PostgresCoordenadasAreaDAOImpl();
+		}
+		return postgresCoordenadasAreaDAOImpl;
 	}
 
 
