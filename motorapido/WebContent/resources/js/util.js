@@ -92,6 +92,12 @@ function apenasnumero(entry) {
 	}
 }
 
+//Maiúsculo
+function strToUpper(texto){     
+    //para usar onkeyup="strToUpper(this)"    
+    texto.value = texto.value.toUpperCase();    
+}
+
 function formataPercentual(campo, e) {
 	// Retira pontos ou vírgulas no começo ou final do campo;
 	// Retira pontos ou vírgulas em excesso no campo;

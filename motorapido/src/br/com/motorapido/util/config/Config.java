@@ -55,7 +55,7 @@ public class Config implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		try {
 			// Registra qual implementa��o da f�brica ser� usada
-			Class.forName("br.com.motorapido.dao.impl.postgres.PostgresFabricaDAO");
+			Class.forName("br.com.motorapido.dao.impl.postgres.PostgresFabricaDAOImpl");
 		} catch (ClassNotFoundException e) {
 			log.error("Erro", e);
 		}

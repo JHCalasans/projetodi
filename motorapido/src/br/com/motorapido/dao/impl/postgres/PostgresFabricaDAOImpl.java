@@ -7,14 +7,14 @@ import br.com.motorapido.dao.FabricaDAO;
 import br.com.motorapido.dao.IParametroDAO;
 import br.com.motorapido.dao.IValorParametroDAO;
 
-final class PostgresFabricaDAO extends FabricaDAO {
+final class PostgresFabricaDAOImpl extends FabricaDAO {
 
-	private static Logger log = Logger.getLogger(PostgresFabricaDAO.class);
-	static PostgresFabricaDAO instance;
+	private static Logger log = Logger.getLogger(PostgresFabricaDAOImpl.class);
+	static PostgresFabricaDAOImpl instance;
 
 	static {
 		log.info("Instanciando e registrando como fábrica principal.");
-		instance = new PostgresFabricaDAO();
+		instance = new PostgresFabricaDAOImpl();
 		instance.registerAsMain();
 	}
 
@@ -30,9 +30,13 @@ final class PostgresFabricaDAO extends FabricaDAO {
 	private static PostgresPerfilMenuDAOImpl postgresPerfilMenuDAOImpl;
 	private static PostgresAreaDAOImpl postgresAreaDAOImpl;
 	private static PostgresCoordenadasAreaDAOImpl postgresCoordenadasAreaDAOImpl;
+	private static PostgresModeloDAOImpl postgresModeloDAOImpl;
+	private static PostgresVeiculoDAOImpl postgresVeiculoDAOImpl;
+	private static PostgresFabricanteDAOImpl postgresFabricanteDAOImpl;
+	private static PostgresTipoVeiculoDAOImpl postgresTipoVeiculoDAOImpl;
 
 
-	private PostgresFabricaDAO() {
+	private PostgresFabricaDAOImpl() {
 
 	}
 
@@ -40,12 +44,12 @@ final class PostgresFabricaDAO extends FabricaDAO {
 		getInstance().registerAsMain();
 	}
 
-	protected static PostgresFabricaDAO getInstance() {
+	protected static PostgresFabricaDAOImpl getInstance() {
 		return instance;
 	}
 
-	protected static PostgresFabricaDAO getNewInstance() {
-		return new PostgresFabricaDAO();
+	protected static PostgresFabricaDAOImpl getNewInstance() {
+		return new PostgresFabricaDAOImpl();
 	}
 
 	public PostgresGenericDAOImplBO getGenericDAOImplBO() {
@@ -142,6 +146,38 @@ final class PostgresFabricaDAO extends FabricaDAO {
 			postgresCoordenadasAreaDAOImpl = new PostgresCoordenadasAreaDAOImpl();
 		}
 		return postgresCoordenadasAreaDAOImpl;
+	}
+	
+	@Override
+	public PostgresModeloDAOImpl getPostgresModeloDAO() {
+		if (postgresModeloDAOImpl == null) {
+			postgresModeloDAOImpl = new PostgresModeloDAOImpl();
+		}
+		return postgresModeloDAOImpl;
+	}
+	
+	@Override
+	public PostgresVeiculoDAOImpl getPostgresVeiculoDAO() {
+		if (postgresVeiculoDAOImpl == null) {
+			postgresVeiculoDAOImpl = new PostgresVeiculoDAOImpl();
+		}
+		return postgresVeiculoDAOImpl;
+	}
+	
+	@Override
+	public PostgresFabricanteDAOImpl getPostgresFabricanteDAO() {
+		if (postgresFabricanteDAOImpl == null) {
+			postgresFabricanteDAOImpl = new PostgresFabricanteDAOImpl();
+		}
+		return postgresFabricanteDAOImpl;
+	}
+	
+	@Override
+	public PostgresTipoVeiculoDAOImpl getPostgresTipoVeiculoDAO() {
+		if (postgresTipoVeiculoDAOImpl == null) {
+			postgresTipoVeiculoDAOImpl = new PostgresTipoVeiculoDAOImpl();
+		}
+		return postgresTipoVeiculoDAOImpl;
 	}
 
 

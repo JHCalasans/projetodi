@@ -108,6 +108,11 @@ public class MotoristaBean extends SimpleController {
 		String url = "alterarMotorista.proj?faces-redirect=true&codMotorista=" + codMotorista;
 		return url;
 	}
+	
+	public String navegarVeiculos(int codMotorista) {
+		String url = "/paginas/veiculo/cadastrarVeiculo.proj?faces-redirect=true&codMotorista=" + codMotorista;
+		return url;
+	}
 
 	public boolean validarCpf() {
 		if (this.motorista.getCpf() != null && this.motorista.getCpf().length() != 14) {

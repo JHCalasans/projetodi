@@ -11,13 +11,15 @@
 	<meta http-equiv="Expires" content="0" />
 </h:head>
 <ui:composition template="/paginas/masterPage.xhtml">
-	<ui:param name="tituloPagina" value="#{bundle.motorista_consultarTitulo}" />
-	<ui:param name="headerConteudo" value="#{bundle.motorista_consultarTitulo}" />
+	<ui:param name="tituloPagina"
+		value="#{bundle.motorista_consultarTitulo}" />
+	<ui:param name="headerConteudo"
+		value="#{bundle.motorista_consultarTitulo}" />
 	<ui:param name="bean" value="#{motoristaBean}" />
-	 <f:metadata>
+	<f:metadata>
 		<f:event type="preRenderView"
 			listener="#{motoristaBean.verificaSessaoValida}" />
-	</f:metadata> 
+	</f:metadata>
 
 	<ui:define name="conteudo">
 		<h:form prependId="false" id="formConsulta">
@@ -27,18 +29,17 @@
 				<h:panelGroup id="pngNome" styleClass="p_like">
 					<p:outputLabel value="#{bundle.motorista_nome}:" for="nome"
 						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:inputText id="nome"  size="80"
+					<p:inputText id="nome" size="80"
 						value="#{motoristaBean.nomePesquisa}" />
 
 				</h:panelGroup>
 				<br />
 				<div class="clear"></div>
-				
-					<h:panelGroup id="pngCpf" styleClass="p_like">
+
+				<h:panelGroup id="pngCpf" styleClass="p_like">
 					<p:outputLabel value="#{bundle.motorista_cpf}:" for="cpf"
 						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:inputMask id="cpf"  size="20"
-						mask="999.999.999-99"
+					<p:inputMask id="cpf" size="20" mask="999.999.999-99"
 						value="#{motoristaBean.cpfPesquisa}" />
 
 				</h:panelGroup>
@@ -49,7 +50,8 @@
 				<h:panelGroup styleClass="p_like buttonPosition">
 
 					<p:commandButton value="#{bundle.pesquisarRegistro}"
-						id="btnPesquisar" actionListener="#{motoristaBean.pesquisarMotorista}"
+						id="btnPesquisar"
+						actionListener="#{motoristaBean.pesquisarMotorista}"
 						style="margin-right: 10px;" update="formConsulta, msgs, conteudo">
 					</p:commandButton>
 					<p:button value="#{bundle.novoRegistro}" id="btnNovo"
@@ -65,8 +67,9 @@
 			<div class="clear"></div>
 			<h:panelGroup>
 				<p:dataTable tableStyle="table-layout:auto;width: 100%;"
-					id="tbMotoristas" var="motorista" value="#{motoristaBean.listaMotoristas}"
-					rows="10" style="text-align: center; max-width:100%" first="0"
+					id="tbMotoristas" var="motorista"
+					value="#{motoristaBean.listaMotoristas}" rows="10"
+					style="text-align: center; max-width:100%" first="0"
 					paginatorAlwaysVisible="false" paginator="true"
 					emptyMessage="#{bundle.nenhumRegistroEncontrado}">
 					<f:facet name="header" styleClass="cabecalhoDataTable">
@@ -87,7 +90,7 @@
 							<h:outputText value="#{bundle.motorista_cpf}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
-						<h:outputText id="tbCPF"	value="#{motorista.cpf}">
+						<h:outputText id="tbCPF" value="#{motorista.cpf}">
 
 						</h:outputText>
 					</p:column>
@@ -102,29 +105,35 @@
 
 						</h:outputText>
 					</p:column>
-					
+
 					<p:column style="width:80px">
 						<f:facet name="header">
 							<h:outputText value="#{bundle.operacoes}"
 								styleClass="cabecalhoDataTable" />
 						</f:facet>
-						<h:commandLink title="Editar" immediate="true"
-						action="#{motoristaBean.navegarAlteracao(motorista.codigo)}">
-						<h:graphicImage url="/resources/edit.png"
-							style="border-style: none" />
-					</h:commandLink>
-					<h:commandLink title="Doc. Criminais" immediate="true" style="margin-left:10px;"
-						action="#{motoristaBean.downloadDocCriminais(motorista)}">
-						<h:graphicImage url="/resources/pdf.png"
-							style="border-style: none" />
-					</h:commandLink>
+						<h:commandLink title="Veículos" immediate="true"
+							action="#{motoristaBean.navegarVeiculos(motorista.codigo)}">
+							<h:graphicImage url="/resources/roda.png"
+								style="border-style: none" />
+						</h:commandLink>
+						<h:commandLink title="Editar" immediate="true" style="margin-left:10px;"
+							action="#{motoristaBean.navegarAlteracao(motorista.codigo)}">
+							<h:graphicImage url="/resources/edit.png"
+								style="border-style: none" />
+						</h:commandLink>
+						<h:commandLink title="Doc. Criminais" immediate="true"
+							style="margin-left:10px;"
+							action="#{motoristaBean.downloadDocCriminais(motorista)}">
+							<h:graphicImage url="/resources/pdf.png"
+								style="border-style: none" />
+						</h:commandLink>
 					</p:column>
 				</p:dataTable>
 			</h:panelGroup>
 
 		</h:form>
 
-		
+
 	</ui:define>
 </ui:composition>
 </html>
