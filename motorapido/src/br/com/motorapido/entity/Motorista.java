@@ -15,6 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.minhaLib.dao.Entidade;
 
@@ -25,6 +27,7 @@ import br.com.minhaLib.dao.Entidade;
 		@NamedQuery(name = "Motorista.obterTodos", query = "select m from Motorista m "),
 		@NamedQuery(name = "Motorista.obterPorCod", query = "select m from Motorista m where m.codigo = :codigo")
 		})
+@XmlRootElement
 public class Motorista extends Entidade{
 
 
@@ -113,6 +116,9 @@ public class Motorista extends Entidade{
 	
 	@Column(name = "flg_disponivel", nullable = false)
 	private String disponivel;
+	
+	@Transient
+	private String chaveServicos;
 	
 
 	@Override
@@ -378,6 +384,16 @@ public class Motorista extends Entidade{
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+
+	public String getChaveServicos() {
+		return chaveServicos;
+	}
+
+
+	public void setChaveServicos(String chaveServicos) {
+		this.chaveServicos = chaveServicos;
 	}
 
 }

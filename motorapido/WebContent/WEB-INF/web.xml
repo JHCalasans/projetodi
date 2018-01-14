@@ -52,6 +52,14 @@
     <filter-name>PrimeFaces FileUpload Filter</filter-name>
     <servlet-name>Faces Servlet</servlet-name>
   </filter-mapping>
+  <filter>
+		<filter-name>jwtFilter</filter-name>
+		<filter-class>br.com.motorapido.filtro.JWTFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>jwtFilter</filter-name>
+		<url-pattern>/ws/*</url-pattern>
+	</filter-mapping>
  
   <listener>
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
@@ -65,7 +73,7 @@
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>br.com.motorapido.servicos</param-value>
+			<param-value>br.com.motorapido.ws</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

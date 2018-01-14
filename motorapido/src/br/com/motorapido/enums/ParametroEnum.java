@@ -5,7 +5,8 @@ import br.com.minhaLib.enums.IEnum;
 public enum ParametroEnum implements IEnum {
 
 	IP_SERVIDOR("IP_SERVIDOR", "IP_SERVIDOR"),
-	COD_PERFIL_MOTORISTA("COD_PERFIL_MOTORISTA","COD_PERFIL_MOTORISTA");
+	COD_PERFIL_MOTORISTA("COD_PERFIL_MOTORISTA","COD_PERFIL_MOTORISTA"),
+	CHAVE_SEGURANCA("CHAVE_SEGURANCA","CHAVE_SEGURANCA");
 	
 	private final String descricao;
 	private final String codigo;

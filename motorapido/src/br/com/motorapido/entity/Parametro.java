@@ -22,10 +22,10 @@ public class Parametro extends Entidade{
 	@Column(name = "cod_parametro", nullable = false)
 	private Long codParametro;
 
-	@Column(name = "ds_chave", nullable = false)
+	@Column(name = "chave", nullable = false)
 	private String chave;
 
-	@Column(name = "ds_parametro", nullable = false)
+	@Column(name = "descricao", nullable = false)
 	private String descricao;
 
 
