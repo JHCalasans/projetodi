@@ -36,6 +36,14 @@ public abstract class FabricaDAO {
 	public abstract IFabricanteDAO getPostgresFabricanteDAO();
 	
 	public abstract ITipoVeiculoDAO getPostgresTipoVeiculoDAO();
+	
+	public abstract IMotoristaPosicaoAreaDAO getPostgresMotoristaPosicaoAreaDAO();
+	
+	public abstract IChamadaDAO getPostgresChamadaDAO();
+	
+	public abstract IChamadaVeiculoDAO getPostgresChamadaVeiculoDAO();
+	
+	public abstract ISituacaoChamadaDAO getPostgresSituacaoChamadaDAO();
 
 
 

@@ -2,7 +2,6 @@ package br.com.motorapido.dao.impl.postgres;
 
 import org.apache.log4j.Logger;
 
-
 import br.com.motorapido.dao.FabricaDAO;
 import br.com.motorapido.dao.IParametroDAO;
 import br.com.motorapido.dao.IValorParametroDAO;
@@ -34,6 +33,10 @@ final class PostgresFabricaDAOImpl extends FabricaDAO {
 	private static PostgresVeiculoDAOImpl postgresVeiculoDAOImpl;
 	private static PostgresFabricanteDAOImpl postgresFabricanteDAOImpl;
 	private static PostgresTipoVeiculoDAOImpl postgresTipoVeiculoDAOImpl;
+	private static PostgresMotoristaPosicaoAreaDAOImpl postgresMotoristaPosicaoAreaDAOImpl;
+	private static PostgresChamadaDAOImpl postgresChamadaDAOImpl;
+	private static PostgresChamadaVeiculoDAOImpl postgresChamadaVeiculoDAOImpl;
+	private static PostgresSituacaoChamadaDAOImpl postgresSituacaoChamadaDAOImpl;
 
 
 	private PostgresFabricaDAOImpl() {
@@ -179,7 +182,42 @@ final class PostgresFabricaDAOImpl extends FabricaDAO {
 		}
 		return postgresTipoVeiculoDAOImpl;
 	}
+	
+
+	@Override
+	public PostgresMotoristaPosicaoAreaDAOImpl getPostgresMotoristaPosicaoAreaDAO() {
+		if (postgresMotoristaPosicaoAreaDAOImpl == null) {
+			postgresMotoristaPosicaoAreaDAOImpl = new PostgresMotoristaPosicaoAreaDAOImpl();
+		}
+		return postgresMotoristaPosicaoAreaDAOImpl;
+	}
+
+	
+	@Override
+	public PostgresChamadaDAOImpl getPostgresChamadaDAO() {
+		if (postgresChamadaDAOImpl == null) {
+			postgresChamadaDAOImpl = new PostgresChamadaDAOImpl();
+		}
+		return postgresChamadaDAOImpl;
+	}
+	
+	@Override
+	public PostgresChamadaVeiculoDAOImpl getPostgresChamadaVeiculoDAO() {
+		if (postgresChamadaVeiculoDAOImpl == null) {
+			postgresChamadaVeiculoDAOImpl = new PostgresChamadaVeiculoDAOImpl();
+		}
+		return postgresChamadaVeiculoDAOImpl;
+	}
+	
+	@Override
+	public PostgresSituacaoChamadaDAOImpl getPostgresSituacaoChamadaDAO() {
+		if (postgresSituacaoChamadaDAOImpl == null) {
+			postgresSituacaoChamadaDAOImpl = new PostgresSituacaoChamadaDAOImpl();
+		}
+		return postgresSituacaoChamadaDAOImpl;
+	}
 
 
+	
 	
 }
