@@ -37,7 +37,7 @@ final class PostgresFabricaDAOImpl extends FabricaDAO {
 	private static PostgresChamadaDAOImpl postgresChamadaDAOImpl;
 	private static PostgresChamadaVeiculoDAOImpl postgresChamadaVeiculoDAOImpl;
 	private static PostgresSituacaoChamadaDAOImpl postgresSituacaoChamadaDAOImpl;
-
+	private static PostgresClienteDAOImpl postgresClienteDAOImpl;
 
 	private PostgresFabricaDAOImpl() {
 
@@ -217,6 +217,14 @@ final class PostgresFabricaDAOImpl extends FabricaDAO {
 		return postgresSituacaoChamadaDAOImpl;
 	}
 
+	@Override
+	public PostgresClienteDAOImpl getPostgresClienteDAO() {
+		if (postgresClienteDAOImpl == null) {
+			postgresClienteDAOImpl = new PostgresClienteDAOImpl();
+		}
+		return postgresClienteDAOImpl;
+	}
+	
 
 	
 	

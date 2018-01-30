@@ -45,6 +45,7 @@ public abstract class FabricaDAO {
 	
 	public abstract ISituacaoChamadaDAO getPostgresSituacaoChamadaDAO();
 
+	public abstract IClienteDAO getPostgresClienteDAO();
 
 
 	/**
