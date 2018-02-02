@@ -22,212 +22,242 @@
 </h:head>
 <ui:composition template="/paginas/masterPage.xhtml">
 
-	<ui:param name="tituloPagina" value="#{bundle.area_cadastroTitulo}" />
-	<ui:param name="headerConteudo" value="#{bundle.area_cadastroTitulo}" />
-	<ui:param name="bean" value="#{areaBean}" />
+	<ui:param name="tituloPagina" value="#{bundle.chamadas_titulo}" />
+	<ui:param name="headerConteudo" value="#{bundle.chamadas_titulo}" />
+	<ui:param name="bean" value="#{chamadaBean}" />
+
 	<f:metadata>
 		<f:event type="preRenderView"
-			listener="#{areaBean.verificaSessaoValida}" />
+			listener="#{veiculoBean.verificaSessaoValida}" />
 	</f:metadata>
 
+
 	<ui:define name="conteudo">
-		<h:form prependId="false" id="formCadastro">
+		<h:form prependId="false" id="formConsulta">
+			<p:panelGrid style="width:100%">
+				<p:row>
+					<p:column style="width:50%">
+						<p:fieldset legend="Cliente">
+							<h:panelGroup id="pngPesCliente" styleClass="p_like">
+								<p:commandLink oncomplete="PF('varDlgPesqCliente').show()"
+									update=":formbusca" process="@this" execute="@this">
+									<h:graphicImage url="/resources/edit.png"
+										style="border-style: none" />
+								</p:commandLink>
+							</h:panelGroup>
+							<br />
+							<div class="clear"></div>
 
-			<p:panel id="panelCadastro">
+							<h:panelGroup id="pngNome" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_nome}:" for="nome"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="nome" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_nome}" />
 
-				<br />
-				<div class="clear"></div>
+							</h:panelGroup>
+							<br />
+							<div class="clear"></div>
 
-				<p:dataTable tableStyle="table-layout:auto;width: 100%;" id="tbArea"
-					var="area" value="#{areaBean.listaArea}" rows="10"
-					style="text-align: center; max-width:100%" first="0"
-					paginatorAlwaysVisible="false" paginator="true"
-					emptyMessage="#{bundle.nenhumRegistroEncontrado}">
-					<f:facet name="header" styleClass="cabecalhoDataTable">
-			     		   Áreas
-			   			 </f:facet>
+							<h:panelGroup id="pngCel" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_celular}:"
+									for="celular" styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputMask id="celular" required="true" size="55"
+									mask="(99)99999-9999"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_celular}" />
 
-					<p:column style="width:130px">
-						<f:facet name="header">
-							<h:outputText value="Nome" styleClass="cabecalhoDataTable" />
-						</f:facet>
+							</h:panelGroup>
+						</p:fieldset>
+						<br />
+						<div class="clear"></div>
+						<p:fieldset legend="Origem" id="fieldOrigem">
+
+							<h:panelGroup id="pngCep" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_cep}:" for="cep"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputMask mask="99999-999" id="cep" required="true"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cep}">
+									<p:ajax event="blur" update="fieldOrigem" />
+								</p:inputMask>
+							</h:panelGroup>
+							<br />
+							<div class="clear"></div>
+
+							<h:panelGroup id="pngCidade" styleClass="p_like">
+
+								<p:outputLabel value="#{bundle.funcionario_cidade}:"
+									for="cidade" styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="cidade" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cidade}" />
 
 
-						<h:outputText id="tbNome" value="#{area.area.descricao}">
+							</h:panelGroup>
 
-						</h:outputText>
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngBairro" styleClass="p_like">
+
+								<p:outputLabel value="#{bundle.funcionario_bairro}:"
+									for="bairro" styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="bairro" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_bairro}" />
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngLogradouro" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_logradouro}:"
+									for="logradouro" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputText id="logradouro" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngComplemento" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_complemento}:"
+									for="complemento" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputText id="complemento" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
+
+							</h:panelGroup>
+						</p:fieldset>
+						<br />
+						<div class="clear"></div>
+						<p:fieldset legend="Destino">
+
+							<h:panelGroup id="pngCepDestino" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_cep}:"
+									for="cepDestino" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputMask mask="99999-999" id="cepDestino" required="true"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cep}">
+									<p:ajax event="blur" update="fieldOrigem" />
+								</p:inputMask>
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+
+							<h:panelGroup id="pngCidadeDestino" styleClass="p_like">
+
+								<p:outputLabel value="#{bundle.funcionario_cidade}:"
+									for="cidadeDestino" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputText id="cidadeDestino" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cidade}" />
+
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngBairroDestino" styleClass="p_like">
+
+								<p:outputLabel value="#{bundle.funcionario_bairro}:"
+									for="bairroDestino" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputText id="bairroDestino" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_bairro}" />
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngLogradouroDestino" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_logradouro}:"
+									for="logradouroDestino" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputText id="logradouroDestino" required="true" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngComplementoDestino" styleClass="p_like">
+								<p:outputLabel value="#{bundle.funcionario_complemento}:"
+									for="complementoDestino" styleClass="OutputLabelCampo"
+									style="width:80px;" />
+								<p:inputText id="complementoDestino" size="55"
+									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
+
+							</h:panelGroup>
+						</p:fieldset>
+						<br />
+						<div class="clear"></div>
+						<p:fieldset legend="Observações">
+
+						</p:fieldset>
+
 					</p:column>
 
-					<p:column style="width:10%;text-align:center;">
-						<f:facet name="header">
-							<h:outputText value="Cor" styleClass="cabecalhoDataTable" />
-						</f:facet>
-						<p:lightBox
-							style="opacity: 0.5;background:#{area.area.cor};width:80%;height:10px;margin-left:10%"></p:lightBox>
+					<p:column style="width:50%; vertical-align: initial;">
+						<h:panelGroup>
+							<p:dataTable tableStyle="table-layout:auto;width: 100%;"
+								id="tbChamadas" var="chamada" rows="10" scrollable="true"
+								style="text-align: center; max-width:100%" first="0"
+								scrollWidth="100%" paginatorAlwaysVisible="false"
+								paginator="true"
+								emptyMessage="#{bundle.nenhumRegistroEncontrado}">
+								<f:facet name="header" styleClass="cabecalhoDataTable">
+					     		   	Chamadas
+					   			</f:facet>
+								<p:column style="width:130px">
+									<f:facet name="header">
+										<h:outputText value="Gerada" styleClass="cabecalhoDataTable" />
+									</f:facet>
+									<h:outputText value="teste">
+									</h:outputText>
+								</p:column>
+
+								<p:column style="width:130px">
+									<f:facet name="header">
+										<h:outputText value="Telefone" styleClass="cabecalhoDataTable" />
+									</f:facet>
+									<h:outputText value="teste">
+									</h:outputText>
+								</p:column>
+
+								<p:column style="width:130px">
+									<f:facet name="header">
+										<h:outputText value="Cliente" styleClass="cabecalhoDataTable" />
+									</f:facet>
+									<h:outputText value="teste">
+									</h:outputText>
+								</p:column>
+
+								<p:column style="width:130px">
+									<f:facet name="header">
+										<h:outputText value="Endereço" styleClass="cabecalhoDataTable" />
+									</f:facet>
+									<h:outputText value="teste">
+									</h:outputText>
+								</p:column>
+
+								<p:column style="width:130px">
+									<f:facet name="header">
+										<h:outputText value="Status" styleClass="cabecalhoDataTable" />
+									</f:facet>
+									<h:outputText value="teste">
+									</h:outputText>
+								</p:column>
+
+							</p:dataTable>
+						</h:panelGroup>
 					</p:column>
+				</p:row>
 
-					<p:column style="width:20%;text-align:center;">
-						<f:facet name="header">
-							<h:outputText value="#{bundle.operacoes}"
-								styleClass="cabecalhoDataTable" />
-						</f:facet>
-						<h:commandLink title="Editar" immediate="true"
-							action="#{areaBean.abrirAlterar(area.area)}">
-							<h:graphicImage url="/resources/edit.png"
-								style="border-style: none" />
-						</h:commandLink>
-						<h:commandLink title="Remover" immediate="true"
-							style="margin-left:10px;"
-							action="#{areaBean.abrirExcluir(area.area)}">
-							<h:graphicImage url="/resources/delete.png"
-								style="border-style: none" />
-						</h:commandLink>
+			</p:panelGrid>
 
-					</p:column>
-
-
-				</p:dataTable>
-
-				<br />
-				<div class="clear"></div>
-
-				<p:gmap id="gmap" center="#{areaBean.coordenadas}" zoom="14"
-					type="terrain" model="#{areaBean.mapModel}" widgetVar="map"
-					style="width:100%;height:400px">
-					<p:ajax event="pointSelect" listener="#{areaBean.addMarker}"
-						update="gmap"></p:ajax>
-					<p:ajax event="overlaySelect"
-						listener="#{areaBean.marcadorSelecionado}" update="gmap" />
-
-				</p:gmap>
-
-				<br />
-				<div class="clear"></div>
-
-			</p:panel>
 		</h:form>
 
-		<p:dialog widgetVar="dlgArea" showEffect="fade" resizable="false"
-			styleClass="dialogBox" closable="false" header="Salvar área">
-			<h:form prependId="false">
-				<h:panelGrid columns="2">
-					<h:form>
-						<h:panelGroup styleClass="p_like">
-							<p:outputLabel value="Nome área :" for="inptNome"
-								style="width:125px;" />
-
-							<p:inputText value="#{areaBean.area.descricao}" required="true"
-								id="inptNome" size="20"
-								requiredMessage="Campo Obrigatório: Nome área!"
-								style="font-size:15px; color:gray;margin-right:20px" />
-
-						</h:panelGroup>
-						<br></br>
-						<div class="clear"></div>
-						<h:panelGroup styleClass="p_like">
-							<p:outputLabel value="Cor :" style="width:125px;" />
-
-							<p:colorPicker value="#{areaBean.area.cor}" />
-
-						</h:panelGroup>
-
-						<br></br>
-						<div class="clear"></div>
-
-					</h:form>
-					<f:facet name="footer">
-						<div align="center" style="margin-top: 5px;">
-							<p:commandButton value="Confirmar"
-								actionListener="#{areaBean.salvarArea}"
-								update="formCadastro, msgs, conteudo" />
-							<p:commandButton value="Cancelar" onclick="PF('dlgArea').hide();"
-								immediate="true" style="margin-left:10px;" />
-						</div>
-					</f:facet>
-
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
-
-
-		<p:dialog widgetVar="dlgAlterarArea" showEffect="fade"
-			resizable="false" styleClass="dialogBox" closable="false"
-			header="Alterar área">
-			<h:form prependId="false">
-				<h:panelGrid columns="2">
-					<h:form>
-						<h:panelGroup styleClass="p_like">
-							<p:outputLabel value="Nome área :" for="inptNome"
-								style="width:125px;" />
-
-							<p:inputText value="#{areaBean.areaAlterar.descricao}"
-								required="true" id="inptNome" size="20"
-								requiredMessage="Campo Obrigatório: Nome área!"
-								style="font-size:15px; color:gray;margin-right:20px" />
-
-						</h:panelGroup>
-						<br></br>
-						<div class="clear"></div>
-						<h:panelGroup styleClass="p_like">
-							<p:outputLabel value="Cor :" style="width:125px;" />
-
-							<p:colorPicker value="#{areaBean.areaAlterar.corPura}" />
-
-						</h:panelGroup>
-
-						<br></br>
-						<div class="clear"></div>
-
-					</h:form>
-					<f:facet name="footer">
-						<div align="center" style="margin-top: 5px;">
-							<p:commandButton value="Confirmar"
-								actionListener="#{areaBean.alterarArea}"
-								update="formCadastro, msgs, conteudo" />
-							<p:commandButton value="Cancelar"
-								onclick="PF('dlgAlterarArea').hide();" immediate="true"
-								style="margin-left:10px;" />
-						</div>
-					</f:facet>
-
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
-
-		<!-- CONFIRMACAO DELETE -->
-		<p:dialog header="Excluir Registro" widgetVar="dlConfirmDelete"
-			id="dlConfirmDelete" modal="true" dynamic="true" width="470">
-			<h:form id="formDelete" prependId="false">
-				<p:panel>
-					<h:panelGroup styleClass="p_like" layout="block"
-						style="text-align:center;">
-
-						<b><p:outputLabel value="Deseja realmente excluir o registro?" /></b>
-					</h:panelGroup>
-					<br></br>
-					<br></br>
-					<div class="clear"></div>
-					<h:panelGroup layout="block" style="text-align: center;">
-						<p:commandButton process="@this" id="btSim"
-							style="margin-left: 13px" value="#{bundle.sim}"
-							onclick="PF('dlConfirmDelete').hide()"
-							update="formCadastro, msgs, conteudo"
-							actionListener="#{areaBean.excluirArea}" />
-						<p:commandButton process="@this" id="btNao"
-							style="margin-left: 13px" value="#{bundle.nao}"
-							oncomplete="PF('dlConfirmDelete').hide()" />
-					</h:panelGroup>
-
-					<br></br>
-					<div class="clear"></div>
-				</p:panel>
-			</h:form>
-		</p:dialog>
-		<!-- CONFIRMACAO DELETE -->
-
-
-
-
+		<ui:include src="/paginas/chamadas/dlgPesquisaCliente.xhtml">
+			<ui:param name="bean" value="#{chamadaBean}" />
+		</ui:include>
 	</ui:define>
 </ui:composition>
 </html>
