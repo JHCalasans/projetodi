@@ -16,7 +16,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -24,23 +23,15 @@ import org.primefaces.model.UploadedFile;
 
 import com.google.gson.Gson;
 
-import br.com.minhaLib.excecao.excecaobanco.ExcecaoBanco;
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.FuncionarioBO;
-import br.com.motorapido.bo.MotoristaBO;
 import br.com.motorapido.bo.PerfilBO;
-import br.com.motorapido.dao.IFuncionarioDAO;
-import br.com.motorapido.dao.IPerfilDAO;
 import br.com.motorapido.entity.Funcionario;
-import br.com.motorapido.entity.Motorista;
 import br.com.motorapido.entity.Perfil;
-import br.com.motorapido.enums.ParametroEnum;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
-import br.com.motorapido.util.FacesUtil;
 import br.com.motorapido.util.FuncoesUtil;
-import br.com.motorapido.util.Paginas;
 
 @ManagedBean(name = "funcionarioBean")
 @ViewScoped

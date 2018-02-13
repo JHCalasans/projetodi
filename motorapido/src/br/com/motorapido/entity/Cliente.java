@@ -65,6 +65,9 @@ public class Cliente extends Entidade{
 	@Column(name = "email", nullable = true)
 	private String email;
 	
+	@Column(name = "complemento", nullable = true)
+	private String complemento;
+	
 	
 
 	@Override
@@ -215,6 +218,18 @@ public class Cliente extends Entidade{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
 	}
 
 	

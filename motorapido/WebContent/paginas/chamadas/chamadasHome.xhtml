@@ -38,12 +38,14 @@
 				<p:row>
 					<p:column style="width:50%">
 						<p:fieldset legend="Cliente">
-							<h:panelGroup id="pngPesCliente" styleClass="p_like">
-								<p:commandLink oncomplete="PF('varDlgPesqCliente').show()"
-									update=":formbusca" process="@this" execute="@this">
-									<h:graphicImage url="/resources/edit.png"
-										style="border-style: none" />
-								</p:commandLink>
+							<h:panelGroup id="pngPesCliente" styleClass="p_like buttonPosition">
+<!-- 								<p:commandLink oncomplete="PF('varDlgPesqCliente').show()" -->
+<!-- 									update=":formbusca" process="@this" execute="@this"> -->
+<!-- 									<h:graphicImage url="/resources/edit.png" -->
+<!-- 										style="border-style: none" /> -->
+<!-- 								</p:commandLink> -->
+								<p:commandButton value="Buscar Cliente" oncomplete="PF('varDlgPesqCliente').show()" 
+								process="@this" update=":formbusca"  execute="@this"></p:commandButton>
 							</h:panelGroup>
 							<br />
 							<div class="clear"></div>
@@ -51,7 +53,7 @@
 							<h:panelGroup id="pngNome" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_nome}:" for="nome"
 									styleClass="OutputLabelCampo" style="width:80px;" />
-								<p:inputText id="nome" required="true" size="55"
+								<p:inputText id="nome" required="true" size="55"  disabled="true"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_nome}" />
 
 							</h:panelGroup>
@@ -62,7 +64,7 @@
 								<p:outputLabel value="#{bundle.funcionario_celular}:"
 									for="celular" styleClass="OutputLabelCampo" style="width:80px;" />
 								<p:inputMask id="celular" required="true" size="55"
-									mask="(99)99999-9999"
+									mask="(99)99999-9999" disabled="true"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_celular}" />
 
 							</h:panelGroup>
