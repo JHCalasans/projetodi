@@ -117,9 +117,9 @@
 
 				<h:panelGroup id="pngComplemento" styleClass="p_like">
 					<p:outputLabel value="#{bundle.cliente_complemento}:"
-						for="complemento" styleClass="OutputLabelCampo"
+						styleClass="OutputLabelCampo"
 						style="width:120px;" />
-					<p:inputText id="complemento" required="true" size="90"
+					<p:inputText id="complemento" size="90"
 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.cliente_complemento}"
 						value="#{clienteBean.cliente.complemento}" />
 
@@ -129,7 +129,7 @@
 				<h:panelGroup styleClass="p_like buttonPosition">
 
 					<p:commandButton value="Salvar" id="btnSalvar"
-						actionListener="#{clienteBean.salvarCliente}"
+						action="#{clienteBean.salvarCliente}"
 						update="formCadastro, msgs, conteudo">
 					</p:commandButton>
 					<p:button value="#{bundle.voltarTela}" id="btnVoltar"

@@ -19,11 +19,10 @@ import org.primefaces.model.map.Polyline;
 import com.google.maps.model.LatLng;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
+import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.motorapido.bo.AreaBO;
-import br.com.motorapido.bo.PerfilBO;
 import br.com.motorapido.entity.Area;
 import br.com.motorapido.entity.CoordenadasArea;
-import br.com.motorapido.entity.Perfil;
 import br.com.motorapido.util.CoordenadasAreaUtil;
 import br.com.motorapido.util.ExcecoesUtil;
 
@@ -286,5 +285,7 @@ public class AreaBean extends SimpleController {
 	public void setAreaExcluir(Area areaExcluir) {
 		this.areaExcluir = areaExcluir;
 	}
+
+	
 
 }

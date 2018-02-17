@@ -5,6 +5,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.motorapido.bo.FuncionarioBO;
 import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.util.ExcecoesUtil;
@@ -91,5 +92,7 @@ public class LoginBean extends SimpleController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

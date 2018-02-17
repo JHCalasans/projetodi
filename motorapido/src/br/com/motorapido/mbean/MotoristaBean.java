@@ -24,6 +24,7 @@ import org.primefaces.model.UploadedFile;
 import com.google.gson.Gson;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
+import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.MotoristaBO;
 import br.com.motorapido.entity.Motorista;
@@ -505,5 +506,7 @@ public class MotoristaBean extends SimpleController {
 	public void setMsgSalvar(String msgSalvar) {
 		this.msgSalvar = msgSalvar;
 	}
+
+	
 
 }

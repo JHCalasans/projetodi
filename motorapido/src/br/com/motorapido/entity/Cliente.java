@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,6 +19,10 @@ import br.com.minhaLib.dao.Entidade;
 
 @Entity
 @Table(name = Cliente.nomeTabela, schema = Cliente.esquema, catalog = "diego")
+//@NamedQueries(value = { 
+//		@NamedQuery(name = "Cliente.obterCientes", query = "select c from Cliente c where (:nome is null or c.nome like '%' || :nome || '%' ) and ( :ativo is null or p.ativo = :ativo) and"
+//				+ " ( :acesso is null or p.acessaSistema = :acesso )")
+//		})
 public class Cliente extends Entidade{
 
 

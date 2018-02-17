@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-
+import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.motorapido.util.ExcecoesUtil;
 
 
@@ -34,6 +34,10 @@ public class HomeBean extends SimpleController {
 	public String salvoSucesso() {
 		return null;
 	}
+
+
+
+
 
 	
 }

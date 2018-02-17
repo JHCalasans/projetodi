@@ -18,6 +18,7 @@ import org.apache.http.impl.client.HttpClients;
 import com.google.gson.Gson;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
+import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.ClienteBO;
 import br.com.motorapido.bo.FuncionarioBO;
@@ -38,9 +39,9 @@ public class ClienteBean extends SimpleController {
 
 	private String nomePesquisa;
 
-	private String celPesquisa;
+	private String celPesquisa;	
 
-	private List<Cliente> listaClientes;
+	private List<Cliente> listaClientes;	
 
 	@PostConstruct
 	public void carregar() {
@@ -49,16 +50,22 @@ public class ClienteBean extends SimpleController {
 		}
 		try {
 			String codClienteStr = (String) getRequestParam("codCliente");
-			String consultar = (String) getRequestParam("consultaParam");
+			String cadSucesso = (String) getRequestParam("cadSucesso");
+			String cadastrar =  (String) getRequestParam("cadastroParam");
+			String altSucesso = (String) getRequestParam("altSucesso");
 			if (codClienteStr != null) {
 				Integer codCliente = Integer.valueOf(codClienteStr);
 				carregarCliente(codCliente);
 				cep = cliente.getCep();
-			} else if (consultar != null && (consultar.equals("true") || consultar.equals("true?"))) {
-				pesquisarCliente();
+			} else if(cadastrar != null && (cadastrar.equals("true") || cadastrar.equals("true?"))) {
+				cliente = new Cliente();
 
 			} else {
-				cliente = new Cliente();
+				 if(cadSucesso != null && (cadSucesso.equals("true") || cadSucesso.equals("true?")))
+					 addMsg(FacesMessage.SEVERITY_INFO, "Cliente cadastrado com sucesso.");
+				 if(altSucesso != null && (altSucesso.equals("true") || altSucesso.equals("true?")))
+					 addMsg(FacesMessage.SEVERITY_INFO, "Cliente alterado com sucesso.");
+				pesquisarCliente();
 			}
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
@@ -220,27 +227,44 @@ public class ClienteBean extends SimpleController {
 
 	public void pesquisarCliente() {
 		try {
-			listaClientes = ClienteBO.getInstance().obterClientes(nomePesquisa, celPesquisa);
+			listaClientes = ClienteBO.getInstance().obterClientes(nomePesquisa, celPesquisa, null);
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
+	
+	
 
 	public String navegarAlteracao(int codCliente) {
 		String url = "alterarCliente.proj?faces-redirect=true&codCliente=" + codCliente;
 		return url;
 	}
 
-	public void salvarCliente() {
+	public String salvarCliente() {
 
 		if (!validarEmail())
-			return;
+			return "";
 		try {
 			ClienteBO.getInstance().salvarCliente(cliente);
-			addMsg(FacesMessage.SEVERITY_INFO, "Cliente cadastrado com sucesso.");
-
+			String url = "consultarCliente.proj??faces-redirect=true&cadSucesso=true";
+			return url;
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
+			return "";
+		}
+	}
+	
+	public String alterarCliente() {
+
+		if (!validarEmail())
+			return "";
+		try {
+			ClienteBO.getInstance().salvarCliente(cliente);			
+			String url = "consultarCliente.proj??faces-redirect=true&altSucesso=true";
+			return url;
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+			return "";
 		}
 	}
 
@@ -288,5 +312,7 @@ public class ClienteBean extends SimpleController {
 	public void setListaClientes(List<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
 	}
+
+
 
 }

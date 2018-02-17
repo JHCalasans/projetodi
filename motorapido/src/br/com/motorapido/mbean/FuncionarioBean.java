@@ -24,6 +24,7 @@ import org.primefaces.model.UploadedFile;
 import com.google.gson.Gson;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
+import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.FuncionarioBO;
 import br.com.motorapido.bo.PerfilBO;
@@ -482,6 +483,8 @@ public class FuncionarioBean extends SimpleController {
 	public void setMsgSalvar(String msgSalvar) {
 		this.msgSalvar = msgSalvar;
 	}
+
+	
 
 	
 }
