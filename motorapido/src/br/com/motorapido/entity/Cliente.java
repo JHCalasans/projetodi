@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -53,7 +51,7 @@ public class Cliente extends Entidade{
 	@Column(name = "num_celular", nullable = true)
 	private String celular;
 	
-	@Column(name = "logradouro", nullable = false)
+/*	@Column(name = "logradouro", nullable = false)
 	private String logradouro;
 	
 	@Column(name = "bairro", nullable = false)
@@ -66,13 +64,13 @@ public class Cliente extends Entidade{
 	private String cidadeResidencia;
 	
 	@Column(name = "estado_residencia", nullable = false)
-	private String estadoResidencia;
+	private String estadoResidencia;*/
 	
 	@Column(name = "email", nullable = true)
 	private String email;
-	
+/*	
 	@Column(name = "complemento", nullable = true)
-	private String complemento;
+	private String complemento;*/
 	
 	
 
@@ -155,7 +153,7 @@ public class Cliente extends Entidade{
 	}
 
 
-
+/*
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -212,7 +210,7 @@ public class Cliente extends Entidade{
 
 	public void setEstadoResidencia(String estadoResidencia) {
 		this.estadoResidencia = estadoResidencia;
-	}
+	}*/
 
 
 
@@ -227,7 +225,7 @@ public class Cliente extends Entidade{
 	}
 
 
-
+/*
 	public String getComplemento() {
 		return complemento;
 	}
@@ -237,6 +235,6 @@ public class Cliente extends Entidade{
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-
+*/
 	
 }

@@ -11,7 +11,9 @@ import org.hibernate.criterion.MatchMode;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.motorapido.dao.IClienteDAO;
+import br.com.motorapido.dao.IEnderecoClienteDAO;
 import br.com.motorapido.entity.Cliente;
+import br.com.motorapido.entity.EnderecoCliente;
 
 public class ClienteBO extends MotoRapidoBO {
 
@@ -36,15 +38,15 @@ public class ClienteBO extends MotoRapidoBO {
 			transaction.begin();
 			IClienteDAO clienteDAO = fabricaDAO.getPostgresClienteDAO();
 			Cliente cliente = new Cliente();
-			if (codigo != null){
+			if (codigo != null) {
 				cliente.setCodigo(codigo);
 				lista = new ArrayList<Cliente>();
-				lista.add(clienteDAO.findById(codigo,em));
-			}else {
+				lista.add(clienteDAO.findById(codigo, em));
+			} else {
 				cliente.setAtivo("S");
 				cliente.setNome(nome == "" ? null : nome == " " ? null : nome);
 				cliente.setCelular(cel == "" ? null : cel == " " ? null : cel);
-				 lista = clienteDAO.findByExample(cliente, MatchMode.ANYWHERE ,em, clienteDAO.BY_NOME_ASC);
+				lista = clienteDAO.findByExample(cliente, MatchMode.ANYWHERE, em, clienteDAO.BY_NOME_ASC);
 			}
 			emUtil.commitTransaction(transaction);
 			return lista;
@@ -73,7 +75,7 @@ public class ClienteBO extends MotoRapidoBO {
 		}
 	}
 
-	public Cliente salvarCliente(Cliente cliente) throws ExcecaoNegocio {
+	public Cliente salvarCliente(Cliente cliente, EnderecoCliente enderecoCliente) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		try {
@@ -81,13 +83,72 @@ public class ClienteBO extends MotoRapidoBO {
 			IClienteDAO clienteDAO = fabricaDAO.getPostgresClienteDAO();
 			cliente.setDataCriacao(new Date());
 			cliente.setAtivo("S");
+
 			cliente = clienteDAO.save(cliente, em);
+			if (enderecoCliente != null) {
+				IEnderecoClienteDAO enderecoClienteDAO = fabricaDAO.getPostgresEnderecoClienteDAO();
+				enderecoCliente.setCliente(cliente);
+				enderecoClienteDAO.save(enderecoCliente, em);
+			}
 
 			emUtil.commitTransaction(transaction);
 			return cliente;
 		} catch (Exception e) {
 			emUtil.rollbackTransaction(transaction);
 			throw new ExcecaoNegocio("Falha ao tentar gravar cliente.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+
+	public void excluirEnderecoCliente(EnderecoCliente enderecoCliente) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IEnderecoClienteDAO enderecoClienteDAO = fabricaDAO.getPostgresEnderecoClienteDAO();
+			enderecoClienteDAO.delete(enderecoCliente, em);
+			emUtil.commitTransaction(transaction);
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar remover endereço.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public List<EnderecoCliente> obterEnderecos(Cliente cliente) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		List<EnderecoCliente> lista = null;
+		try {
+			transaction.begin();
+			IEnderecoClienteDAO enderecoClienteDAO = fabricaDAO.getPostgresEnderecoClienteDAO();
+			EnderecoCliente enderecoCliente = new EnderecoCliente();
+			enderecoCliente.setCliente(cliente);
+			lista = enderecoClienteDAO.findByExample(enderecoCliente, em);
+			emUtil.commitTransaction(transaction);
+			return lista;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter endereços do cliente.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public EnderecoCliente salvarEndereco(EnderecoCliente enderecoCliente) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IEnderecoClienteDAO enderecoClienteDAO = fabricaDAO.getPostgresEnderecoClienteDAO();			
+			enderecoCliente = enderecoClienteDAO.save(enderecoCliente, em);
+			emUtil.commitTransaction(transaction);
+			return enderecoCliente;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar incluir endereço do cliente.", e);
 		} finally {
 			emUtil.closeEntityManager(em);
 		}

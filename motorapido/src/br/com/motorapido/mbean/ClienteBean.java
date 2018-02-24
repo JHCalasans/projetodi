@@ -23,6 +23,7 @@ import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.ClienteBO;
 import br.com.motorapido.bo.FuncionarioBO;
 import br.com.motorapido.entity.Cliente;
+import br.com.motorapido.entity.EnderecoCliente;
 import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
@@ -41,7 +42,13 @@ public class ClienteBean extends SimpleController {
 
 	private String celPesquisa;	
 
-	private List<Cliente> listaClientes;	
+	private List<Cliente> listaClientes;
+	
+	private EnderecoCliente enderecoCliente;
+	
+	private List<EnderecoCliente> listaEnderecosCliente;
+	
+	private EnderecoCliente enderecoClienteRemover;
 
 	@PostConstruct
 	public void carregar() {
@@ -53,12 +60,18 @@ public class ClienteBean extends SimpleController {
 			String cadSucesso = (String) getRequestParam("cadSucesso");
 			String cadastrar =  (String) getRequestParam("cadastroParam");
 			String altSucesso = (String) getRequestParam("altSucesso");
+			String isEndereco = (String) getRequestParam("endereco");
 			if (codClienteStr != null) {
 				Integer codCliente = Integer.valueOf(codClienteStr);
 				carregarCliente(codCliente);
-				cep = cliente.getCep();
+				if(isEndereco != null){
+					enderecoCliente = new EnderecoCliente();
+					listaEnderecosCliente = ClienteBO.getInstance().obterEnderecos(getCliente());
+				}
+				//cep = cliente.getCep();
 			} else if(cadastrar != null && (cadastrar.equals("true") || cadastrar.equals("true?"))) {
 				cliente = new Cliente();
+				enderecoCliente = new EnderecoCliente();
 
 			} else {
 				 if(cadSucesso != null && (cadSucesso.equals("true") || cadSucesso.equals("true?")))
@@ -79,6 +92,11 @@ public class ClienteBean extends SimpleController {
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
+	}
+	
+	public void iniciarEnderecoRemocao(EnderecoCliente endereco){
+		enderecoClienteRemover = endereco;
+		enviarJavascript("PF('dlConfirmDelete').show();");
 	}
 
 	public void validarCep() {
@@ -107,92 +125,92 @@ public class ClienteBean extends SimpleController {
 
 				Gson gson = new Gson();
 				EnderecoCep end = gson.fromJson(json, EnderecoCep.class);
-				this.getCliente().setCep(this.getCep());
-				this.getCliente().setCidadeResidencia(end.getLocalidade());
-				this.getCliente().setLogradouro(end.getLogradouro());
-				this.getCliente().setBairro(end.getBairro());
+				this.getEnderecoCliente().setCep(this.getCep());
+				this.getEnderecoCliente().setCidade(end.getLocalidade());
+				this.getEnderecoCliente().setLogradouro(end.getLogradouro());
+				this.getEnderecoCliente().setBairro(end.getBairro());
 
 				switch (end.getUf()) {
 				case "RO":
-					this.getCliente().setEstadoResidencia("Rondônia");
+					this.getEnderecoCliente().setEstado("Rondônia");
 					break;
 				case "AC":
-					this.getCliente().setEstadoResidencia("Acre");
+					this.getEnderecoCliente().setEstado("Acre");
 					break;
 				case "AM":
-					this.getCliente().setEstadoResidencia("Amazonas");
+					this.getEnderecoCliente().setEstado("Amazonas");
 					break;
 				case "RR":
-					this.getCliente().setEstadoResidencia("Roraima");
+					this.getEnderecoCliente().setEstado("Roraima");
 					break;
 				case "PA":
-					this.getCliente().setEstadoResidencia("Pará");
+					this.getEnderecoCliente().setEstado("Pará");
 					break;
 				case "AP":
-					this.getCliente().setEstadoResidencia("Amapá");
+					this.getEnderecoCliente().setEstado("Amapá");
 					break;
 				case "TO":
-					this.getCliente().setEstadoResidencia("Tocantins");
+					this.getEnderecoCliente().setEstado("Tocantins");
 					break;
 				case "MA":
-					this.getCliente().setEstadoResidencia("Maranhão");
+					this.getEnderecoCliente().setEstado("Maranhão");
 					break;
 				case "PI":
-					this.getCliente().setEstadoResidencia("Piauí");
+					this.getEnderecoCliente().setEstado("Piauí");
 					break;
 				case "CE":
-					this.getCliente().setEstadoResidencia("Ceará");
+					this.getEnderecoCliente().setEstado("Ceará");
 					break;
 				case "RN":
-					this.getCliente().setEstadoResidencia("Rio Grande do Norte");
+					this.getEnderecoCliente().setEstado("Rio Grande do Norte");
 					break;
 				case "PB":
-					this.getCliente().setEstadoResidencia("Paraíba");
+					this.getEnderecoCliente().setEstado("Paraíba");
 					break;
 				case "PE":
-					this.getCliente().setEstadoResidencia("Pernambuco");
+					this.getEnderecoCliente().setEstado("Pernambuco");
 					break;
 				case "AL":
-					this.getCliente().setEstadoResidencia("Alagoas");
+					this.getEnderecoCliente().setEstado("Alagoas");
 					break;
 				case "SE":
-					this.getCliente().setEstadoResidencia("Sergipe");
+					this.getEnderecoCliente().setEstado("Sergipe");
 					break;
 				case "BA":
-					this.getCliente().setEstadoResidencia("Bahia");
+					this.getEnderecoCliente().setEstado("Bahia");
 					break;
 				case "MG":
-					this.getCliente().setEstadoResidencia("Minas Gerais");
+					this.getEnderecoCliente().setEstado("Minas Gerais");
 					break;
 				case "ES":
-					this.getCliente().setEstadoResidencia("Espírito Santo");
+					this.getEnderecoCliente().setEstado("Espírito Santo");
 					break;
 				case "RJ":
-					this.getCliente().setEstadoResidencia("Rio De Janeiro");
+					this.getEnderecoCliente().setEstado("Rio De Janeiro");
 					break;
 				case "SP":
-					this.getCliente().setEstadoResidencia("São Paulo");
+					this.getEnderecoCliente().setEstado("São Paulo");
 					break;
 				case "PR":
-					this.getCliente().setEstadoResidencia("Paraná");
+					this.getEnderecoCliente().setEstado("Paraná");
 					break;
 				case "SC":
-					this.getCliente().setEstadoResidencia("Santa Catarina");
+					this.getEnderecoCliente().setEstado("Santa Catarina");
 					break;
 				case "RS":
-					this.getCliente().setEstadoResidencia("Rio Grande Do Sul");
+					this.getEnderecoCliente().setEstado("Rio Grande Do Sul");
 					break;
 				case "MS":
-					this.getCliente().setEstadoResidencia("Mato Grosso Do Sul");
+					this.getEnderecoCliente().setEstado("Mato Grosso Do Sul");
 					break;
 				case "MT":
-					this.getCliente().setEstadoResidencia("Mato Grosso");
+					this.getEnderecoCliente().setEstado("Mato Grosso");
 					break;
 				case "GO":
-					this.getCliente().setEstadoResidencia("Goiás");
+					this.getEnderecoCliente().setEstado("Goiás");
 					break;
 				case "DF":
-					this.getCliente().setEstadoResidencia("Distrito Federal");
+					this.getEnderecoCliente().setEstado("Distrito Federal");
 					break;
 				}
 
@@ -233,11 +251,38 @@ public class ClienteBean extends SimpleController {
 		}
 	}
 	
-	
+	public void excluirEndereco(){
+		try {
+			ClienteBO.getInstance().excluirEnderecoCliente(enderecoClienteRemover);
+			enderecoCliente = new EnderecoCliente();
+			listaEnderecosCliente = ClienteBO.getInstance().obterEnderecos(getCliente());
+			MsgUtil.updateMessage(FacesMessage.SEVERITY_INFO, "Endereço removido com sucesso!", "");
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}		
+	}
 
 	public String navegarAlteracao(int codCliente) {
 		String url = "alterarCliente.proj?faces-redirect=true&codCliente=" + codCliente;
 		return url;
+	}
+	
+	public String navegarEnderecos(int codCliente) {
+		String url = "vincularEndereco.proj?faces-redirect=true&endereco=true&codCliente=" + codCliente;
+		return url;
+	}
+
+
+	public void vincularEndereco() {		
+		try {
+			enderecoCliente.setCliente(getCliente());
+			ClienteBO.getInstance().salvarEndereco(enderecoCliente);	
+			listaEnderecosCliente = ClienteBO.getInstance().obterEnderecos(getCliente());
+			MsgUtil.updateMessage(FacesMessage.SEVERITY_INFO, "Endereço incluído com sucesso!", "");
+			enderecoCliente = new EnderecoCliente();
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);			
+		}
 	}
 
 	public String salvarCliente() {
@@ -245,7 +290,7 @@ public class ClienteBean extends SimpleController {
 		if (!validarEmail())
 			return "";
 		try {
-			ClienteBO.getInstance().salvarCliente(cliente);
+			ClienteBO.getInstance().salvarCliente(cliente, enderecoCliente);
 			String url = "consultarCliente.proj??faces-redirect=true&cadSucesso=true";
 			return url;
 		} catch (ExcecaoNegocio e) {
@@ -259,7 +304,7 @@ public class ClienteBean extends SimpleController {
 		if (!validarEmail())
 			return "";
 		try {
-			ClienteBO.getInstance().salvarCliente(cliente);			
+			ClienteBO.getInstance().salvarCliente(cliente, null);			
 			String url = "consultarCliente.proj??faces-redirect=true&altSucesso=true";
 			return url;
 		} catch (ExcecaoNegocio e) {
@@ -267,6 +312,8 @@ public class ClienteBean extends SimpleController {
 			return "";
 		}
 	}
+	
+
 
 	@Override
 	public String salvoSucesso() {
@@ -311,6 +358,30 @@ public class ClienteBean extends SimpleController {
 
 	public void setListaClientes(List<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
+	}
+
+	public EnderecoCliente getEnderecoCliente() {
+		return enderecoCliente;
+	}
+
+	public void setEnderecoCliente(EnderecoCliente enderecoCliente) {
+		this.enderecoCliente = enderecoCliente;
+	}
+
+	public List<EnderecoCliente> getListaEnderecosCliente() {
+		return listaEnderecosCliente;
+	}
+
+	public void setListaEnderecosCliente(List<EnderecoCliente> listaEnderecosCliente) {
+		this.listaEnderecosCliente = listaEnderecosCliente;
+	}
+
+	public EnderecoCliente getEnderecoClienteRemover() {
+		return enderecoClienteRemover;
+	}
+
+	public void setEnderecoClienteRemover(EnderecoCliente enderecoClienteRemover) {
+		this.enderecoClienteRemover = enderecoClienteRemover;
 	}
 
 
