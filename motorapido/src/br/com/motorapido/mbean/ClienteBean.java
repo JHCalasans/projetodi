@@ -28,6 +28,7 @@ import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "clienteBean")
 @ViewScoped
 public class ClienteBean extends SimpleController {
