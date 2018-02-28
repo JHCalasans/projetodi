@@ -5,13 +5,19 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.TabChangeEvent;
+
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
-import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.motorapido.bo.ClienteBO;
+import br.com.motorapido.bo.EnderecoClienteBO;
+import br.com.motorapido.bo.LocalBO;
 import br.com.motorapido.entity.Chamada;
 import br.com.motorapido.entity.Cliente;
+import br.com.motorapido.entity.EnderecoCliente;
+import br.com.motorapido.entity.Local;
 import br.com.motorapido.util.ExcecoesUtil;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "chamadaBean")
 @ViewScoped
 public class ChamadaBean extends SimpleController {
@@ -23,10 +29,18 @@ public class ChamadaBean extends SimpleController {
 	private Integer codPesquisa;
 
 	private List<Cliente> listaClientesDialog;
-	
+
 	private String nomePesquisa;
-	
+
+	private String nomeLocalPesquisa;
+
 	private Cliente cliente;
+
+	private EnderecoCliente enderecoClienteOrigem;
+
+	private List<EnderecoCliente> enderecosDoCliente;
+	
+	private List<Local> locais;
 
 	@Override
 	public String salvoSucesso() {
@@ -40,10 +54,43 @@ public class ChamadaBean extends SimpleController {
 			ExcecoesUtil.TratarExcecao(e);
 		}
 	}
-	
-	public void vincularCliente(Cliente cliente){
-		this.cliente = cliente;
+
+	public void alterarTab(TabChangeEvent event) {
+		if (event.getTab().getTitle().equals("Endereços Do Cliente") && cliente != null && cliente.getCodigo() != null)
+			pesquisarEnderecosCliente(cliente);
 	}
+
+	public void pesquisarLocalDialog() {
+		try {
+			locais = LocalBO.getInstance().obterLocal(nomeLocalPesquisa);
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+
+	public void pesquisarEnderecosCliente(Cliente cliente) {
+		try {
+			enderecosDoCliente = EnderecoClienteBO.getInstance().obterEnderecosPorCliente(cliente);
+			if (enderecosDoCliente != null && enderecosDoCliente.size() > 0)
+				setEnderecoClienteOrigem(enderecosDoCliente.get(0));
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+
+	public void vincularCliente(Cliente cliente) {
+		this.cliente = cliente;
+		pesquisarEnderecosCliente(cliente);
+	}
+	
+	public void vincularEnderecoCliente(EnderecoCliente enderecoCliente) {
+		setEnderecoClienteOrigem(enderecoCliente);
+	}
+	
+	public void vincularLocalOrigem(Local local) {
+		setEnderecoClienteOrigem(converterLocalParaEnderecoCliente(local));
+	}
+
 
 	public Integer getCodPesquisa() {
 		return codPesquisa;
@@ -60,7 +107,7 @@ public class ChamadaBean extends SimpleController {
 	public void setListaClientesDialog(List<Cliente> listaClientesDialog) {
 		this.listaClientesDialog = listaClientesDialog;
 	}
-	
+
 	public String getNomePesquisa() {
 		return nomePesquisa;
 	}
@@ -75,6 +122,58 @@ public class ChamadaBean extends SimpleController {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public List<EnderecoCliente> getEnderecosDoCliente() {
+		return enderecosDoCliente;
+	}
+
+	public void setEnderecosDoCliente(List<EnderecoCliente> enderecosDoCliente) {
+		this.enderecosDoCliente = enderecosDoCliente;
+	}
+
+	public EnderecoCliente getEnderecoClienteOrigem() {
+		return enderecoClienteOrigem;
+	}
+
+	public void setEnderecoClienteOrigem(EnderecoCliente enderecoClienteOrigem) {
+		this.enderecoClienteOrigem = enderecoClienteOrigem;
+	}
+
+	public Chamada getChamada() {
+		return chamada;
+	}
+
+	public void setChamada(Chamada chamada) {
+		this.chamada = chamada;
+	}
+
+	public String getNomeLocalPesquisa() {
+		return nomeLocalPesquisa;
+	}
+
+	public void setNomeLocalPesquisa(String nomeLocalPesquisa) {
+		this.nomeLocalPesquisa = nomeLocalPesquisa;
+	}
+
+	public List<Local> getLocais() {
+		return locais;
+	}
+
+	public void setLocais(List<Local> locais) {
+		this.locais = locais;
+	}
+	
+	private EnderecoCliente converterLocalParaEnderecoCliente(Local local){
+		EnderecoCliente enderecoTemp = new EnderecoCliente();
+		enderecoTemp.setBairro(local.getBairro());
+		enderecoTemp.setCep(local.getCep());
+		enderecoTemp.setCidade(local.getCidade());
+		enderecoTemp.setComplemento(local.getComplemento());
+		enderecoTemp.setEstado(local.getEstado());
+		enderecoTemp.setLogradouro(local.getLogradouro());
+		enderecoTemp.setNumero(local.getNumero());
+		return enderecoTemp;
 	}
 
 }

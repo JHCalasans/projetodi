@@ -40,11 +40,7 @@
 						<p:fieldset legend="Cliente">
 							<h:panelGroup id="pngPesCliente"
 								styleClass="p_like buttonPosition">
-								<!-- 								<p:commandLink oncomplete="PF('varDlgPesqCliente').show()" -->
-								<!-- 									update=":formbusca" process="@this" execute="@this"> -->
-								<!-- 									<h:graphicImage url="/resources/edit.png" -->
-								<!-- 										style="border-style: none" /> -->
-								<!-- 								</p:commandLink> -->
+
 								<p:commandButton value="Buscar Cliente"
 									oncomplete="PF('varDlgPesqCliente').show()" process="@this"
 									update=":formbusca" execute="@this"></p:commandButton>
@@ -67,22 +63,30 @@
 								<p:outputLabel value="#{bundle.funcionario_celular}:"
 									for="celular" styleClass="OutputLabelCampo" style="width:80px;" />
 								<p:inputMask id="celular" required="true" size="55"
-									mask="(99)99999-9999" disabled="true" 	value="#{chamadaBean.cliente.celular}"
+									mask="(99)99999-9999" disabled="true"
+									value="#{chamadaBean.cliente.celular}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_celular}" />
 
 							</h:panelGroup>
 						</p:fieldset>
 						<br />
 						<div class="clear"></div>
+
+						<!-- 	Filedset Origem    -->
 						<p:fieldset legend="Origem" id="fieldOrigem">
+
 
 							<h:panelGroup id="pngCep" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_cep}:" for="cep"
 									styleClass="OutputLabelCampo" style="width:80px;" />
 								<p:inputMask mask="99999-999" id="cep" required="true"
+									value="#{chamadaBean.enderecoClienteOrigem.cep}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cep}">
-									<p:ajax event="blur" update="fieldOrigem" />
+
 								</p:inputMask>
+								<p:commandButton value="..." style="margin-left:10px;" 
+									oncomplete="PF('varDlgPesqEndereco').show()" process="@this"
+									update=":formbuscaEnd" execute="@this"></p:commandButton>
 							</h:panelGroup>
 							<br />
 							<div class="clear"></div>
@@ -92,8 +96,8 @@
 								<p:outputLabel value="#{bundle.funcionario_cidade}:"
 									for="cidade" styleClass="OutputLabelCampo" style="width:80px;" />
 								<p:inputText id="cidade" required="true" size="55"
+									value="#{chamadaBean.enderecoClienteOrigem.cidade}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cidade}" />
-
 
 							</h:panelGroup>
 
@@ -104,6 +108,7 @@
 								<p:outputLabel value="#{bundle.funcionario_bairro}:"
 									for="bairro" styleClass="OutputLabelCampo" style="width:80px;" />
 								<p:inputText id="bairro" required="true" size="55"
+									value="#{chamadaBean.enderecoClienteOrigem.bairro}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_bairro}" />
 
 							</h:panelGroup>
@@ -115,6 +120,7 @@
 									for="logradouro" styleClass="OutputLabelCampo"
 									style="width:80px;" />
 								<p:inputText id="logradouro" required="true" size="55"
+									value="#{chamadaBean.enderecoClienteOrigem.logradouro}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
 
 							</h:panelGroup>
@@ -126,12 +132,15 @@
 									for="complemento" styleClass="OutputLabelCampo"
 									style="width:80px;" />
 								<p:inputText id="complemento" size="55"
+									value="#{chamadaBean.enderecoClienteOrigem.complemento}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
 
 							</h:panelGroup>
 						</p:fieldset>
 						<br />
 						<div class="clear"></div>
+
+						<!-- 	Filedset Destino    -->
 						<p:fieldset legend="Destino">
 
 							<h:panelGroup id="pngCepDestino" styleClass="p_like">
@@ -261,6 +270,10 @@
 		</h:form>
 
 		<ui:include src="/paginas/chamadas/dlgPesquisaCliente.xhtml">
+			<ui:param name="bean" value="#{chamadaBean}" />
+		</ui:include>
+		
+		<ui:include src="/paginas/chamadas/dlgPesquisaEnderecos.xhtml">
 			<ui:param name="bean" value="#{chamadaBean}" />
 		</ui:include>
 	</ui:define>

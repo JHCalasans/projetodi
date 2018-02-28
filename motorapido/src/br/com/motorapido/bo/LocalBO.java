@@ -83,7 +83,7 @@ public class LocalBO  extends MotoRapidoBO {
 			transaction.begin();
 			ILocalDAO localDAO = fabricaDAO.getPostgresLocalDAO();
 			Local local = new Local();
-			local.setNome(nome);
+			local.setNome(nome == null ? nome : nome.equals("") ? null : nome.equals(" ") ? null : nome);
 			lista= localDAO.findByExample(local, em, localDAO.BY_NOME_ASC);		
 			emUtil.commitTransaction(transaction);
 			return lista;
