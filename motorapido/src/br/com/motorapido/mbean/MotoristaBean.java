@@ -60,6 +60,10 @@ public class MotoristaBean extends SimpleController {
 	private List<Motorista> listaMotoristas;
 	
 	private String msgSalvar;
+	
+	private String motivoBloqueio;
+	
+	private Motorista motoristaBloqeuar;
 
 	@PostConstruct
 	public void carregar() {
@@ -97,6 +101,18 @@ public class MotoristaBean extends SimpleController {
 		}
 	}
 
+	
+	public void carregarMotoristaBloquear(Motorista moto, boolean bloquear) {
+		try {
+			motoristaBloqeuar = moto;
+			if(bloquear)
+				enviarJavascript("PF('varDlgBloquearMoto').show()");
+			else
+				enviarJavascript("PF('vardlConfirmDesbloqueio').show()");
+		} catch (Exception e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
 	public void pesquisarMotorista() {
 		try {
 			listaMotoristas = MotoristaBO.getInstance().obterMotoristas(nomePesquisa, cpfPesquisa);
@@ -262,6 +278,29 @@ public class MotoristaBean extends SimpleController {
 			UtilDownload.download(moto.getDocCriminais(), "Documentos Criminais de "+ moto.getNome() +".pdf",
 					UtilDownload.MIMETYPE_OCTETSTREAM,
 					UtilDownload.CONTENT_DISPOSITION_ATTACHMENT);
+		} catch (Exception e)
+		{
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+	
+	public void bloquearMotorista()
+	{
+		try {			
+			MotoristaBO.getInstance().bloquearMotorista(motoristaBloqeuar, getFuncionarioLogado(), motivoBloqueio);
+			enviarJavascript("PF('varDlgBloquearMoto').hide()");
+			addMsg(FacesMessage.SEVERITY_INFO, "Motorista bloqueado com sucesso!.");
+		} catch (Exception e)
+		{
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+	
+	public void desbloquearMotorista()
+	{
+		try {			
+			MotoristaBO.getInstance().desbloquearMotorista(motoristaBloqeuar);
+			addMsg(FacesMessage.SEVERITY_INFO, "Motorista desbloqueado com sucesso!.");
 		} catch (Exception e)
 		{
 			ExcecoesUtil.TratarExcecao(e);
@@ -505,6 +544,22 @@ public class MotoristaBean extends SimpleController {
 
 	public void setMsgSalvar(String msgSalvar) {
 		this.msgSalvar = msgSalvar;
+	}
+
+	public String getMotivoBloqueio() {
+		return motivoBloqueio;
+	}
+
+	public void setMotivoBloqueio(String motivoBloqueio) {
+		this.motivoBloqueio = motivoBloqueio;
+	}
+
+	public Motorista getMotoristaBloqeuar() {
+		return motoristaBloqeuar;
+	}
+
+	public void setMotoristaBloqeuar(Motorista motoristaBloqeuar) {
+		this.motoristaBloqeuar = motoristaBloqeuar;
 	}
 
 	

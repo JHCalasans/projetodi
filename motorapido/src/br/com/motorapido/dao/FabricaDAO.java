@@ -50,6 +50,8 @@ public abstract class FabricaDAO {
 	public abstract ILocalDAO getPostgresLocalDAO();
 	
 	public abstract IEnderecoClienteDAO getPostgresEnderecoClienteDAO();
+	
+	public abstract IBloqueioMotoristaDAO getPostgresBloqueioMotoristaDAO();
 
 
 	/**

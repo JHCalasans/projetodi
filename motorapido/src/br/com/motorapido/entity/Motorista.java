@@ -5,12 +5,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -59,6 +56,9 @@ public class Motorista extends Entidade{
 	
 	@Column(name = "flg_ativo", nullable = false)
 	private String ativo;	
+	
+	@Column(name = "flg_bloqueado", nullable = false)
+	private String bloqueado;	
 	
 	@Column(name = "dt_criacao", nullable = false)
 	private Date dataCriacao;
@@ -394,6 +394,16 @@ public class Motorista extends Entidade{
 
 	public void setChaveServicos(String chaveServicos) {
 		this.chaveServicos = chaveServicos;
+	}
+
+
+	public String getBloqueado() {
+		return bloqueado;
+	}
+
+
+	public void setBloqueado(String bloqueado) {
+		this.bloqueado = bloqueado;
 	}
 
 }

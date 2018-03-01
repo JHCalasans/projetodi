@@ -7,9 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
+import br.com.motorapido.dao.IBloqueioMotoristaDAO;
 import br.com.motorapido.dao.IFuncionarioDAO;
 import br.com.motorapido.dao.IMotoristaDAO;
 import br.com.motorapido.dao.IPerfilDAO;
+import br.com.motorapido.entity.BloqueioMotorista;
 import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.entity.Motorista;
 import br.com.motorapido.enums.ParametroEnum;
@@ -151,6 +153,51 @@ public class MotoristaBO extends MotoRapidoBO {
 		}catch (Exception e) {
 			emUtil.rollbackTransaction(transaction);
 			throw new ExcecaoNegocio("Falha ao tentar alterar motorista.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public void bloquearMotorista(Motorista motorista, Funcionario funcionario, String motivo) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IMotoristaDAO motoristaDAO = fabricaDAO.getPostgresMotoristaDAO();
+			IBloqueioMotoristaDAO bloqueioMotoristaDAO = fabricaDAO.getPostgresBloqueioMotoristaDAO();
+			BloqueioMotorista bloqueio = new BloqueioMotorista();
+			bloqueio.setDataInicio(new Date());
+			bloqueio.setFuncionario(funcionario);
+			bloqueio.setMotivo(motivo);
+			bloqueio.setMotorista(motorista);
+			bloqueioMotoristaDAO.save(bloqueio, em);
+			motorista.setBloqueado("S");
+			motoristaDAO.save(motorista, em);
+			emUtil.commitTransaction(transaction);
+		}catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar bloquear motorista.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public void desbloquearMotorista(Motorista motorista) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IMotoristaDAO motoristaDAO = fabricaDAO.getPostgresMotoristaDAO();
+			IBloqueioMotoristaDAO bloqueioMotoristaDAO = fabricaDAO.getPostgresBloqueioMotoristaDAO();
+			BloqueioMotorista bloqueio = bloqueioMotoristaDAO.obterUltimoPorMotorista(motorista.getCodigo(), em);
+			bloqueio.setDataFim(new Date());
+			bloqueioMotoristaDAO.save(bloqueio, em);
+			motorista.setBloqueado("N");
+			motoristaDAO.save(motorista, em);
+			emUtil.commitTransaction(transaction);
+		}catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar desbloquear motorista.", e);
 		} finally {
 			emUtil.closeEntityManager(em);
 		}

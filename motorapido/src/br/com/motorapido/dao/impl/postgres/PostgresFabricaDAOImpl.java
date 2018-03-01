@@ -40,6 +40,7 @@ final class PostgresFabricaDAOImpl extends FabricaDAO {
 	private static PostgresClienteDAOImpl postgresClienteDAOImpl;
 	private static PostgresEnderecoClienteDAOImpl postgresEnderecoClienteDAOImpl;
 	private static PostgresLocalDAOImpl postgresLocalDAOImpl;
+	private static PostgresBloqueioMotoristaDAOImpl postgresBloqueioMotoristaDAOImpl;
 
 	private PostgresFabricaDAOImpl() {
 
@@ -242,6 +243,16 @@ final class PostgresFabricaDAOImpl extends FabricaDAO {
 		}
 		return postgresLocalDAOImpl;
 	}
+	
+	@Override
+	public PostgresBloqueioMotoristaDAOImpl getPostgresBloqueioMotoristaDAO() {
+		if (postgresBloqueioMotoristaDAOImpl == null) {
+			postgresBloqueioMotoristaDAOImpl = new PostgresBloqueioMotoristaDAOImpl();
+		}
+		return postgresBloqueioMotoristaDAOImpl;
+	}
+	
+	
 	
 	
 }
