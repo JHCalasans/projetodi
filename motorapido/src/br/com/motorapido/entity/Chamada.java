@@ -53,6 +53,9 @@ public class Chamada extends Entidade{
 	@Column(name = "pt_usuario", nullable = true)
 	private Integer pontosUsuario;
 	
+	@Column(name = "observacao", nullable = true)
+	private String observacao;
+	
 	@ManyToOne(fetch = FetchType.LAZY )
 	@JoinColumn(name = "cod_usuario", nullable = true)
 	private Usuario usuario;
@@ -60,6 +63,18 @@ public class Chamada extends Entidade{
 	@ManyToOne(fetch = FetchType.LAZY )
 	@JoinColumn(name = "cod_funcionario", nullable = true)
 	private Funcionario funcionario;
+	
+	@ManyToOne(fetch = FetchType.LAZY )
+	@JoinColumn(name = "cod_local_destino", nullable = true)
+	private Local destino;
+	
+	@ManyToOne(fetch = FetchType.LAZY )
+	@JoinColumn(name = "cod_local_origem", nullable = true)
+	private Local origem;
+	
+	@ManyToOne(fetch = FetchType.LAZY )
+	@JoinColumn(name = "cod_endereco_cliente_origem", nullable = true)
+	private EnderecoCliente enderecoClienteOrigem;
 	
 
 	@Override
@@ -156,6 +171,46 @@ public class Chamada extends Entidade{
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
+	}
+
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+
+	public Local getDestino() {
+		return destino;
+	}
+
+
+	public void setDestino(Local destino) {
+		this.destino = destino;
+	}
+
+
+	public Local getOrigem() {
+		return origem;
+	}
+
+
+	public void setOrigem(Local origem) {
+		this.origem = origem;
+	}
+
+
+	public EnderecoCliente getEnderecoClienteOrigem() {
+		return enderecoClienteOrigem;
+	}
+
+
+	public void setEnderecoClienteOrigem(EnderecoCliente enderecoClienteOrigem) {
+		this.enderecoClienteOrigem = enderecoClienteOrigem;
 	}
 
 }

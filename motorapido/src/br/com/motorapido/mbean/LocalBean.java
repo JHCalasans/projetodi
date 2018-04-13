@@ -20,10 +20,12 @@ import com.google.gson.Gson;
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.LocalBO;
-import br.com.motorapido.entity.Area;
 import br.com.motorapido.entity.Local;
+import br.com.motorapido.enums.ParametroEnum;
+import br.com.motorapido.util.CoordenadasGoogle;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
+import br.com.motorapido.util.FuncoesUtil;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "localBean")
@@ -162,6 +164,7 @@ public class LocalBean extends SimpleController {
 				this.getLocal().setCidade(end.getLocalidade());
 				this.getLocal().setLogradouro(end.getLogradouro());
 				this.getLocal().setBairro(end.getBairro());
+				buscarCoordenadas();
 
 				switch (end.getUf()) {
 				case "RO":
@@ -253,6 +256,42 @@ public class LocalBean extends SimpleController {
 			}
 		} else {
 			MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "CEP inválido!.", "");
+		}
+
+	}
+	
+	private void buscarCoordenadas() {
+
+		try {
+			HttpClient httpClient = HttpClients.custom().build();
+
+			// Buscando coordenadas pelo cep passado
+			HttpUriRequest requestCoordenadas = RequestBuilder.get()
+					.setUri("https://maps.googleapis.com/maps/api/geocode/json?address=" + this.cep.replace("-", "")
+							+ "+BR&key=" + FuncoesUtil.getParam(ParametroEnum.CHAVE_MAPS.getCodigo()))
+					.setHeader("accept", "application/json").build();
+
+			HttpResponse response;
+			response = httpClient.execute(requestCoordenadas);
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+			String output;
+			String json = "";
+			while ((output = br.readLine()) != null) {
+				json += output + "\n";
+			}
+
+			Gson gson = new Gson();
+			CoordenadasGoogle coordGoogle = gson.fromJson(json, CoordenadasGoogle.class);
+			this.getLocal().setLatitude(String.valueOf(coordGoogle.getResults().get(0).getGeometry().getLocation().getLat()));
+			this.getLocal().setLongitude(String.valueOf(coordGoogle.getResults().get(0).getGeometry().getLocation().getLng()));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Erro ao buscar coordenadas do mapa pelo CEP!.", "");
 		}
 
 	}

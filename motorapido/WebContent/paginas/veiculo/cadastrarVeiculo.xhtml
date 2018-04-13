@@ -21,13 +21,14 @@
 	</f:metadata>
 
 	<ui:define name="conteudo">
-		<h:form prependId="false" id="formCadastro">
+		<h:form prependId="false" id="formCadastro"
+			enctype="multipart/form-data">
 
 			<p:panel id="panelCadastro">
 
 				<h:panelGroup id="pngMotorista" styleClass="p_like">
-					<p:outputLabel value="Motorista:"
-						styleClass="OutputLabelCampo" style="width:120px;" />
+					<p:outputLabel value="Motorista:" styleClass="OutputLabelCampo"
+						style="width:120px;" />
 					<p:outputLabel value="#{veiculoBean.motorista.nome}"
 						styleClass="OutputLabelValor" />
 
@@ -121,30 +122,36 @@
 				</h:panelGroup>
 				<br />
 				<div class="clear"></div>
-				<h:panelGroup id="pngCriminais" styleClass="p_like">
+				<h:panelGroup id="pngDocumento" styleClass="p_like">
 
 					<div class="clear"></div>
 					<p:outputLabel value="#{bundle.veiculo_documento}:" for="documento"
-						styleClass="OutputLabelCampo" style="width:120px;" />
+						styleClass="OutputLabelCampo" style="width:120px;" />	
+						
+					
+
 					<p:fileUpload id="documento" label="#{bundle.selecione}"
 						value="#{veiculoBean.veiculo.documento}" required="true"
 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.veiculo_documento}"
-						cancelLabel="#{bundle.cancelar}" styleClass="upload"
+						cancelLabel="#{bundle.cancelar}" styleClass="upload" fileLimit="1"
 						allowTypes="/(\.|\/)(pdf)$/" multiple="false" sizeLimit="1000000"
-						mode="advanced" skinSimple="true" auto="true" update=":msgs,pgNmDoc"
-						fileUploadListener="#{veiculoBean.DocumentoUploadAction}"
-						fileLimitMessage="Tamanho do arquivo excedido"
+						mode="advanced" skinSimple="true" auto="true"
+						fileUploadListener="#{veiculoBean.documentoUploadAction}"
+						fileLimitMessage="Tamanho do arquivo excedido" update="pgNmDoc"
 						invalidFileMessage="Tipo de arquivo não suportado">
 					</p:fileUpload>
+
+
 				</h:panelGroup>
 				<br />
+
 				<div class="clear"></div>
 				<h:panelGroup id="pgNmDoc" styleClass="p_like">
-					<p:outputLabel value="#{veiculoBean.documento.fileName}" styleClass="OutputLabelValor"
-						style="margin-left:120px" />
-					
+					<p:outputLabel value="#{veiculoBean.documento.fileName}"
+						styleClass="OutputLabelValor" style="margin-left:120px" />
+
 				</h:panelGroup>
-				
+
 				<br />
 				<div class="clear"></div>
 
@@ -163,12 +170,14 @@
 				<br />
 				<div class="clear"></div>
 			</p:panel>
+		
 			<br />
 			<div class="clear"></div>
 			<p:panel id="panelConsulta">
 				<br />
 				<div class="clear"></div>
 				<h:panelGroup>
+					
 					<p:dataTable tableStyle="table-layout:auto;width: 100%;"
 						id="tbVeiculos" var="veiculo"
 						value="#{veiculoBean.listaVeiculosMotorista}" rows="10"
@@ -224,12 +233,14 @@
 									styleClass="cabecalhoDataTable" />
 							</f:facet>
 							<h:commandLink title="Excluir" immediate="true"
-								style="margin-left:10px;" action="#{veiculoBean.abrirExcluir(veiculo)}">
+								style="margin-left:10px;"
+								action="#{veiculoBean.abrirExcluir(veiculo)}">
 								<h:graphicImage url="/resources/delete.png"
 									style="border-style: none" />
 							</h:commandLink>
 							<h:commandLink title="Documentos" immediate="true"
-								style="margin-left:10px;" 	action="#{veiculoBean.downloadDocumentos(veiculo)}">
+								style="margin-left:10px;"
+								action="#{veiculoBean.downloadDocumentos(veiculo)}">
 								<h:graphicImage url="/resources/pdf.png"
 									style="border-style: none" />
 							</h:commandLink>
@@ -238,8 +249,8 @@
 				</h:panelGroup>
 			</p:panel>
 		</h:form>
-		
-			<!-- CONFIRMACAO DELETE -->
+
+		<!-- CONFIRMACAO DELETE -->
 		<p:dialog header="Excluir Registro" widgetVar="dlConfirmDelete"
 			id="dlConfirmDelete" modal="true" dynamic="true" width="470">
 			<h:form id="formDelete" prependId="false">

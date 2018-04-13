@@ -129,6 +129,7 @@ public class MotoristaBO extends MotoRapidoBO {
 			motorista.setSenha(FuncoesUtil.criptografarSenha(motorista.getSenha()));
 			motorista.setAtivo("S");
 			motorista.setDisponivel("N");
+			motorista.setBloqueado("N");
 			motorista = motoristaDAO.save(motorista, em);
 		
 			emUtil.commitTransaction(transaction);

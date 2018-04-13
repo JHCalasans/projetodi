@@ -2,12 +2,14 @@ package br.com.motorapido.mbean;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.TabChangeEvent;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
+import br.com.motorapido.bo.ChamadaBO;
 import br.com.motorapido.bo.ClienteBO;
 import br.com.motorapido.bo.EnderecoClienteBO;
 import br.com.motorapido.bo.LocalBO;
@@ -38,9 +40,28 @@ public class ChamadaBean extends SimpleController {
 
 	private EnderecoCliente enderecoClienteOrigem;
 
+	private Local enderecoClienteDestino;
+
 	private List<EnderecoCliente> enderecosDoCliente;
-	
+
 	private List<Local> locais;
+
+	private Boolean isDestino = false;
+
+	private Local localOrigem;
+
+	@PostConstruct
+	public void carregar() {
+		if (getFacesContext().isPostback()) {
+			return;
+		}
+		try {
+			limparCampos();
+
+		} catch (Exception e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
 
 	@Override
 	public String salvoSucesso() {
@@ -53,6 +74,23 @@ public class ChamadaBean extends SimpleController {
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
+	}
+
+	public void adicionarChamada() {
+		try {
+			ChamadaBO.getInstance().iniciarChamada(getChamada(), enderecoClienteOrigem, enderecoClienteDestino,
+					localOrigem, getFuncionarioLogado());
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+		}
+	}
+
+	public void limparCampos() {
+		cliente = null;
+		enderecoClienteDestino = new Local();
+		enderecoClienteOrigem = new EnderecoCliente();
+		localOrigem = null;
+		chamada = new Chamada();
 	}
 
 	public void alterarTab(TabChangeEvent event) {
@@ -82,15 +120,19 @@ public class ChamadaBean extends SimpleController {
 		this.cliente = cliente;
 		pesquisarEnderecosCliente(cliente);
 	}
-	
+
 	public void vincularEnderecoCliente(EnderecoCliente enderecoCliente) {
 		setEnderecoClienteOrigem(enderecoCliente);
 	}
-	
-	public void vincularLocalOrigem(Local local) {
-		setEnderecoClienteOrigem(converterLocalParaEnderecoCliente(local));
-	}
 
+	public void vincularLocal(Local local) {
+		if (isDestino)
+			setEnderecoClienteDestino(local);
+		else {
+			setEnderecoClienteOrigem(converterLocalParaEnderecoCliente(local));
+			localOrigem = local;
+		}
+	}
 
 	public Integer getCodPesquisa() {
 		return codPesquisa;
@@ -163,8 +205,8 @@ public class ChamadaBean extends SimpleController {
 	public void setLocais(List<Local> locais) {
 		this.locais = locais;
 	}
-	
-	private EnderecoCliente converterLocalParaEnderecoCliente(Local local){
+
+	private EnderecoCliente converterLocalParaEnderecoCliente(Local local) {
 		EnderecoCliente enderecoTemp = new EnderecoCliente();
 		enderecoTemp.setBairro(local.getBairro());
 		enderecoTemp.setCep(local.getCep());
@@ -173,7 +215,33 @@ public class ChamadaBean extends SimpleController {
 		enderecoTemp.setEstado(local.getEstado());
 		enderecoTemp.setLogradouro(local.getLogradouro());
 		enderecoTemp.setNumero(local.getNumero());
+		enderecoTemp.setLatitude(local.getLatitude());
+		enderecoTemp.setLongitude(local.getLongitude());
 		return enderecoTemp;
+	}
+
+	public Local getEnderecoClienteDestino() {
+		return enderecoClienteDestino;
+	}
+
+	public void setEnderecoClienteDestino(Local enderecoClienteDestino) {
+		this.enderecoClienteDestino = enderecoClienteDestino;
+	}
+
+	public Boolean getIsDestino() {
+		return isDestino;
+	}
+
+	public void setIsDestino(Boolean isDestino) {
+		this.isDestino = isDestino;
+	}
+
+	public Local getLocalOrigem() {
+		return localOrigem;
+	}
+
+	public void setLocalOrigem(Local localOrigem) {
+		this.localOrigem = localOrigem;
 	}
 
 }

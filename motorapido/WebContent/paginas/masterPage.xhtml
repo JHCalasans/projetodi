@@ -33,7 +33,7 @@
 			href="#{request.contextPath}/resources/favicon.ico" />
 	</f:facet>
 	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsaC7llpgSj8iFc2nnrxja89VlwGM0jR4"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXnSw7uj9P9oZIc_7c74peSmkmkYU1O5s"
 		defer="defer" type="text/javascript"></script>
 
 	<script type="text/javascript">
@@ -135,9 +135,9 @@
 
 
 			<f:facet name="options">
-				<p:outputLabel
-					value="Olá, #{bean.funcionarioLogado.nome.split(' ')[0]}"
-					style="position: fixed; padding-top: 5px; margin-left: -75px;font-size:15px"></p:outputLabel>
+					<p:outputLabel
+						value="Olá, #{bean.funcionarioLogado.nome.split(' ')[0]}"
+						style="padding-top: 5px; margin-left: -75px;font-size:15px;position: absolute; right: 10%;"></p:outputLabel>
 
 				<p:commandButton value="#{erroSessao ne 'S'? 'Logout' : 'Login'}"
 					icon="ui-icon-extlink" action="#{bean.logout}"
@@ -190,7 +190,7 @@
 
 		</p:dialog>
 
-	
+
 
 
 		<p:dialog widgetVar="dlgSenha" showEffect="fade" resizable="false"

@@ -58,6 +58,8 @@ public class AreaBO extends MotoRapidoBO {
 
 	}
 	
+
+	
 	public Area alterarArea(Area area) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
@@ -99,6 +101,7 @@ public class AreaBO extends MotoRapidoBO {
 
 	}
 
+	@SuppressWarnings("static-access")
 	public List<CoordenadasAreaUtil> obterAreas() throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();

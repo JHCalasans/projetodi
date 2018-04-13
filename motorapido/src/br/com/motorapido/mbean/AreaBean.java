@@ -19,13 +19,13 @@ import org.primefaces.model.map.Polyline;
 import com.google.maps.model.LatLng;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
-import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.motorapido.bo.AreaBO;
 import br.com.motorapido.entity.Area;
 import br.com.motorapido.entity.CoordenadasArea;
 import br.com.motorapido.util.CoordenadasAreaUtil;
 import br.com.motorapido.util.ExcecoesUtil;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "areaBean")
 @ViewScoped
 public class AreaBean extends SimpleController {
@@ -122,7 +122,7 @@ public class AreaBean extends SimpleController {
 				poligono.setFillColor(coordenada.getArea().getCor());
 				poligono.setStrokeOpacity(0.9);
 				poligono.setFillOpacity(0.2);
-				poligono.setPaths(coordenada.getCoordenadas());
+				poligono.setPaths(coordenada.getCoordenadas());				
 				mapModel.addOverlay(poligono);
 			}
 		} catch (ExcecaoNegocio e) {

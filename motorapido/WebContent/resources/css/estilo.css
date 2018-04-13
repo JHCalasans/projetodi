@@ -45,7 +45,32 @@ form span.p_like input, form span.p_like select, form span.p_like img,
 }
 
 
+.hideToolbar .ql-toolbar.ql-snow {
+   display: none !important;
+}
 
+.ql-container.ql-snow {
+    border: 1px solid #ccc !important;
+}
+
+
+.ui-growl-error {
+	background: #CE6868 !important;
+	color: #fff;
+	border: #CE6868 !important;
+}
+
+.ui-growl-warn {
+	background: #D2CF83 !important;
+	color: #fff;
+	border: #D2CF83 !important;
+}
+
+.ui-growl-info {
+	background: #85BEE1 !important;
+	color: #fff;
+	border: #85BEE1 !important;
+}
 
 .lateral .ui-widget-header {
 	background: green;

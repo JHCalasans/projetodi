@@ -36,7 +36,7 @@
 		<h:form prependId="false" id="formConsulta">
 			<p:panelGrid style="width:100%">
 				<p:row>
-					<p:column style="width:50%">
+					<p:column style="width:50%" id="colNovaChamada">
 						<p:fieldset legend="Cliente">
 							<h:panelGroup id="pngPesCliente"
 								styleClass="p_like buttonPosition">
@@ -84,7 +84,8 @@
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cep}">
 
 								</p:inputMask>
-								<p:commandButton value="..." style="margin-left:10px;" 
+								<p:commandButton value="..." style="margin-left:10px;"
+									actionListener="#{chamadaBean.setIsDestino(false)}"
 									oncomplete="PF('varDlgPesqEndereco').show()" process="@this"
 									update=":formbuscaEnd" execute="@this"></p:commandButton>
 							</h:panelGroup>
@@ -127,6 +128,16 @@
 
 							<br />
 							<div class="clear"></div>
+							<h:panelGroup id="pngNumero" styleClass="p_like">
+								<p:outputLabel value="#{bundle.cliente_numero}:"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="numOrigem" size="15"
+									value="#{chamadaBean.enderecoClienteOrigem.numero}" />
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
 							<h:panelGroup id="pngComplemento" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_complemento}:"
 									for="complemento" styleClass="OutputLabelCampo"
@@ -141,27 +152,32 @@
 						<div class="clear"></div>
 
 						<!-- 	Filedset Destino    -->
-						<p:fieldset legend="Destino">
+						<p:fieldset legend="Destino" toggleable="true" toggleSpeed="600"
+							collapsed="true">
 
-							<h:panelGroup id="pngCepDestino" styleClass="p_like">
+							<h:panelGroup id="pngCepDest" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_cep}:"
-									for="cepDestino" styleClass="OutputLabelCampo"
-									style="width:80px;" />
-								<p:inputMask mask="99999-999" id="cepDestino" required="true"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputMask mask="99999-999" id="cepDest"
+									value="#{chamadaBean.enderecoClienteDestino.cep}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cep}">
-									<p:ajax event="blur" update="fieldOrigem" />
-								</p:inputMask>
-							</h:panelGroup>
 
+								</p:inputMask>
+								<p:commandButton value="..." style="margin-left:10px;"
+									actionListener="#{chamadaBean.setIsDestino(true)}"
+									oncomplete="PF('varDlgPesqEndereco').show()" process="@this"
+									update=":formbuscaEnd" execute="@this">
+
+								</p:commandButton>
+							</h:panelGroup>
 							<br />
 							<div class="clear"></div>
-
 							<h:panelGroup id="pngCidadeDestino" styleClass="p_like">
 
 								<p:outputLabel value="#{bundle.funcionario_cidade}:"
-									for="cidadeDestino" styleClass="OutputLabelCampo"
-									style="width:80px;" />
-								<p:inputText id="cidadeDestino" required="true" size="55"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="cidadeDestino" size="55"
+									value="#{chamadaBean.enderecoClienteDestino.cidade}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_cidade}" />
 
 
@@ -172,9 +188,9 @@
 							<h:panelGroup id="pngBairroDestino" styleClass="p_like">
 
 								<p:outputLabel value="#{bundle.funcionario_bairro}:"
-									for="bairroDestino" styleClass="OutputLabelCampo"
-									style="width:80px;" />
-								<p:inputText id="bairroDestino" required="true" size="55"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="bairroDestino" size="55"
+									value="#{chamadaBean.enderecoClienteDestino.bairro}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_bairro}" />
 
 							</h:panelGroup>
@@ -183,10 +199,20 @@
 							<div class="clear"></div>
 							<h:panelGroup id="pngLogradouroDestino" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_logradouro}:"
-									for="logradouroDestino" styleClass="OutputLabelCampo"
-									style="width:80px;" />
-								<p:inputText id="logradouroDestino" required="true" size="55"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="logradouroDestino" size="55"
+									value="#{chamadaBean.enderecoClienteDestino.logradouro}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
+							<h:panelGroup id="pngNumeroDest" styleClass="p_like">
+								<p:outputLabel value="#{bundle.cliente_numero}:"
+									styleClass="OutputLabelCampo" style="width:80px;" />
+								<p:inputText id="numDestino" size="15"
+									value="#{chamadaBean.enderecoClienteDestino.numero}" />
 
 							</h:panelGroup>
 
@@ -194,18 +220,43 @@
 							<div class="clear"></div>
 							<h:panelGroup id="pngComplementoDestino" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_complemento}:"
-									for="complementoDestino" styleClass="OutputLabelCampo"
-									style="width:80px;" />
+									styleClass="OutputLabelCampo" style="width:80px;" />
 								<p:inputText id="complementoDestino" size="55"
+									value="#{chamadaBean.enderecoClienteDestino.complemento}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_logradouro}" />
 
 							</h:panelGroup>
 						</p:fieldset>
 						<br />
 						<div class="clear"></div>
-						<p:fieldset legend="Observações">
+						<p:fieldset legend="Observações" toggleable="true"
+							toggleSpeed="600" collapsed="true">
+							<h:panelGroup id="pngObs" styleClass="p_like">
+								<p:textEditor id="obs" styleClass="hideToolbar"
+									value="#{chamadaBean.chamada.observacao}" style="height:70px;">
 
+								</p:textEditor>
+
+							</h:panelGroup>
+
+							<br />
+							<div class="clear"></div>
 						</p:fieldset>
+
+						<h:panelGroup styleClass="p_like buttonPosition">
+
+							<p:commandButton value="Adicionar" id="btnAdicionar"
+								actionListener="#{chamadaBean.adicionarChamada}"
+								update="msgs, conteudo">
+							</p:commandButton>
+							<p:commandButton value="#{bundle.limpar}" id="btnLimpar"
+								style="margin-left:10px" update="colNovaChamada"
+								actionListener="#{chamadaBean.limparCampos}">
+							</p:commandButton>
+						</h:panelGroup>
+
+						<br />
+						<div class="clear"></div>
 
 					</p:column>
 
@@ -214,8 +265,7 @@
 							<p:dataTable tableStyle="table-layout:auto;width: 100%;"
 								id="tbChamadas" var="chamada" rows="10" scrollable="true"
 								style="text-align: center; max-width:100%" first="0"
-								scrollWidth="100%" paginatorAlwaysVisible="false"
-								paginator="true"
+								paginatorAlwaysVisible="false" paginator="true"
 								emptyMessage="#{bundle.nenhumRegistroEncontrado}">
 								<f:facet name="header" styleClass="cabecalhoDataTable">
 					     		   	Chamadas
@@ -272,7 +322,7 @@
 		<ui:include src="/paginas/chamadas/dlgPesquisaCliente.xhtml">
 			<ui:param name="bean" value="#{chamadaBean}" />
 		</ui:include>
-		
+
 		<ui:include src="/paginas/chamadas/dlgPesquisaEnderecos.xhtml">
 			<ui:param name="bean" value="#{chamadaBean}" />
 		</ui:include>

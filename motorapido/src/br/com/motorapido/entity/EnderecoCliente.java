@@ -58,6 +58,12 @@ public class EnderecoCliente extends Entidade{
 	@JoinColumn(name = "cod_cliente", nullable = false, referencedColumnName = "cod_cliente")
 	private Cliente cliente;
 	
+	@Column(name = "latitude")
+	private String latitude; 
+	
+	@Column(name = "longitude")
+	private String longitude; 
+	
 
 	@Override
 	public Serializable getIdentificador() {
@@ -153,6 +159,26 @@ public class EnderecoCliente extends Entidade{
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 }

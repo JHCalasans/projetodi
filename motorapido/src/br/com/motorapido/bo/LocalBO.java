@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.hibernate.criterion.MatchMode;
+
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.motorapido.dao.ILocalDAO;
 import br.com.motorapido.entity.Local;
@@ -84,7 +86,7 @@ public class LocalBO  extends MotoRapidoBO {
 			ILocalDAO localDAO = fabricaDAO.getPostgresLocalDAO();
 			Local local = new Local();
 			local.setNome(nome == null ? nome : nome.equals("") ? null : nome.equals(" ") ? null : nome);
-			lista= localDAO.findByExample(local, em, localDAO.BY_NOME_ASC);		
+			lista= localDAO.findByExample(local, MatchMode.ANYWHERE ,em,localDAO.BY_NOME_ASC);		
 			emUtil.commitTransaction(transaction);
 			return lista;
 		} catch (Exception e) {

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.FileUploadEvent;
@@ -25,6 +26,7 @@ import br.com.motorapido.entity.Veiculo;
 import br.com.motorapido.util.ExcecoesUtil;
 import br.com.motorapido.util.UtilDownload;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "veiculoBean")
 @ViewScoped
 public class VeiculoBean extends SimpleController {
@@ -54,6 +56,9 @@ public class VeiculoBean extends SimpleController {
 	private Motorista motorista;
 
 	private Veiculo veiculoExcluir;
+	
+	@ManagedProperty(value = "#{uploadedFileBean}")
+	private UploadedFileBean fileUploadBean;
 	
 	@PostConstruct
 	public void carregar() {
@@ -158,7 +163,7 @@ public class VeiculoBean extends SimpleController {
 		}
 	}
 
-	public void DocumentoUploadAction(FileUploadEvent event) {
+	public void documentoUploadAction(FileUploadEvent event) {
 		setDocumento(event.getFile());
 	}
 
@@ -197,7 +202,8 @@ public class VeiculoBean extends SimpleController {
 	}
 
 	public void salvarVeiculo() {
-		if (documento == null) {
+		
+		if (getFileUploadBean() == null || getFileUploadBean().getFile() == null) {
 			addMsg(FacesMessage.SEVERITY_ERROR, "Documento não Anexado.");
 			return;
 		}
@@ -206,7 +212,7 @@ public class VeiculoBean extends SimpleController {
 		if (!validaPlaca())
 			return;	
 		try {
-			veiculo.setDocumento(documento.getContents());
+			veiculo.setDocumento(getFileUploadBean().getFile().getContents());
 			veiculo.setMotorista(motorista);
 			veiculo.setModelo(modelo);
 			VeiculoBO.getInstance().salvarVeiculo(veiculo);
@@ -319,6 +325,14 @@ public class VeiculoBean extends SimpleController {
 
 	public void setVeiculoExcluir(Veiculo veiculoExcluir) {
 		this.veiculoExcluir = veiculoExcluir;
+	}
+
+	public UploadedFileBean getFileUploadBean() {
+		return fileUploadBean;
+	}
+
+	public void setFileUploadBean(UploadedFileBean fileUploadBean) {
+		this.fileUploadBean = fileUploadBean;
 	}
 
 }

@@ -33,6 +33,7 @@ import br.com.motorapido.util.ExcecoesUtil;
 import br.com.motorapido.util.FuncoesUtil;
 import br.com.motorapido.util.UtilDownload;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "motoristaBean")
 @ViewScoped
 public class MotoristaBean extends SimpleController {

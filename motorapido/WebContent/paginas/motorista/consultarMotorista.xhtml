@@ -75,6 +75,16 @@
 					<f:facet name="header" styleClass="cabecalhoDataTable">
 			     		   Motoristas
 			   			 </f:facet>
+
+					<p:column style="width:130px">
+						<f:facet name="header">
+							<h:outputText value="Prefixo"
+								styleClass="cabecalhoDataTable" />
+						</f:facet>
+						<h:outputText id="tbCod" value="MR - #{motorista.codigo}">
+
+						</h:outputText>
+					</p:column>
 					<p:column style="width:130px">
 						<f:facet name="header">
 							<h:outputText value="#{bundle.motorista_nome}"
@@ -148,16 +158,18 @@
 			</h:panelGroup>
 
 		</h:form>
-		
-			<!-- CONFIRMACAO DESBLOQUEIO -->
-		<p:dialog header="Desbloquear Motorista" widgetVar="vardlConfirmDesbloqueio"
-			id="dlConfirmDesbloqueio" modal="true" dynamic="true" width="470">
+
+		<!-- CONFIRMACAO DESBLOQUEIO -->
+		<p:dialog header="Desbloquear Motorista"
+			widgetVar="vardlConfirmDesbloqueio" id="dlConfirmDesbloqueio"
+			modal="true" dynamic="true" width="470">
 			<h:form id="formDesbloqueio" prependId="false">
 				<p:panel>
 					<h:panelGroup styleClass="p_like" layout="block"
 						style="text-align:center;">
 
-						<b><p:outputLabel value="Deseja realmente desbloquear o motorista?" /></b>
+						<b><p:outputLabel
+								value="Deseja realmente desbloquear o motorista?" /></b>
 					</h:panelGroup>
 					<br></br>
 					<br></br>

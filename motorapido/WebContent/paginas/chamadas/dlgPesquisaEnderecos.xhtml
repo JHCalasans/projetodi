@@ -14,10 +14,10 @@
 
 
 			<p:messages closable="true" globalOnly="true" id="msgDlgEnd" />
-			<p:tabView>
+			<p:tabView >
 				<p:ajax event="tabChange" listener="#{chamadaBean.alterarTab}" />
 
-				<p:tab title="Endereços Do Cliente">
+				<p:tab title="Endereços Do Cliente" rendered="#{!chamadaBean.isDestino}">
 					<p:dataTable tableStyle="table-layout:auto;width: 100%;"
 						id="tbPesquisa" name="tbPesquisa" var="endereco"
 						value="#{chamadaBean.enderecosDoCliente}"
@@ -98,6 +98,15 @@
 						value="#{chamadaBean.locais}" style="text-align: center;"
 						emptyMessage="#{bundle.nenhumRegistroEncontrado}" paginator="true"
 						rows="10">
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.cliente_nome}" />
+							</f:facet>
+							<div style="text-align: left;">
+								<h:outputText value="#{local.nome}" />
+							</div>
+						</p:column>
 
 						<p:column>
 							<f:facet name="header">
@@ -140,7 +149,7 @@
 						</p:column>
 						<p:column>
 							<p:commandLink update=":formConsulta, :msgs" ajax="true"
-								actionListener="#{chamadaBean.vincularLocalOrigem(local)}"
+								actionListener="#{chamadaBean.vincularLocal(local)}"
 								process="@this,:formConsulta" title="#{bundle.associar}"
 								immediate="false" oncomplete="PF('varDlgPesqEndereco').hide()">
 								<h:graphicImage url="/resources/vincular.png"
