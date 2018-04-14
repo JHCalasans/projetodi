@@ -18,13 +18,10 @@ import org.apache.http.impl.client.HttpClients;
 import com.google.gson.Gson;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
-import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.ClienteBO;
-import br.com.motorapido.bo.FuncionarioBO;
 import br.com.motorapido.entity.Cliente;
 import br.com.motorapido.entity.EnderecoCliente;
-import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.util.EnderecoCep;
 import br.com.motorapido.util.ExcecoesUtil;
 
@@ -228,11 +225,10 @@ public class ClienteBean extends SimpleController {
 	public boolean validarEmail() {
 
 		try {
-			Funcionario funcio = new Funcionario();
-			funcio.setEmail(cliente.getEmail());
-			List<Funcionario> lista = FuncionarioBO.getInstance().obterFuncionariosExample(funcio);
-			if (lista != null && lista.size() > 0
-					&& (cliente.getCodigo() == null || cliente.getCodigo() != lista.get(0).getCodigo())) {
+			Cliente clienteTemp = new Cliente();
+			clienteTemp.setEmail(cliente.getEmail());
+			clienteTemp = ClienteBO.getInstance().obterClienteByExample(clienteTemp);
+			if (clienteTemp != null ) {
 				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Email já cadastrado na base de dados!.", "");
 				return false;
 			}
@@ -243,6 +239,26 @@ public class ClienteBean extends SimpleController {
 		}
 
 	}
+	
+	public boolean validarCelular() {
+
+		try {
+			Cliente clienteTemp = new Cliente();
+			clienteTemp.setCelular(cliente.getCelular());
+			clienteTemp = ClienteBO.getInstance().obterClienteByExample(clienteTemp);
+			if (clienteTemp != null ) {
+				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Celular já cadastrado na base de dados!.", "");
+				return false;
+			}
+			return true;
+		} catch (ExcecaoNegocio e) {
+			ExcecoesUtil.TratarExcecao(e);
+			return false;
+		}
+
+	}
+	
+	
 
 	public void pesquisarCliente() {
 		try {
@@ -290,6 +306,8 @@ public class ClienteBean extends SimpleController {
 
 		if (!validarEmail())
 			return "";
+		if(!validarCelular())
+			return "";
 		try {
 			ClienteBO.getInstance().salvarCliente(cliente, enderecoCliente);
 			String url = "consultarCliente.proj??faces-redirect=true&cadSucesso=true";
@@ -303,6 +321,8 @@ public class ClienteBean extends SimpleController {
 	public String alterarCliente() {
 
 		if (!validarEmail())
+			return "";
+		if(!validarCelular())
 			return "";
 		try {
 			ClienteBO.getInstance().salvarCliente(cliente, null);			

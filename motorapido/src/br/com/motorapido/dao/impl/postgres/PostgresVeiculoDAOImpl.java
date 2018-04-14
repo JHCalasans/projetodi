@@ -24,4 +24,20 @@ implements IVeiculoDAO{
 		
 	}
 
+	@Override
+	public Veiculo obterVeiculoPorPlaca(String placa, EntityManager em) throws ExcecaoBanco {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("placa", placa);
+		List<Veiculo> lista = findByNamedQueryAndNamedParams("Veiculo.obterVeiculosPorPlaca", params, em);
+		return lista.isEmpty() ? null : lista.get(0);
+	}
+
+	@Override
+	public Veiculo obterVeiculoPorChassi(String chassi, EntityManager em) throws ExcecaoBanco {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("chassi", chassi);
+		List<Veiculo> lista = findByNamedQueryAndNamedParams("Veiculo.obterVeiculosPorChassi", params, em);
+		return lista.isEmpty() ? null : lista.get(0);
+	}
+
 }

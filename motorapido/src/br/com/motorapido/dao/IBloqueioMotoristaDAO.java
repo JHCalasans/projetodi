@@ -8,5 +8,5 @@ import br.com.motorapido.entity.BloqueioMotorista;
 
 public interface IBloqueioMotoristaDAO extends GenericDAO<BloqueioMotorista, Integer> {
 
-	public BloqueioMotorista obterUltimoPorMotorista(Integer codMotorista, EntityManager em) throws ExcecaoBanco;
+	public BloqueioMotorista obterUltimoPorMotorista(Integer codMotorista,EntityManager em) throws ExcecaoBanco;
 }

@@ -8,9 +8,7 @@ import javax.persistence.EntityTransaction;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
 import br.com.motorapido.dao.IBloqueioMotoristaDAO;
-import br.com.motorapido.dao.IFuncionarioDAO;
 import br.com.motorapido.dao.IMotoristaDAO;
-import br.com.motorapido.dao.IPerfilDAO;
 import br.com.motorapido.entity.BloqueioMotorista;
 import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.entity.Motorista;
@@ -159,7 +157,7 @@ public class MotoristaBO extends MotoRapidoBO {
 		}
 	}
 	
-	public void bloquearMotorista(Motorista motorista, Funcionario funcionario, String motivo) throws ExcecaoNegocio {
+	public void bloquearMotorista(Motorista motorista, Funcionario funcionario, String motivo, Date dataInicio, Date dataFinal) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		try {
@@ -167,9 +165,11 @@ public class MotoristaBO extends MotoRapidoBO {
 			IMotoristaDAO motoristaDAO = fabricaDAO.getPostgresMotoristaDAO();
 			IBloqueioMotoristaDAO bloqueioMotoristaDAO = fabricaDAO.getPostgresBloqueioMotoristaDAO();
 			BloqueioMotorista bloqueio = new BloqueioMotorista();
-			bloqueio.setDataInicio(new Date());
+			bloqueio.setDataInicio(dataInicio);
+			bloqueio.setDataFim(dataFinal);
 			bloqueio.setFuncionario(funcionario);
 			bloqueio.setMotivo(motivo);
+			bloqueio.setAtivo("S");
 			bloqueio.setMotorista(motorista);
 			bloqueioMotoristaDAO.save(bloqueio, em);
 			motorista.setBloqueado("S");
@@ -183,15 +183,16 @@ public class MotoristaBO extends MotoRapidoBO {
 		}
 	}
 	
-	public void desbloquearMotorista(Motorista motorista) throws ExcecaoNegocio {
+	public void desbloquearMotorista(Motorista motorista, Date dataFim) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		try {
 			transaction.begin();
 			IMotoristaDAO motoristaDAO = fabricaDAO.getPostgresMotoristaDAO();
 			IBloqueioMotoristaDAO bloqueioMotoristaDAO = fabricaDAO.getPostgresBloqueioMotoristaDAO();
-			BloqueioMotorista bloqueio = bloqueioMotoristaDAO.obterUltimoPorMotorista(motorista.getCodigo(), em);
-			bloqueio.setDataFim(new Date());
+			BloqueioMotorista bloqueio = bloqueioMotoristaDAO.obterUltimoPorMotorista(motorista.getCodigo(),  em);
+			bloqueio.setDataFim(dataFim);
+			bloqueio.setAtivo("N");
 			bloqueioMotoristaDAO.save(bloqueio, em);
 			motorista.setBloqueado("N");
 			motoristaDAO.save(motorista, em);

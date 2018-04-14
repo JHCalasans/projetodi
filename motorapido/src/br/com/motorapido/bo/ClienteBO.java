@@ -30,6 +30,7 @@ public class ClienteBO extends MotoRapidoBO {
 		return instance;
 	}
 
+	@SuppressWarnings("static-access")
 	public List<Cliente> obterClientes(String nome, String cel, Integer codigo) throws ExcecaoNegocio {
 		EntityManager em = emUtil.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
@@ -65,6 +66,50 @@ public class ClienteBO extends MotoRapidoBO {
 			transaction.begin();
 			IClienteDAO clienteDAO = fabricaDAO.getPostgresClienteDAO();
 			Cliente cliente = clienteDAO.findById(codigo, em);
+			emUtil.commitTransaction(transaction);
+			return cliente;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter cliente.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	
+	
+	public Cliente obterClienteByExample(Cliente cliente) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IClienteDAO clienteDAO = fabricaDAO.getPostgresClienteDAO();
+			List<Cliente> lista = clienteDAO.findByExample(cliente, em);
+			if(!lista.isEmpty())
+				cliente = lista.get(0);
+			else
+				cliente = null;
+			emUtil.commitTransaction(transaction);
+			return cliente;
+		} catch (Exception e) {
+			emUtil.rollbackTransaction(transaction);
+			throw new ExcecaoNegocio("Falha ao tentar obter cliente.", e);
+		} finally {
+			emUtil.closeEntityManager(em);
+		}
+	}
+	
+	public Cliente obterClientePorCelular(String numCelular) throws ExcecaoNegocio {
+		EntityManager em = emUtil.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		try {
+			transaction.begin();
+			IClienteDAO clienteDAO = fabricaDAO.getPostgresClienteDAO();
+			Cliente cliente = new Cliente();
+			cliente.setCelular(numCelular);
+			List<Cliente> lista = clienteDAO.findByExample(cliente, em);
+			if(lista.isEmpty())
+				cliente = lista.get(0);
 			emUtil.commitTransaction(transaction);
 			return cliente;
 		} catch (Exception e) {

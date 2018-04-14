@@ -23,7 +23,11 @@ import br.com.minhaLib.dao.Entidade;
 @Table(name = Veiculo.nomeTabela, schema = Veiculo.esquema, catalog = "diego")
 @NamedQueries(value = { 
 		@NamedQuery(name = "Veiculo.obterVeiculosPorMotorista", query = "select v from Veiculo v join fetch v.motorista m join fetch v.modelo mo "
-				+ " join fetch mo.tipoVeiculo tv join fetch mo.fabricante f where :codMotorista = m.codigo and v.flgAtivo = 'S' "),		
+				+ " join fetch mo.tipoVeiculo tv join fetch mo.fabricante f where :codMotorista = m.codigo and v.flgAtivo = 'S' "),	
+		@NamedQuery(name = "Veiculo.obterVeiculosPorPlaca", query = "select v from Veiculo v join fetch v.motorista m join fetch v.modelo mo "
+				+ " join fetch mo.tipoVeiculo tv join fetch mo.fabricante f where :placa = v.placa and v.flgAtivo = 'S' "),		
+		@NamedQuery(name = "Veiculo.obterVeiculosPorChassi", query = "select v from Veiculo v join fetch v.motorista m join fetch v.modelo mo "
+				+ " join fetch mo.tipoVeiculo tv join fetch mo.fabricante f where :chassi = v.chassi and v.flgAtivo = 'S' ")
 		})
 public class Veiculo extends Entidade{
 
@@ -43,6 +47,9 @@ public class Veiculo extends Entidade{
 	
 	@Column(name = "cor", nullable = false, length = 50)
 	private String cor;
+	
+	@Column(name = "categoria",  length = 1)
+	private String categoria;
 	
 	@Column(name = "placa", nullable = false, length = 10)
 	private String placa;
@@ -151,6 +158,14 @@ public class Veiculo extends Entidade{
 
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 	
 	

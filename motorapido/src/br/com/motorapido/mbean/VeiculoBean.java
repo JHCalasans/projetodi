@@ -85,6 +85,7 @@ public class VeiculoBean extends SimpleController {
 
 	private void atualizaCampos() throws ExcecaoNegocio {
 		veiculo = new Veiculo();
+		documento = null;
 
 		listaTiposVeiculos = TipoVeiculoBO.getInstance().obterTiposVeiculosAtivos();
 		if (tipoVeiculo == null)
@@ -125,10 +126,8 @@ public class VeiculoBean extends SimpleController {
 	
 	private boolean validaChassi(){
 		try {
-			Veiculo veiculoTemp = new Veiculo();
-			veiculoTemp.setChassi(veiculo.getChassi());
-			List<Veiculo> lista = VeiculoBO.getInstance().obterVeiculosByExample(veiculo);
-			if (lista != null && lista.size() > 0) {
+			Veiculo retorno = VeiculoBO.getInstance().obterVeiculosPorChassi(veiculo.getChassi().toUpperCase());
+			if (retorno != null ) {
 				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Chassi já cadastrado na base de dados!.", "");
 				return false;
 			}
@@ -140,11 +139,9 @@ public class VeiculoBean extends SimpleController {
 	}
 	
 	private boolean validaPlaca(){
-		try {
-			Veiculo veiculoTemp = new Veiculo();
-			veiculoTemp.setPlaca(veiculo.getPlaca());
-			List<Veiculo> lista = VeiculoBO.getInstance().obterVeiculosByExample(veiculo);
-			if (lista != null && lista.size() > 0) {
+		try {			
+			Veiculo retorno = VeiculoBO.getInstance().obterVeiculosPorPlaca(veiculo.getPlaca().toUpperCase());
+			if (retorno != null ) {
 				MsgUtil.updateMessage(FacesMessage.SEVERITY_ERROR, "Placa já cadastrada na base de dados!.", "");
 				return false;
 			}
@@ -203,7 +200,7 @@ public class VeiculoBean extends SimpleController {
 
 	public void salvarVeiculo() {
 		
-		if (getFileUploadBean() == null || getFileUploadBean().getFile() == null) {
+		if (documento == null) {
 			addMsg(FacesMessage.SEVERITY_ERROR, "Documento não Anexado.");
 			return;
 		}
@@ -212,7 +209,7 @@ public class VeiculoBean extends SimpleController {
 		if (!validaPlaca())
 			return;	
 		try {
-			veiculo.setDocumento(getFileUploadBean().getFile().getContents());
+			veiculo.setDocumento(documento.getContents());
 			veiculo.setMotorista(motorista);
 			veiculo.setModelo(modelo);
 			VeiculoBO.getInstance().salvarVeiculo(veiculo);

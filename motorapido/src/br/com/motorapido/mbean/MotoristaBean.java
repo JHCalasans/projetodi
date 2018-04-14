@@ -24,7 +24,6 @@ import org.primefaces.model.UploadedFile;
 import com.google.gson.Gson;
 
 import br.com.minhaLib.excecao.excecaonegocio.ExcecaoNegocio;
-import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
 import br.com.minhaLib.util.excecao.MsgUtil;
 import br.com.motorapido.bo.MotoristaBO;
 import br.com.motorapido.entity.Motorista;
@@ -65,6 +64,12 @@ public class MotoristaBean extends SimpleController {
 	private String motivoBloqueio;
 	
 	private Motorista motoristaBloqeuar;
+	
+	private Date dataInicioBloqueio;
+	
+	private Date dataFinalBloqueio;
+	
+	
 
 	@PostConstruct
 	public void carregar() {
@@ -89,6 +94,14 @@ public class MotoristaBean extends SimpleController {
 		} catch (Exception e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
+	}
+	
+	
+	public void limparDlgBloqueio(){
+		dataFinalBloqueio = null;
+		dataInicioBloqueio = null;
+		motivoBloqueio = null;
+		motoristaBloqeuar = null;
 	}
 	
 	private void carregarMotorista(Integer codMotorista) {
@@ -288,7 +301,7 @@ public class MotoristaBean extends SimpleController {
 	public void bloquearMotorista()
 	{
 		try {			
-			MotoristaBO.getInstance().bloquearMotorista(motoristaBloqeuar, getFuncionarioLogado(), motivoBloqueio);
+			MotoristaBO.getInstance().bloquearMotorista(motoristaBloqeuar, getFuncionarioLogado(), motivoBloqueio, dataInicioBloqueio, dataFinalBloqueio);
 			enviarJavascript("PF('varDlgBloquearMoto').hide()");
 			addMsg(FacesMessage.SEVERITY_INFO, "Motorista bloqueado com sucesso!.");
 		} catch (Exception e)
@@ -300,7 +313,7 @@ public class MotoristaBean extends SimpleController {
 	public void desbloquearMotorista()
 	{
 		try {			
-			MotoristaBO.getInstance().desbloquearMotorista(motoristaBloqeuar);
+			MotoristaBO.getInstance().desbloquearMotorista(motoristaBloqeuar, new Date());
 			addMsg(FacesMessage.SEVERITY_INFO, "Motorista desbloqueado com sucesso!.");
 		} catch (Exception e)
 		{
@@ -562,6 +575,28 @@ public class MotoristaBean extends SimpleController {
 	public void setMotoristaBloqeuar(Motorista motoristaBloqeuar) {
 		this.motoristaBloqeuar = motoristaBloqeuar;
 	}
+
+	public Date getDataInicioBloqueio() {
+		return dataInicioBloqueio;
+	}
+
+	public void setDataInicioBloqueio(Date dataInicioBloqueio) {
+		this.dataInicioBloqueio = dataInicioBloqueio;
+	}
+
+	public Date getDataFinalBloqueio() {
+		return dataFinalBloqueio;
+	}
+
+	public void setDataFinalBloqueio(Date dataFinalBloqueio) {
+		this.dataFinalBloqueio = dataFinalBloqueio;
+	}
+
+	
+	public Date dataDeHoje(){
+		return new Date();
+	}
+	
 
 	
 

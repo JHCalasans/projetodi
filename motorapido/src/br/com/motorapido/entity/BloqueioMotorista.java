@@ -21,7 +21,8 @@ import br.com.minhaLib.dao.Entidade;
 @Entity
 @Table(name = BloqueioMotorista.nomeTabela, schema = BloqueioMotorista.esquema, catalog = "diego")
 @NamedQueries(value = { 
-		@NamedQuery(name = "BloqueioMotorista.obterUltimoBloqueioByMotorista", query = "select bm from BloqueioMotorista bm join fetch bm.motorista m  where m.codigo = :codMotorista and bm.dataFim = null "),		
+		@NamedQuery(name = "BloqueioMotorista.obterUltimoBloqueioByMotorista", query = "select bm from BloqueioMotorista bm join fetch bm.motorista m "
+				+ " where m.codigo = :codMotorista and bm.ativo = 'S' "),		
 		})
 public class BloqueioMotorista extends Entidade {
 
@@ -44,6 +45,9 @@ public class BloqueioMotorista extends Entidade {
 	
 	@Column(name = "ds_motivo", nullable = true)
 	private String motivo;
+	
+	@Column(name = "flg_ativo", nullable = false)
+	private String ativo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cod_motorista", nullable = false)
@@ -105,6 +109,15 @@ public class BloqueioMotorista extends Entidade {
 
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
+	}
+
+
+	public String getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(String ativo) {
+		this.ativo = ativo;
 	}
 
 }
