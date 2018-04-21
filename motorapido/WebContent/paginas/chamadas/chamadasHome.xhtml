@@ -38,19 +38,18 @@
 				<p:row>
 					<p:column style="width:50%" id="colNovaChamada">
 						<p:fieldset legend="Cliente">
-						
+
 
 							<h:panelGroup id="pngCel" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_celular}:"
 									for="celular" styleClass="OutputLabelCampo" style="width:80px;" />
-								<p:inputMask id="celular" required="true" size="55"
-									mask="(99)99999-9999" disabled="true"
-									value="#{chamadaBean.cliente.celular}"
+								<p:inputMask id="celular" required="true" size="35"
+									mask="(99)99999-9999" value="#{chamadaBean.numCelPesquisa}"
 									requiredMessage="#{bundle.campoObrigatorio} : #{bundle.funcionario_celular}" />
-
-								<p:commandButton value="Buscar Cliente" 
-									oncomplete="PF('varDlgPesqCliente').show()" process="@this"
-									update=":formbusca" execute="@this"></p:commandButton>
+								<p:commandButton value="Buscar" style="margin-left:10px;"
+									process="pngCel"
+									actionListener="#{chamadaBean.pesquisarClientePorCelular}"
+									update=":formConsulta" execute="@this"></p:commandButton>
 
 							</h:panelGroup>
 							<br />
@@ -151,9 +150,11 @@
 						<br />
 						<div class="clear"></div>
 
+
+
 						<!-- 	Filedset Destino    -->
 						<p:fieldset legend="Destino" toggleable="true" toggleSpeed="600"
-							collapsed="true">
+							collapsed="#{chamadaBean.destinoFechado}">
 
 							<h:panelGroup id="pngCepDest" styleClass="p_like">
 								<p:outputLabel value="#{bundle.funcionario_cep}:"
@@ -241,6 +242,7 @@
 
 							<br />
 							<div class="clear"></div>
+
 						</p:fieldset>
 
 						<h:panelGroup styleClass="p_like buttonPosition">

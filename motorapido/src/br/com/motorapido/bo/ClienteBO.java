@@ -108,8 +108,10 @@ public class ClienteBO extends MotoRapidoBO {
 			Cliente cliente = new Cliente();
 			cliente.setCelular(numCelular);
 			List<Cliente> lista = clienteDAO.findByExample(cliente, em);
-			if(lista.isEmpty())
+			if(lista != null && lista.size() > 0)
 				cliente = lista.get(0);
+			else
+				cliente = null;
 			emUtil.commitTransaction(transaction);
 			return cliente;
 		} catch (Exception e) {
