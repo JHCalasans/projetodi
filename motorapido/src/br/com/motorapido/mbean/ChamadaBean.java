@@ -20,6 +20,7 @@ import br.com.motorapido.entity.EnderecoCliente;
 import br.com.motorapido.entity.Local;
 import br.com.motorapido.util.ExcecoesUtil;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "chamadaBean")
 @ViewScoped
 public class ChamadaBean extends SimpleController {
@@ -84,7 +85,7 @@ public class ChamadaBean extends SimpleController {
 		try {
 			cliente = ClienteBO.getInstance().obterClientePorCelular(numCelPesquisa);
 			if(cliente == null) 
-				 addMsg(FacesMessage.SEVERITY_WARN, "Cliente não encontrado.");
+				 addMsg(FacesMessage.SEVERITY_WARN, "Cliente nï¿½o encontrado.");
 			else
 				vincularCliente(cliente);
 			

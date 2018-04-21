@@ -173,6 +173,7 @@ public class AreaBean extends SimpleController {
 
 	public void addMarker(PointSelectEvent event) {
 
+		
 		try {
 			Marker marker = new Marker(event.getLatLng(), "Marcador - " + marcadores.size());
 			coordenadas.lat = marker.getLatlng().getLat();
