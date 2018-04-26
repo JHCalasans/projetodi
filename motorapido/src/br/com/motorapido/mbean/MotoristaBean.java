@@ -52,6 +52,8 @@ public class MotoristaBean extends SimpleController {
 	private String cep;
 
 	private UploadedFile docCriminais;
+	
+	private UploadedFile compResidencial;
 
 	private String nomePesquisa;
 
@@ -238,6 +240,11 @@ public class MotoristaBean extends SimpleController {
 			addMsg(FacesMessage.SEVERITY_ERROR, "Documentos Criminais não Anexados.");
 			return;
 		}
+		
+		if (compResidencial == null) {
+			addMsg(FacesMessage.SEVERITY_ERROR, "Comprovante Residencial não Anexado.");
+			return;
+		}
 		if (!validarCpf())
 			return;		
 		if (!validarRG())
@@ -252,6 +259,7 @@ public class MotoristaBean extends SimpleController {
 				motorista.setFoto(foto.getContents());
 			msgSalvar = FuncoesUtil.gerarSenha();
 			motorista.setDocCriminais(docCriminais.getContents());
+			motorista.setComprovanteResidencia(compResidencial.getContents());
 			motorista.setSenha(msgSalvar);
 			MotoristaBO.getInstance().salvarMotorista(motorista);
 			//limparCampos();
@@ -335,6 +343,10 @@ public class MotoristaBean extends SimpleController {
 
 	public void DocCriminaisUploadAction(FileUploadEvent event) {
 		setDocCriminais(event.getFile());
+	}
+	
+	public void comprovanteResidencialUploadAction(FileUploadEvent event) {
+		setCompResidencial(event.getFile());
 	}
 
 	public void validarCep() {
@@ -595,6 +607,16 @@ public class MotoristaBean extends SimpleController {
 	
 	public Date dataDeHoje(){
 		return new Date();
+	}
+
+
+	public UploadedFile getCompResidencial() {
+		return compResidencial;
+	}
+
+
+	public void setCompResidencial(UploadedFile compResidencial) {
+		this.compResidencial = compResidencial;
 	}
 	
 

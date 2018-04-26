@@ -19,19 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
-import org.primefaces.model.menu.MenuModel;
 
-import com.sun.org.apache.xerces.internal.jaxp.validation.ErrorHandlerAdaptor;
-
-import br.com.minhaLib.mbean.AbstractUsuarioLogadoBean;
-import br.com.minhaLib.mbean.SimpleControllerBean;
 import br.com.minhaLib.util.FacesUtil;
 import br.com.motorapido.dao.FabricaDAO;
 import br.com.motorapido.entity.Funcionario;
 import br.com.motorapido.util.ExcecoesUtil;
 import br.com.motorapido.util.Paginas;
-import br.com.minhaLib.util.excecao.*;
 
+@SuppressWarnings("deprecation")
 @ViewScoped
 public abstract class SimpleController implements Serializable {
 
@@ -194,6 +189,9 @@ public abstract class SimpleController implements Serializable {
 	public static void setFuncionarioLogado(Funcionario funcionarioLogado) {
 		SimpleController.funcionarioLogado = funcionarioLogado;
 	}
+	
+
+
 
 	
 }

@@ -3,6 +3,7 @@ package br.com.motorapido.mbean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -35,6 +36,8 @@ public class ChamadaBean extends SimpleController {
 	private String nomePesquisa;
 
 	private String nomeLocalPesquisa;
+	
+	private String numCelPesquisa;
 
 	private Cliente cliente;
 
@@ -49,6 +52,8 @@ public class ChamadaBean extends SimpleController {
 	private Boolean isDestino = false;
 
 	private Local localOrigem;
+	
+	private Boolean destinoFechado = true;
 
 	@PostConstruct
 	public void carregar() {
@@ -78,7 +83,12 @@ public class ChamadaBean extends SimpleController {
 	
 	public void pesquisarClientePorCelular() {
 		try {
-			listaClientesDialog = ClienteBO.getInstance().obterClientes(nomePesquisa, null, codPesquisa);
+			cliente = ClienteBO.getInstance().obterClientePorCelular(numCelPesquisa);
+			if(cliente == null) 
+				 addMsg(FacesMessage.SEVERITY_WARN, "Cliente n�o encontrado.");
+			else
+				vincularCliente(cliente);
+			
 		} catch (ExcecaoNegocio e) {
 			ExcecoesUtil.TratarExcecao(e);
 		}
@@ -134,9 +144,10 @@ public class ChamadaBean extends SimpleController {
 	}
 
 	public void vincularLocal(Local local) {
-		if (isDestino)
+		if (isDestino) {
 			setEnderecoClienteDestino(local);
-		else {
+			setDestinoFechado(false);
+		}else {
 			setEnderecoClienteOrigem(converterLocalParaEnderecoCliente(local));
 			localOrigem = local;
 		}
@@ -250,6 +261,22 @@ public class ChamadaBean extends SimpleController {
 
 	public void setLocalOrigem(Local localOrigem) {
 		this.localOrigem = localOrigem;
+	}
+
+	public String getNumCelPesquisa() {
+		return numCelPesquisa;
+	}
+
+	public void setNumCelPesquisa(String numCelPesquisa) {
+		this.numCelPesquisa = numCelPesquisa;
+	}
+
+	public Boolean getDestinoFechado() {
+		return destinoFechado;
+	}
+
+	public void setDestinoFechado(Boolean destinoFechado) {
+		this.destinoFechado = destinoFechado;
 	}
 
 }

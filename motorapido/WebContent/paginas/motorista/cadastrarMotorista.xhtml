@@ -178,14 +178,18 @@
 					<p:outputLabel value="#{bundle.motorista_comprovante}:"
 						for="comprovante" title="Comprovante de Residência"
 						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:selectOneMenu id="comprovante" var="banco" required="true"
-						value="#{motoristaBean.motorista.comprovanteResidencial}"
-						style="width:125px;">
 
-						<f:selectItem itemLabel="Não Entregue" itemValue="N" />
-						<f:selectItem itemLabel="Entregue" itemValue="S" />
-
-					</p:selectOneMenu>
+					<p:fileUpload id="criminais" label="#{bundle.selecione}"
+						value="#{motoristaBean.motorista.comprovanteResidencia}"
+						cancelLabel="#{bundle.cancelar}" styleClass="upload"
+						allowTypes="/(\.|\/)(pdf)$/" multiple="false" sizeLimit="1000000"
+						mode="advanced" skinSimple="true" auto="true"
+						update=":msgs,pgIcone"
+						fileUploadListener="#{motoristaBean.comprovanteResidencialUploadAction}"
+						fileLimitMessage="Tamanho do arquivo excedido"
+						invalidFileMessage="Tipo de arquivo não suportado">
+					</p:fileUpload>
+				
 
 				</h:panelGroup>
 
@@ -273,17 +277,7 @@
 
 				<br />
 				<div class="clear"></div>
-				<!-- 				<h:panelGroup id="pngLogin" styleClass="p_like"> -->
-				<!-- 					<p:outputLabel value="#{bundle.motorista_login}:" for="login" -->
-				<!-- 						styleClass="OutputLabelCampo" style="width:120px;" /> -->
-				<!-- 					<p:inputText id="login" required="true" size="20" -->
-				<!-- 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.motorista_login}" -->
-				<!-- 						value="#{motoristaBean.motorista.login}" /> -->
 
-				<!-- 				</h:panelGroup> -->
-
-				<!-- 				<br /> -->
-				<!-- 				<div class="clear"></div> -->
 
 
 				<h:panelGroup id="pngCnh" styleClass="p_like">
@@ -291,7 +285,7 @@
 					<div class="clear"></div>
 					<p:outputLabel value="#{bundle.motorista_cnh}:" for="cnh"
 						styleClass="OutputLabelCampo" style="width:120px;" />
-					<p:inputNumber id="cnh" required="true" size="20" 
+					<p:inputNumber id="cnh" required="true" size="20"
 						thousandSeparator="" decimalPlaces="0" decimalSeparator=""
 						requiredMessage="#{bundle.campoObrigatorio} : #{bundle.motorista_cnh}"
 						maxlength="10" value="#{motoristaBean.motorista.cnh}" />

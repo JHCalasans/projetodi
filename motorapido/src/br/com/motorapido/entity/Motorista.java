@@ -93,8 +93,7 @@ public class Motorista extends Entidade{
 	@Column(name = "banco", nullable = true)
 	private String banco;
 	
-	@Column(name = "flg_comprovante_residencia", nullable = false)
-	private String comprovanteResidencial;
+
 	
 	@Column(name = "email", nullable = true)
 	private String email;
@@ -116,6 +115,9 @@ public class Motorista extends Entidade{
 	
 	@Column(name = "flg_disponivel", nullable = false)
 	private String disponivel;
+	
+	@Column(name = "comprovante_residencia", nullable = false)
+	private byte[] comprovanteResidencia;
 	
 	@Transient
 	private String chaveServicos;
@@ -347,14 +349,6 @@ public class Motorista extends Entidade{
 	}
 
 
-	public String getComprovanteResidencial() {
-		return comprovanteResidencial;
-	}
-
-
-	public void setComprovanteResidencial(String comprovanteResidencial) {
-		this.comprovanteResidencial = comprovanteResidencial;
-	}
 
 
 	public String getEmail() {
@@ -404,6 +398,16 @@ public class Motorista extends Entidade{
 
 	public void setBloqueado(String bloqueado) {
 		this.bloqueado = bloqueado;
+	}
+
+
+	public byte[] getComprovanteResidencia() {
+		return comprovanteResidencia;
+	}
+
+
+	public void setComprovanteResidencia(byte[] comprovanteResidencia) {
+		this.comprovanteResidencia = comprovanteResidencia;
 	}
 
 }

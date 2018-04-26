@@ -22,6 +22,7 @@
 </h:head>
 <ui:composition template="/paginas/masterPage.xhtml">
 
+
 	<ui:param name="tituloPagina" value="#{bundle.area_cadastroTitulo}" />
 	<ui:param name="headerConteudo" value="#{bundle.area_cadastroTitulo}" />
 	<ui:param name="bean" value="#{areaBean}" />
@@ -91,12 +92,13 @@
 				<br />
 				<div class="clear"></div>
 
-				<p:gmap id="gmap" center="#{areaBean.coordenadas}" zoom="14"
+				<p:gmap id="gmap" center="#{areaBean.coordenadas}" zoom="14" 
 					type="terrain" model="#{areaBean.mapModel}" widgetVar="map"
-					style="width:100%;height:400px">
+					style="width:100%;height:400px" >
+					
 					<p:ajax event="pointSelect" listener="#{areaBean.addMarker}"
-						update="gmap"></p:ajax>
-					<p:ajax event="overlaySelect"
+						update="gmap" ></p:ajax>
+					<p:ajax event="overlaySelect" 
 						listener="#{areaBean.marcadorSelecionado}" update="gmap" />
 
 				</p:gmap>
